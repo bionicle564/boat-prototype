@@ -17,7 +17,9 @@ struct sBodyDesc
 	eBodyType type;
 	glm::vec3 position;
 	glm::quat orientation;
+	glm::vec4 halfExtents;
 
+	float mass;
 };
 
 
@@ -34,6 +36,7 @@ private:
 	cBulletDebugRenderer debugDrawerer;
 
 	std::vector<btRigidBody*> bodies;
+	std::vector<btCollisionShape*> shapes;
 
 public:
 
@@ -44,7 +47,8 @@ public:
 	void StartUp();
 	void ShutDown();
 
-	//rb* makebody()
+	//make a body, adds it to the world and returns the reference
+	btRigidBody* MakeBody(sBodyDesc desc);
 
 
 
