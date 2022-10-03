@@ -90,6 +90,9 @@
     <ClCompile Include="cGame.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="cPhysicsManager.cpp">
+      <Filter>Engine\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callBackFunctions.h">
@@ -181,6 +184,9 @@
     </ClInclude>
     <ClInclude Include="cGame.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="cBulletDebugRenderer.h">
+      <Filter>Engine\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
