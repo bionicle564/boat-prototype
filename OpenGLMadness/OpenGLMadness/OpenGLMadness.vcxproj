@@ -162,6 +162,7 @@
     <ClCompile Include="cParticleGenerator.cpp" />
     <ClCompile Include="cParticleSystem.cpp" />
     <ClCompile Include="cPhysicsManager.cpp" />
+    <ClCompile Include="cPhysicsSystem.cpp" />
     <ClCompile Include="cRenderSystem.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cTextureManager.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="cParticleSystem.h" />
     <ClInclude Include="cPhysics.h" />
     <ClInclude Include="cPhysicsManager.h" />
+    <ClInclude Include="cPhysicsSystem.h" />
     <ClInclude Include="cPosition.h" />
     <ClInclude Include="cRenderSystem.h" />
     <ClInclude Include="cRotation.h" />

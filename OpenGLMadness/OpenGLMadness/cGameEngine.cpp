@@ -42,7 +42,7 @@ bool cGameEngine::Initialize()
 	this->uiSystem.Initialize(this);
 	this->particleSystem.Initialize(this);
 
-	return false;
+	return true;
 }
 
 void cGameEngine::Destroy()

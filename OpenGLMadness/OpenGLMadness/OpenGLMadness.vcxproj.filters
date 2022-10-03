@@ -93,6 +93,9 @@
     <ClCompile Include="cPhysicsManager.cpp">
       <Filter>Engine\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="cPhysicsSystem.cpp">
+      <Filter>Engine\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callBackFunctions.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="cPhysics.h">
       <Filter>Engine\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="cPhysicsSystem.h">
+      <Filter>Engine\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
