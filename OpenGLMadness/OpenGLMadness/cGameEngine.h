@@ -8,6 +8,7 @@
 #include "cUISystem.h"
 #include "cParticleSystem.h"
 #include "cTextureManager.h"
+#include "cPhysicsManager.h"
 
 #include "GLCommon.h"
 
@@ -77,6 +78,7 @@ public:
 	cCameraManager cameraManager;
 	cShaderManager shaderManager;
 	cTextureManager textureManager;
+	cPhysicsManager physicsManager;
 
 
 	int window_x;

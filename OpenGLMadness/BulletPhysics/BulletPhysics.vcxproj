@@ -286,6 +286,7 @@
     <ClCompile Include="..\BulletSource\LinearMath\btAlignedAllocator.cpp" />
     <ClCompile Include="..\BulletSource\LinearMath\btConvexHullComputer.cpp" />
     <ClCompile Include="..\BulletSource\LinearMath\btGeometryUtil.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\btQuickprof.cpp" />
     <ClCompile Include="..\BulletSource\LinearMath\btVector3.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

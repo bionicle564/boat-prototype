@@ -456,5 +456,8 @@
     <ClCompile Include="..\BulletSource\LinearMath\btConvexHullComputer.cpp">
       <Filter>Header Files\BulletSource</Filter>
     </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\btQuickprof.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

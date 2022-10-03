@@ -47,6 +47,10 @@ void cPhysicsManager::StartUp()
 	
 }
 
+void cPhysicsManager::ShutDown()
+{
+}
+
 btRigidBody* cPhysicsManager::MakeBody(sBodyDesc desc)
 {
 	btCollisionShape* shape = NULL;

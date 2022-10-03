@@ -188,5 +188,8 @@
     <ClInclude Include="cBulletDebugRenderer.h">
       <Filter>Engine\Managers</Filter>
     </ClInclude>
+    <ClInclude Include="cPhysics.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

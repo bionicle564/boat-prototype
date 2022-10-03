@@ -20,6 +20,7 @@ cGameEngine::~cGameEngine()
 	this->meshManager.ShutDown();
 	this->shaderManager.ShutDown();
 	this->cameraManager.ShutDown();
+	this->physicsManager.ShutDown();
 }
 
 void cGameEngine::SetWindow(GLFWwindow* window)
@@ -34,7 +35,8 @@ bool cGameEngine::Initialize()
 	this->shaderManager.StartUp();
 	this->cameraManager.StartUp();
 	this->textureManager.StartUp();
-	
+	this->physicsManager.StartUp();
+
 	this->renderer.Initialize(this);
 	this->cameraHandler.Initialize(this);
 	this->uiSystem.Initialize(this);
