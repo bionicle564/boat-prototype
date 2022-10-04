@@ -12,6 +12,10 @@ public:
 	virtual ~cEntity();
 
 	template<class T> T* AddComponent();
+
+	//if the component was made elsewhere, this takes ownership
+	template<class T> void AddComponent(T* component);
+
 	template<class T> T* GetComponent();
 	template<class T> bool HasComponent();
 
@@ -35,6 +39,12 @@ inline T* cEntity::AddComponent()
 	this->components.push_back(newComponent);
 	return newComponent;
 	
+}
+
+template<class T>
+inline void cEntity::AddComponent(T* component)
+{
+	this->components.push_back(component);
 }
 
 template<class T>

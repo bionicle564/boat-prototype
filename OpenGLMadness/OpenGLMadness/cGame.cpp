@@ -6,6 +6,7 @@
 #include "cRotation.h"
 #include "cScale.h"
 #include "cParticleGenerator.h"
+#include "cPhysicsManager.h"
 
 cGame::cGame()
 {
@@ -54,6 +55,12 @@ void cGame::Init(GLFWwindow* window)
 	dude->AddComponent<comp::cPosition>();
 	dude->AddComponent<comp::cParticleGenerator>();
 
+	sBodyDesc desc;
+	desc.halfExtents = glm::vec4(1);
+	desc.mass = 0;
+	desc.position = glm::vec3(-3, 0, 0);
+
+	dude->AddComponent(engine.physicsManager.MakeBody(desc));
 
 }
 

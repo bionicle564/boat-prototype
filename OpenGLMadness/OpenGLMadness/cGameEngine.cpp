@@ -74,10 +74,13 @@ void cGameEngine::Render()
 	glBindBuffer(GL_UNIFORM_BUFFER, shaderManager.uboMatId);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
-
+	
 	//this->shaderManager.UseShader(name);
+	this->physicsManager.debugDrawerer.SetProj(projection);
 
 	this->renderer.Process(this->entityManager.GetEntities(), 0);
+
+	this->physicsManager.DebugDraw();
 
 	this->particleSystem.Process(this->entityManager.GetEntities(), 0);
 

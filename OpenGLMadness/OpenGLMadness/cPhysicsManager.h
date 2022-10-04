@@ -4,6 +4,7 @@
 #include "cBulletDebugRenderer.h"
 #include <vector>
 #include <glm/gtc/quaternion.hpp>
+#include "cPhysics.h"
 
 enum eBodyType
 {
@@ -33,23 +34,26 @@ private:
 	btCollisionDispatcher* dispatcher;
 	btSequentialImpulseConstraintSolver* solver;
 
-	cBulletDebugRenderer debugDrawerer;
 
 	std::vector<btRigidBody*> bodies;
 	std::vector<btCollisionShape*> shapes;
 
 public:
 
+	cBulletDebugRenderer debugDrawerer;
 
 	cPhysicsManager();
 	~cPhysicsManager();
+	
+	void UpdatePhysics(float dt);
 
 	void StartUp();
 	void ShutDown();
 
 	//make a body, adds it to the world and returns the reference
-	btRigidBody* MakeBody(sBodyDesc desc);
+	comp::cPhysics* MakeBody(sBodyDesc desc);
 
+	void DebugDraw();
 
 
 };

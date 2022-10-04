@@ -33,6 +33,11 @@ cPhysicsManager::~cPhysicsManager()
 	delete solver;
 }
 
+void cPhysicsManager::UpdatePhysics(float dt)
+{
+	dynamicWorld->stepSimulation(dt);
+}
+
 void cPhysicsManager::StartUp()
 {
 	broadphase = new btDbvtBroadphase();
@@ -51,7 +56,7 @@ void cPhysicsManager::ShutDown()
 {
 }
 
-btRigidBody* cPhysicsManager::MakeBody(sBodyDesc desc)
+comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 {
 	btCollisionShape* shape = NULL;
 	if (desc.type == eBodyType::BOX)
@@ -86,5 +91,13 @@ btRigidBody* cPhysicsManager::MakeBody(sBodyDesc desc)
 	bodies.push_back(rigidBody);
 	dynamicWorld->addRigidBody(rigidBody);
 
-	return rigidBody;
+	comp::cPhysics* component = new comp::cPhysics();
+
+	component->rb = rigidBody;
+	return component;
+}
+
+void cPhysicsManager::DebugDraw()
+{
+	this->dynamicWorld->debugDrawWorld();
 }

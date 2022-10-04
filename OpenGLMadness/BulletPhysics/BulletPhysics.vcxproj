@@ -46,7 +46,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -283,11 +283,24 @@
     <ClCompile Include="..\BulletSource\BulletDynamics\MLCPSolvers\btMLCPSolver.cpp" />
     <ClCompile Include="..\BulletSource\BulletDynamics\Vehicle\btRaycastVehicle.cpp" />
     <ClCompile Include="..\BulletSource\BulletDynamics\Vehicle\btWheelInfo.cpp" />
+    <ClCompile Include="..\BulletSource\BulletInverseDynamics\details\MultiBodyTreeImpl.cpp" />
+    <ClCompile Include="..\BulletSource\BulletInverseDynamics\details\MultiBodyTreeInitCache.cpp" />
+    <ClCompile Include="..\BulletSource\BulletInverseDynamics\IDMath.cpp" />
+    <ClCompile Include="..\BulletSource\BulletInverseDynamics\MultiBodyTree.cpp" />
     <ClCompile Include="..\BulletSource\LinearMath\btAlignedAllocator.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\btConvexHull.cpp" />
     <ClCompile Include="..\BulletSource\LinearMath\btConvexHullComputer.cpp" />
     <ClCompile Include="..\BulletSource\LinearMath\btGeometryUtil.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\btPolarDecomposition.cpp" />
     <ClCompile Include="..\BulletSource\LinearMath\btQuickprof.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\btReducedVector.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\btSerializer.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\btSerializer64.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\btThreads.cpp" />
     <ClCompile Include="..\BulletSource\LinearMath\btVector3.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\TaskScheduler\btTaskScheduler.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\TaskScheduler\btThreadSupportPosix.cpp" />
+    <ClCompile Include="..\BulletSource\LinearMath\TaskScheduler\btThreadSupportWin32.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
