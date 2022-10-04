@@ -96,6 +96,9 @@
     <ClCompile Include="cPhysicsSystem.cpp">
       <Filter>Engine\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="cBulletDebugRenderer.cpp">
+      <Filter>Engine\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callBackFunctions.h">

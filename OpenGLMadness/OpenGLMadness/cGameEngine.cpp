@@ -37,6 +37,8 @@ bool cGameEngine::Initialize()
 	this->textureManager.StartUp();
 	this->physicsManager.StartUp();
 
+	this->physicsManager.debugDrawerer.program = this->shaderManager.GetIDFromName("debugPhysics");
+
 	this->renderer.Initialize(this);
 	this->cameraHandler.Initialize(this);
 	this->uiSystem.Initialize(this);
@@ -75,8 +77,8 @@ void cGameEngine::Render()
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	
-	//this->shaderManager.UseShader(name);
-	this->physicsManager.debugDrawerer.SetProj(projection);
+
+	//this->physicsManager.debugDrawerer.SetMatrices();
 
 	this->renderer.Process(this->entityManager.GetEntities(), 0);
 

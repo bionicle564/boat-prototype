@@ -47,7 +47,6 @@ void cCameraSystem::Process(const std::vector<cEntity*>& entities, float dt)
 			glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
 			glBindBuffer(GL_UNIFORM_BUFFER, 0);
 
-			this->engine->physicsManager.debugDrawerer.SetView(view);
 			//shader->SetMat4("view", view);
 
 			//std::string name = this->engine->shaderManager.GetCurrentShaderName();

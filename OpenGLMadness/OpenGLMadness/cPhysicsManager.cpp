@@ -48,6 +48,8 @@ void cPhysicsManager::StartUp()
 	solver = new btSequentialImpulseConstraintSolver;
 	this->dynamicWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
 
+	debugDrawerer.setDebugMode(btIDebugDraw::DBG_DrawWireframe + btIDebugDraw::DBG_DrawConstraints);
+
 	dynamicWorld->setDebugDrawer(&this->debugDrawerer);
 	
 }

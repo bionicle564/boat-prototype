@@ -152,6 +152,7 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cBulletDebugRenderer.cpp" />
     <ClCompile Include="cCameraManager.cpp" />
     <ClCompile Include="cCameraSystem.cpp" />
     <ClCompile Include="cEntity.cpp" />

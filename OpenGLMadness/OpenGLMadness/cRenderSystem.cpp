@@ -115,7 +115,7 @@ void cRenderSystem::Process(const std::vector<cEntity*>& entities, float dt)
 			for (unsigned int i = 0; i < meshes.size(); i++)
 			{
 				glBindVertexArray(meshes[i].VAO_ID);
-				glDrawElements(GL_TRIANGLES, meshes[i].numberOfIndices, GL_UNSIGNED_INT, 0);
+				//glDrawElements(GL_TRIANGLES, meshes[i].numberOfIndices, GL_UNSIGNED_INT, 0);
 			}
 		}
 		else //TODO: this needs to be fixed with the help of a fresh pair of eyes

@@ -53,12 +53,13 @@ void cGame::Init(GLFWwindow* window)
 	dude->GetComponent<comp::cMeshRenderer>()->border = false;
 	dude->AddComponent<comp::cScale>()->scale = glm::vec3(1);
 	dude->AddComponent<comp::cPosition>();
-	dude->AddComponent<comp::cParticleGenerator>();
+	//dude->AddComponent<comp::cParticleGenerator>(); //something is scuffed here
 
 	sBodyDesc desc;
 	desc.halfExtents = glm::vec4(1);
 	desc.mass = 0;
 	desc.position = glm::vec3(-3, 0, 0);
+	desc.type = eBodyType::BOX;
 
 	dude->AddComponent(engine.physicsManager.MakeBody(desc));
 
