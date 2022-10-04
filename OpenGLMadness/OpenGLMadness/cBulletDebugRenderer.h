@@ -15,7 +15,8 @@ class cBulletDebugRenderer : public btIDebugDraw{
 public:
 	glm::mat4 pViewMatrix;
 	glm::mat4 pProjectionMatrix;
-
+	bool first = true;
+	GLuint buffer;
 	GLint program;
 
 	void SetView(glm::mat4 mat) 

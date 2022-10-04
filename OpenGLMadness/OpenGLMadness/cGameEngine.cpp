@@ -82,7 +82,7 @@ void cGameEngine::Render()
 
 	this->renderer.Process(this->entityManager.GetEntities(), 0);
 
-	this->physicsManager.DebugDraw();
+ 	this->physicsManager.DebugDraw();
 
 	this->particleSystem.Process(this->entityManager.GetEntities(), 0);
 
