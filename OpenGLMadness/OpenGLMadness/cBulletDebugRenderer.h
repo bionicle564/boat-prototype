@@ -17,7 +17,11 @@ public:
 	glm::mat4 pProjectionMatrix;
 	bool first = true;
 	GLuint buffer;
+	
+	GLuint VAO;
+
 	GLint program;
+
 
 	void SetView(glm::mat4 mat) 
 	{

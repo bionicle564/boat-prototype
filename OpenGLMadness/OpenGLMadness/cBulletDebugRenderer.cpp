@@ -15,12 +15,13 @@ void cBulletDebugRenderer::drawLine(const btVector3& from, const btVector3& to, 
 		
 		if (this->first)
 		{
-
+			glGenVertexArrays(1, &this->VAO);
 			glGenBuffers(1, &this->buffer);
 			first = false;
 		}
 
-		
+		glBindVertexArray(this->VAO);
+
 		glBindBuffer(GL_ARRAY_BUFFER, buffer); // Set the buffer as the active array
 		glBufferData(GL_ARRAY_BUFFER, 6 * sizeof(float), &tmp, GL_STATIC_DRAW); // Fill the buffer with data
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0); // Specify how the buffer is converted to vertices
