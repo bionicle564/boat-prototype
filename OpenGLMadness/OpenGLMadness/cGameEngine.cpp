@@ -61,7 +61,7 @@ void cGameEngine::Update(float dt, int winX, int winY)
 	this->particleSystem.SetDeltaTime(dt);
  	this->cameraHandler.Process(this->entityManager.GetEntities(), dt);
 
-	
+	this->physicsManager.UpdatePhysics(dt);
 
 }
 

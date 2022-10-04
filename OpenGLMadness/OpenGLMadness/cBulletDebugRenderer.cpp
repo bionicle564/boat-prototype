@@ -12,7 +12,6 @@ void cBulletDebugRenderer::drawLine(const btVector3& from, const btVector3& to, 
 	//glEnable(GL_DEPTH_TEST);
 	glPushMatrix();
 	{
-
 		unsigned int buffer; // The ID, kind of a pointer for VRAM
 		
 

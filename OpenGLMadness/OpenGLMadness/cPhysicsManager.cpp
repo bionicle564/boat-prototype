@@ -48,10 +48,10 @@ void cPhysicsManager::StartUp()
 	solver = new btSequentialImpulseConstraintSolver;
 	this->dynamicWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
 
-	debugDrawerer.setDebugMode(btIDebugDraw::DBG_DrawWireframe + btIDebugDraw::DBG_DrawConstraints);
+	debugDrawerer.setDebugMode(btIDebugDraw::DBG_DrawWireframe + btIDebugDraw::DBG_DrawConstraints + btIDebugDraw::DBG_DrawAabb);
 
 	dynamicWorld->setDebugDrawer(&this->debugDrawerer);
-	
+	dynamicWorld->setGravity(btVector3(0, -9.8f, 0));
 }
 
 void cPhysicsManager::ShutDown()
@@ -89,6 +89,9 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 	);
 
 	btRigidBody* rigidBody = new btRigidBody(rigidBodyCI);
+	rigidBody->setActivationState(ACTIVE_TAG);
+
+	rigidBody->setMassProps(desc.mass, btVector3(0, 0, 0));
 
 	bodies.push_back(rigidBody);
 	dynamicWorld->addRigidBody(rigidBody);
