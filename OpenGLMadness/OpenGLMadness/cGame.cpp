@@ -110,7 +110,7 @@ void cGame::Input(float dt)
 {
 	bool j = dude->GetComponent<comp::cCharacterController>()->charCon->onGround();
 	std::cout << j << "\n";
-	
+	btVector3 dir(0,0,0);
 
 	if (engine.m_KeyDown['I'])
 	{
@@ -120,21 +120,32 @@ void cGame::Input(float dt)
 			ph->charCon->jump(btVector3(0, 4, 0));
 		}
 	}
-	if (engine.m_KeyDown['K'])
-	{
-		comp::cCharacterController* ph = dude->GetComponent<comp::cCharacterController>();
-		
-		ph->charCon->applyImpulse(btVector3(3, 0, 0));
-		
-	}
-	if (engine.m_KeyDown['J'])
-	{
-		comp::cCharacterController* ph = dude->GetComponent<comp::cCharacterController>();
+	comp::cCharacterController* ph = dude->GetComponent<comp::cCharacterController>();
 
-		ph->charCon->applyImpulse(btVector3(-3, 0, 0));
-	}
+
+	//right
 	if (engine.m_KeyDown['L'])
 	{
 		
+		dir.setX(3);
+	}
+
+	//left
+	if (engine.m_KeyDown['J'])
+	{
+		dir.setX(-3);
+	}
+	if (engine.m_KeyDown['K'])
+	{
+		
+	}
+
+	if (dir.length() > 1)
+	{
+		ph->charCon->setWalkDirection(dir * dt);
+	}
+	else
+	{
+		ph->charCon->setWalkDirection(btVector3(0, 0, 0) );
 	}
 }
