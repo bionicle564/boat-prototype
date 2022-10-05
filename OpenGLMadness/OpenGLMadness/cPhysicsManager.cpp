@@ -71,7 +71,7 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 	}
 	else if (desc.type == eBodyType::CAPSULE)
 	{
-
+		shape = new btCapsuleShape(desc.halfExtents.x, desc.halfExtents.y);
 	}
 
 	shapes.push_back(shape); //keep track of it to delete later

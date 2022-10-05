@@ -26,7 +26,7 @@ private:
 
 	GLFWwindow* mainWindowRef;
 
-	bool m_KeyDown[256];
+	
 
 	bool selectMode = false;
 
@@ -86,6 +86,7 @@ public:
 	int window_x;
 	int window_y;
 
-	//TODO: scene manager
-	//TODO: physics/collision manager
+	bool m_KeyDown[256];
+
+	
 };

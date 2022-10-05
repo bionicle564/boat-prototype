@@ -46,8 +46,17 @@ void cGame::Init(GLFWwindow* window)
 	ent->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
 	//ent->AddComponent<comp::cScale>()->scale = glm::vec3(1);
 
+	sBodyDesc desc;
+	desc.halfExtents = glm::vec4(10,1,10,0);
+	desc.mass = 0;
+	desc.position = glm::vec3(0, -3, -10);
+	desc.type = eBodyType::BOX;
+	desc.orientation = glm::quat(glm::vec3(0));
 
-	cEntity* dude = engine.entityManager.CreateEntity();
+	ent->AddComponent(engine.physicsManager.MakeBody(desc));
+	
+
+	dude = engine.entityManager.CreateEntity();
 
 	dude->AddComponent<comp::cMeshRenderer>()->meshName = "fixed_knight.fbx";
 	dude->GetComponent<comp::cMeshRenderer>()->border = false;
@@ -55,11 +64,12 @@ void cGame::Init(GLFWwindow* window)
 	dude->AddComponent<comp::cPosition>();
 	//dude->AddComponent<comp::cParticleGenerator>(); //something is scuffed here
 
-	sBodyDesc desc;
-	desc.halfExtents = glm::vec4(1);
+	
+	desc.halfExtents = glm::vec4(.75,2,0,0);
 	desc.mass = 1;
 	desc.position = glm::vec3(0, 3, -10);
-	desc.type = eBodyType::BOX;
+	desc.type = eBodyType::CAPSULE;
+	desc.orientation = glm::quat(glm::vec3(0));
 
 	dude->AddComponent(engine.physicsManager.MakeBody(desc));
 
@@ -73,10 +83,22 @@ void cGame::Update()
 
 	glfwGetWindowSize(window, &winX, &winY);
 
+	Input(deltaTime);
+
 	engine.Update(deltaTime, winX, winY);
 
 	engine.Render();
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
+}
+
+void cGame::Input(float dt)
+{
+	if (engine.m_KeyDown['I'])
+	{
+		comp::cPhysics* ph = dude->GetComponent<comp::cPhysics>();
+		ph->rb->setActivationState(ACTIVE_TAG);
+		ph->rb->applyCentralForce(btVector3(0, 0, -10));
+	}
 }

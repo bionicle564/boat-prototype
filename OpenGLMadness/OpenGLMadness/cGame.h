@@ -19,7 +19,7 @@ private:
 
 public:
 
-
+	cEntity* dude;
 
 	cGameEngine engine;
 
@@ -31,4 +31,5 @@ public:
 	//include render and process
 	void Update();
 
+	void Input(float dt);
 };
