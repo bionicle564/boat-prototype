@@ -60,6 +60,7 @@ void cPhysicsManager::ShutDown()
 
 comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 {
+	btVector3 inertia;
 	btCollisionShape* shape = NULL;
 	if (desc.type == eBodyType::BOX)
 	{
@@ -67,12 +68,17 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 	}
 	else if (desc.type == eBodyType::SPHERE)
 	{
-
+		shape = new btSphereShape(desc.halfExtents.x);
 	}
 	else if (desc.type == eBodyType::CAPSULE)
 	{
 		shape = new btCapsuleShape(desc.halfExtents.x, desc.halfExtents.y);
 	}
+	else
+	{
+		return NULL;
+	}
+
 
 	shapes.push_back(shape); //keep track of it to delete later
 
@@ -81,17 +87,20 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 		btVector3(desc.position.x, desc.position.y, desc.position.z)
 	));
 
+	shape->calculateLocalInertia(desc.mass, inertia);
+
 	btRigidBody::btRigidBodyConstructionInfo rigidBodyCI(
 		desc.mass,                  // mass, in kg. 0 -> Static object, will never move.
 		motionstate,
 		shape,  // collision shape of body
-		btVector3(0, 0, 0)    // local inertia
+		inertia    // local inertia
 	);
 
 	btRigidBody* rigidBody = new btRigidBody(rigidBodyCI);
 	rigidBody->setActivationState(ACTIVE_TAG);
 
-	rigidBody->setMassProps(desc.mass, btVector3(0, 0, 0));
+	rigidBody->setMassProps(desc.mass,inertia);
+	rigidBody->setFriction(desc.friction);
 
 	bodies.push_back(rigidBody);
 	dynamicWorld->addRigidBody(rigidBody);

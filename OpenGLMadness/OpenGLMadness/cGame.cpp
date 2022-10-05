@@ -51,7 +51,8 @@ void cGame::Init(GLFWwindow* window)
 	desc.mass = 0;
 	desc.position = glm::vec3(0, -3, -10);
 	desc.type = eBodyType::BOX;
-	desc.orientation = glm::quat(glm::vec3(0));
+	desc.orientation = glm::quat(glm::vec3(0,0,.3));
+	desc.friction = .1;
 
 	ent->AddComponent(engine.physicsManager.MakeBody(desc));
 	

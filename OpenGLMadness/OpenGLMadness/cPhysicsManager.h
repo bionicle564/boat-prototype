@@ -21,6 +21,7 @@ struct sBodyDesc
 	glm::vec4 halfExtents;
 
 	float mass;
+	float friction;
 };
 
 
