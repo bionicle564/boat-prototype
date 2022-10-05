@@ -43,6 +43,7 @@ bool cGameEngine::Initialize()
 	this->cameraHandler.Initialize(this);
 	this->uiSystem.Initialize(this);
 	this->particleSystem.Initialize(this);
+	this->physicsSystem.Initialize();
 
 	return true;
 }
@@ -62,6 +63,8 @@ void cGameEngine::Update(float dt, int winX, int winY)
  	this->cameraHandler.Process(this->entityManager.GetEntities(), dt);
 
 	this->physicsManager.UpdatePhysics(dt);
+
+	this->physicsSystem.Process(this->entityManager.GetEntities(), dt);
 
 }
 

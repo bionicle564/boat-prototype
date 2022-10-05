@@ -2,12 +2,17 @@
 #include "cPosition.h"
 #include "cPhysics.h"
 #include <btBulletCollisionCommon.h>
+#include <btBulletDynamicsCommon.h>
 
 cPhysicsSystem::cPhysicsSystem()
 {
 }
 
 cPhysicsSystem::~cPhysicsSystem()
+{
+}
+
+void cPhysicsSystem::Initialize()
 {
 }
 
@@ -23,15 +28,23 @@ void cPhysicsSystem::Process(const std::vector<cEntity*>& entities, float dt)
 			continue;
 		}
 
+
 		comp::cPosition* pos = entity->GetComponent<comp::cPosition>();
 		if (pos == 0)
 		{
+			continue;
 			//this is bad
 		}
 
 		btRigidBody* body = phys->rb;
 		
+		btTransform rbPos;
+		btVector3 po = body->getWorldTransform().getOrigin();
+		body->getMotionState()->getWorldTransform(rbPos);
 		
-		
+		pos->position.x = po.x();
+		pos->position.y = po.y();
+		pos->position.z = po.z();
+
 	}
 }

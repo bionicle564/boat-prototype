@@ -57,7 +57,7 @@ void cGame::Init(GLFWwindow* window)
 
 	sBodyDesc desc;
 	desc.halfExtents = glm::vec4(1);
-	desc.mass = 0;
+	desc.mass = 1;
 	desc.position = glm::vec3(0, 3, -10);
 	desc.type = eBodyType::BOX;
 

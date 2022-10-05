@@ -9,6 +9,7 @@
 #include "cParticleSystem.h"
 #include "cTextureManager.h"
 #include "cPhysicsManager.h"
+#include "cPhysicsSystem.h"
 
 #include "GLCommon.h"
 
@@ -21,6 +22,7 @@ private:
 	cCameraSystem cameraHandler;
 	cUISystem uiSystem;
 	cParticleSystem particleSystem;
+	cPhysicsSystem physicsSystem;
 
 	GLFWwindow* mainWindowRef;
 
