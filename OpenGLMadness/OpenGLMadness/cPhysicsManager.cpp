@@ -1,5 +1,7 @@
 #include "cPhysicsManager.h"
 
+
+
 cPhysicsManager::cPhysicsManager()
 {
 	dynamicWorld = NULL;
@@ -99,7 +101,7 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 	btRigidBody* rigidBody = new btRigidBody(rigidBodyCI);
 	rigidBody->setActivationState(ACTIVE_TAG);
 
-	rigidBody->setMassProps(desc.mass,inertia);
+	//rigidBody->setMassProps(desc.mass,inertia);
 	rigidBody->setFriction(desc.friction);
 
 	bodies.push_back(rigidBody);
@@ -109,6 +111,36 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 
 	component->rb = rigidBody;
 	return component;
+}
+
+comp::cCharacterController* cPhysicsManager::MakeController(sBodyDesc desc)
+{
+	comp::cCharacterController* charCon = new comp::cCharacterController();
+
+	btTransform startTransform;
+	startTransform.setIdentity();
+	startTransform.setOrigin(btVector3(desc.position.x, desc.position.y, desc.position.z));
+
+	btConvexShape* shape = new btCapsuleShape(desc.halfExtents.x, desc.halfExtents.y);
+
+	shapes.push_back(shape);
+
+	charCon->ghostObject = new btPairCachingGhostObject();
+	charCon->ghostObject->setWorldTransform(startTransform);
+
+	dynamicWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
+
+	charCon->ghostObject->setCollisionShape(shape);
+	charCon->ghostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
+
+	charCon->charCon = new btKinematicCharacterController(charCon->ghostObject, shape, 0.05f);
+	charCon->charCon->setGravity(dynamicWorld->getGravity());
+
+	dynamicWorld->addCollisionObject(charCon->ghostObject, btBroadphaseProxy::CharacterFilter, btBroadphaseProxy::AllFilter);
+	dynamicWorld->addAction(charCon->charCon);
+	charCon->charCon->setMaxJumpHeight(1.5);
+
+	return charCon;
 }
 
 void cPhysicsManager::DebugDraw()

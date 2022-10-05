@@ -51,8 +51,8 @@ void cGame::Init(GLFWwindow* window)
 	desc.mass = 0;
 	desc.position = glm::vec3(0, -3, -10);
 	desc.type = eBodyType::BOX;
-	desc.orientation = glm::quat(glm::vec3(0,0,.3));
-	desc.friction = .1;
+	desc.orientation = glm::quat(glm::vec3(0,0,0));
+	desc.friction = 1;
 
 	ent->AddComponent(engine.physicsManager.MakeBody(desc));
 	
@@ -69,7 +69,7 @@ void cGame::Init(GLFWwindow* window)
 	desc.halfExtents = glm::vec4(.75,2,0,0);
 	desc.mass = 1;
 	desc.position = glm::vec3(0, 3, -10);
-	desc.type = eBodyType::CAPSULE;
+	desc.type = eBodyType::SPHERE;
 	desc.orientation = glm::quat(glm::vec3(0));
 
 	dude->AddComponent(engine.physicsManager.MakeBody(desc));
@@ -101,5 +101,23 @@ void cGame::Input(float dt)
 		comp::cPhysics* ph = dude->GetComponent<comp::cPhysics>();
 		ph->rb->setActivationState(ACTIVE_TAG);
 		ph->rb->applyCentralForce(btVector3(0, 0, -10));
+	}
+	if (engine.m_KeyDown['K'])
+	{
+		comp::cPhysics* ph = dude->GetComponent<comp::cPhysics>();
+		ph->rb->setActivationState(ACTIVE_TAG);
+		ph->rb->applyCentralForce(btVector3(0, 0, 10));
+	}
+	if (engine.m_KeyDown['J'])
+	{
+		comp::cPhysics* ph = dude->GetComponent<comp::cPhysics>();
+		ph->rb->setActivationState(ACTIVE_TAG);
+		ph->rb->applyCentralForce(btVector3(-10, 0, 0));
+	}
+	if (engine.m_KeyDown['L'])
+	{
+		comp::cPhysics* ph = dude->GetComponent<comp::cPhysics>();
+		ph->rb->setActivationState(ACTIVE_TAG);
+		ph->rb->applyCentralForce(btVector3(10, 0, 0));
 	}
 }

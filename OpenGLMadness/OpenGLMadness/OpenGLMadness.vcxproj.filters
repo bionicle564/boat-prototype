@@ -200,5 +200,8 @@
     <ClInclude Include="cPhysicsSystem.h">
       <Filter>Engine\Systems</Filter>
     </ClInclude>
+    <ClInclude Include="cCharacterController.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

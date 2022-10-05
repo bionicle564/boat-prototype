@@ -5,6 +5,7 @@
 #include <vector>
 #include <glm/gtc/quaternion.hpp>
 #include "cPhysics.h"
+#include "cCharacterController.h"
 
 enum eBodyType
 {
@@ -53,6 +54,9 @@ public:
 
 	//make a body, adds it to the world and returns the reference
 	comp::cPhysics* MakeBody(sBodyDesc desc);
+
+	comp::cCharacterController* MakeController(sBodyDesc desc);
+	
 
 	void DebugDraw();
 

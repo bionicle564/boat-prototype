@@ -181,6 +181,7 @@
     <ClInclude Include="cCameraComp.h" />
     <ClInclude Include="cCameraManager.h" />
     <ClInclude Include="cCameraSystem.h" />
+    <ClInclude Include="cCharacterController.h" />
     <ClInclude Include="cComponent.h" />
     <ClInclude Include="cEntity.h" />
     <ClInclude Include="cEntityManager.h" />
