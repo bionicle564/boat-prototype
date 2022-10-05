@@ -73,7 +73,7 @@ void cGameEngine::Render()
 
 	cFlyCamera* mainCamera = this->cameraManager.GetMainCamera();
 
-	glm::mat4 projection = glm::perspective(glm::radians(mainCamera->Zoom), (float)window_x / (float)window_y, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(mainCamera->Zoom), (float)window_x / (float)window_y, 0.1f, 1000.0f);
 
 	//update the part of the buffer with the projection
 	glBindBuffer(GL_UNIFORM_BUFFER, shaderManager.uboMatId);

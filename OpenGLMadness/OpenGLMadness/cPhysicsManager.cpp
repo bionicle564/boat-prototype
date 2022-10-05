@@ -120,6 +120,7 @@ comp::cCharacterController* cPhysicsManager::MakeController(sBodyDesc desc)
 	btTransform startTransform;
 	startTransform.setIdentity();
 	startTransform.setOrigin(btVector3(desc.position.x, desc.position.y, desc.position.z));
+	startTransform.setRotation(btQuaternion(desc.orientation.x, desc.orientation.y, desc.orientation.z, desc.orientation.w));
 
 	btConvexShape* shape = new btCapsuleShape(desc.halfExtents.x, desc.halfExtents.y);
 
@@ -127,18 +128,22 @@ comp::cCharacterController* cPhysicsManager::MakeController(sBodyDesc desc)
 
 	charCon->ghostObject = new btPairCachingGhostObject();
 	charCon->ghostObject->setWorldTransform(startTransform);
+	
 
 	dynamicWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
-
+	
 	charCon->ghostObject->setCollisionShape(shape);
 	charCon->ghostObject->setCollisionFlags(btCollisionObject::CF_CHARACTER_OBJECT);
+	
+	
 
-	charCon->charCon = new btKinematicCharacterController(charCon->ghostObject, shape, 0.05f);
+	charCon->charCon = new btKinematicCharacterController(charCon->ghostObject, shape, 0.05f, btVector3(0,1,0));
 	charCon->charCon->setGravity(dynamicWorld->getGravity());
 
 	dynamicWorld->addCollisionObject(charCon->ghostObject, btBroadphaseProxy::CharacterFilter, btBroadphaseProxy::AllFilter);
 	dynamicWorld->addAction(charCon->charCon);
 	charCon->charCon->setMaxJumpHeight(1.5);
+	
 
 	return charCon;
 }

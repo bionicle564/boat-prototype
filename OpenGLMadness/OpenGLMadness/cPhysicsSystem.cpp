@@ -22,6 +22,8 @@ void cPhysicsSystem::Process(const std::vector<cEntity*>& entities, float dt)
 	{
 		cEntity* entity = *it;
 
+
+
 		comp::cPhysics* phys = entity->GetComponent<comp::cPhysics>();
 		if (phys == 0)
 		{
