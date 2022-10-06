@@ -17,6 +17,7 @@ void cShaderManager::StartUp()
 	MakeShader("vert.glsl", "borderColour.glsl", "singleColour");
 	MakeShader("uiVert.glsl", "borderColour.glsl", "simpleUI");
 	MakeShader("partVert.glsl", "borderColour.glsl", "defaultParticle");
+	MakeShader("simpleVert.glsl", "simpleFrag.glsl", "debugPhysics");
 
 	UseShader("default");
 
@@ -85,6 +86,18 @@ cShader* cShaderManager::GetCurrentShader()
 std::string cShaderManager::GetCurrentShaderName()
 {
 	return nameOfCurrentShader;
+}
+
+GLint cShaderManager::GetIDFromName(std::string name)
+{
+	GLint program = -1;
+
+	if (this->nameToShader.find(name) != this->nameToShader.end())
+	{
+		program = nameToShader[name]->ID;
+	}
+
+	return program;
 }
 
 void cShaderManager::UseShader(std::string shaderName)

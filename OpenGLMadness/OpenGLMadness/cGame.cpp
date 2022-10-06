@@ -6,6 +6,8 @@
 #include "cRotation.h"
 #include "cScale.h"
 #include "cParticleGenerator.h"
+#include "cPhysicsManager.h"
+#include <iostream>
 
 cGame::cGame()
 {
@@ -45,15 +47,44 @@ void cGame::Init(GLFWwindow* window)
 	ent->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
 	//ent->AddComponent<comp::cScale>()->scale = glm::vec3(1);
 
+	sBodyDesc desc;
+	desc.halfExtents = glm::vec4(10,1,10,0);
+	desc.mass = 0;
+	desc.position = glm::vec3(0, -3, -10);
+	desc.type = eBodyType::BOX;
+	desc.orientation = glm::quat(glm::vec3(0,0,0));
+	desc.friction = 1;
 
-	cEntity* dude = engine.entityManager.CreateEntity();
+	ent->AddComponent(engine.physicsManager.MakeBody(desc));
+	
+	cEntity* box = engine.entityManager.CreateEntity();
+	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
+
+	desc.halfExtents = glm::vec4(.3);
+	desc.mass = 0;
+	desc.position = glm::vec3(2, -2, -10);
+	desc.type = eBodyType::BOX;
+	box->AddComponent(engine.physicsManager.MakeBody(desc));
+
+
+	dude = engine.entityManager.CreateEntity();
 
 	dude->AddComponent<comp::cMeshRenderer>()->meshName = "fixed_knight.fbx";
 	dude->GetComponent<comp::cMeshRenderer>()->border = false;
 	dude->AddComponent<comp::cScale>()->scale = glm::vec3(1);
 	dude->AddComponent<comp::cPosition>();
-	dude->AddComponent<comp::cParticleGenerator>();
+	//dude->AddComponent<comp::cParticleGenerator>(); //something is scuffed here
 
+	
+	desc.halfExtents = glm::vec4(.75,2,0,0);
+	desc.mass = 1;
+	desc.position = glm::vec3(0, 3, -10);
+	//desc.type = eBodyType::CAPSULE;
+	desc.orientation = glm::quat(glm::vec3(0));
+	desc.orientation = glm::quat(glm::vec3(glm::half_pi<float>(),0,0));
+
+	//dude->AddComponent(engine.physicsManager.MakeBody(desc));
+	dude->AddComponent(engine.physicsManager.MakeController(desc));
 
 }
 
@@ -63,7 +94,11 @@ void cGame::Update()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
+	//camera->GetComponent<comp::cCamera>() = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 0);
+
 	glfwGetWindowSize(window, &winX, &winY);
+
+	Input(deltaTime);
 
 	engine.Update(deltaTime, winX, winY);
 
@@ -71,4 +106,55 @@ void cGame::Update()
 
 	glfwSwapBuffers(window);
 	glfwPollEvents();
+}
+
+void cGame::Input(float dt)
+{
+	bool j = dude->GetComponent<comp::cCharacterController>()->charCon->onGround();
+	std::cout << j << "\n";
+	btVector3 dir(0,0,0);
+
+	comp::cCharacterController* ph = dude->GetComponent<comp::cCharacterController>();
+	if (engine.m_KeyDown[' '])
+	{
+		if (j)
+		{
+			ph->charCon->jump(btVector3(0, 4, 0));
+		}
+	}
+
+
+	//right
+	if (engine.m_KeyDown['L'])
+	{
+		
+		dir.setX(3);
+	}
+
+	//left
+	if (engine.m_KeyDown['J'])
+	{
+		dir.setX(-3);
+	}
+
+	//up
+	if (engine.m_KeyDown['I'])
+	{
+		dir.setZ(-3);
+	}
+
+	//down
+	if (engine.m_KeyDown['K'])
+	{
+		dir.setZ(3);
+	}
+
+	if (dir.length() > 1)
+	{
+		ph->charCon->setWalkDirection(dir * dt);
+	}
+	else
+	{
+		ph->charCon->setWalkDirection(btVector3(0, 0, 0) );
+	}
 }

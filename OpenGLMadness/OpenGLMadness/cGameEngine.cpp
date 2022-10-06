@@ -20,6 +20,7 @@ cGameEngine::~cGameEngine()
 	this->meshManager.ShutDown();
 	this->shaderManager.ShutDown();
 	this->cameraManager.ShutDown();
+	this->physicsManager.ShutDown();
 }
 
 void cGameEngine::SetWindow(GLFWwindow* window)
@@ -34,13 +35,17 @@ bool cGameEngine::Initialize()
 	this->shaderManager.StartUp();
 	this->cameraManager.StartUp();
 	this->textureManager.StartUp();
-	
+	this->physicsManager.StartUp();
+
+	this->physicsManager.debugDrawerer.program = this->shaderManager.GetIDFromName("debugPhysics");
+
 	this->renderer.Initialize(this);
 	this->cameraHandler.Initialize(this);
 	this->uiSystem.Initialize(this);
 	this->particleSystem.Initialize(this);
+	this->physicsSystem.Initialize();
 
-	return false;
+	return true;
 }
 
 void cGameEngine::Destroy()
@@ -57,7 +62,9 @@ void cGameEngine::Update(float dt, int winX, int winY)
 	this->particleSystem.SetDeltaTime(dt);
  	this->cameraHandler.Process(this->entityManager.GetEntities(), dt);
 
-	
+	this->physicsManager.UpdatePhysics(dt);
+
+	this->physicsSystem.Process(this->entityManager.GetEntities(), dt);
 
 }
 
@@ -66,16 +73,19 @@ void cGameEngine::Render()
 
 	cFlyCamera* mainCamera = this->cameraManager.GetMainCamera();
 
-	glm::mat4 projection = glm::perspective(glm::radians(mainCamera->Zoom), (float)window_x / (float)window_y, 0.1f, 100.0f);
+	glm::mat4 projection = glm::perspective(glm::radians(mainCamera->Zoom), (float)window_x / (float)window_y, 0.1f, 1000.0f);
 
 	//update the part of the buffer with the projection
 	glBindBuffer(GL_UNIFORM_BUFFER, shaderManager.uboMatId);
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(projection));
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
+	
 
-	//this->shaderManager.UseShader(name);
+	//this->physicsManager.debugDrawerer.SetMatrices();
 
 	this->renderer.Process(this->entityManager.GetEntities(), 0);
+
+ 	this->physicsManager.DebugDraw();
 
 	this->particleSystem.Process(this->entityManager.GetEntities(), 0);
 

@@ -31,6 +31,7 @@ public:
 
 	cShader* GetCurrentShader();
 	std::string GetCurrentShaderName();
+	GLint GetIDFromName(std::string name);
 
 	void UseShader(std::string shaderName);
 

@@ -8,6 +8,8 @@
 #include "cUISystem.h"
 #include "cParticleSystem.h"
 #include "cTextureManager.h"
+#include "cPhysicsManager.h"
+#include "cPhysicsSystem.h"
 
 #include "GLCommon.h"
 
@@ -20,10 +22,11 @@ private:
 	cCameraSystem cameraHandler;
 	cUISystem uiSystem;
 	cParticleSystem particleSystem;
+	cPhysicsSystem physicsSystem;
 
 	GLFWwindow* mainWindowRef;
 
-	bool m_KeyDown[256];
+	
 
 	bool selectMode = false;
 
@@ -77,11 +80,13 @@ public:
 	cCameraManager cameraManager;
 	cShaderManager shaderManager;
 	cTextureManager textureManager;
+	cPhysicsManager physicsManager;
 
 
 	int window_x;
 	int window_y;
 
-	//TODO: scene manager
-	//TODO: physics/collision manager
+	bool m_KeyDown[256];
+
+	
 };

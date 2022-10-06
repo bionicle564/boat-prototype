@@ -456,5 +456,47 @@
     <ClCompile Include="..\BulletSource\LinearMath\btConvexHullComputer.cpp">
       <Filter>Header Files\BulletSource</Filter>
     </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\btQuickprof.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\btThreads.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\btConvexHull.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\btPolarDecomposition.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\btReducedVector.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\btSerializer64.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\btSerializer.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\TaskScheduler\btTaskScheduler.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\TaskScheduler\btThreadSupportPosix.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\LinearMath\TaskScheduler\btThreadSupportWin32.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\BulletInverseDynamics\MultiBodyTree.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\BulletInverseDynamics\IDMath.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\BulletInverseDynamics\details\MultiBodyTreeInitCache.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BulletSource\BulletInverseDynamics\details\MultiBodyTreeImpl.cpp">
+      <Filter>Header Files\BulletSource</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
