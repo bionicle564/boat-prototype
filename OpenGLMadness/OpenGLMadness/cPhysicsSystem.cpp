@@ -1,6 +1,7 @@
 #include "cPhysicsSystem.h"
 #include "cPosition.h"
 #include "cPhysics.h"
+#include "cCharacterController.h"
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
 
@@ -22,6 +23,22 @@ void cPhysicsSystem::Process(const std::vector<cEntity*>& entities, float dt)
 	{
 		cEntity* entity = *it;
 
+		comp::cCharacterController* charCon = entity->GetComponent<comp::cCharacterController>();
+		if (charCon != 0)
+		{
+
+			btTransform transform;
+
+			transform = charCon->ghostObject->getWorldTransform();
+
+			comp::cPosition* pos = entity->GetComponent<comp::cPosition>();
+
+			btVector3 btPos = transform.getOrigin();
+
+			pos->position.x = btPos.x();
+			pos->position.y = btPos.y();
+			pos->position.z = btPos.z();
+		}
 
 
 		comp::cPhysics* phys = entity->GetComponent<comp::cPhysics>();

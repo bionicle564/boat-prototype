@@ -94,6 +94,8 @@ void cGame::Update()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
+	//camera->GetComponent<comp::cCamera>() = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 0);
+
 	glfwGetWindowSize(window, &winX, &winY);
 
 	Input(deltaTime);
@@ -112,15 +114,14 @@ void cGame::Input(float dt)
 	std::cout << j << "\n";
 	btVector3 dir(0,0,0);
 
-	if (engine.m_KeyDown['I'])
+	comp::cCharacterController* ph = dude->GetComponent<comp::cCharacterController>();
+	if (engine.m_KeyDown[' '])
 	{
-		comp::cCharacterController* ph = dude->GetComponent<comp::cCharacterController>();
 		if (j)
 		{
 			ph->charCon->jump(btVector3(0, 4, 0));
 		}
 	}
-	comp::cCharacterController* ph = dude->GetComponent<comp::cCharacterController>();
 
 
 	//right
@@ -135,9 +136,17 @@ void cGame::Input(float dt)
 	{
 		dir.setX(-3);
 	}
+
+	//up
+	if (engine.m_KeyDown['I'])
+	{
+		dir.setZ(-3);
+	}
+
+	//down
 	if (engine.m_KeyDown['K'])
 	{
-		
+		dir.setZ(3);
 	}
 
 	if (dir.length() > 1)
