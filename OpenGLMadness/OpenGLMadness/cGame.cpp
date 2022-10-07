@@ -40,7 +40,7 @@ void cGame::Init(GLFWwindow* window)
 	camera->AddComponent<comp::cCamera>()->cameraId = 0;
 
 
-	cEntity* ent = engine.entityManager.CreateEntity();
+	ent = engine.entityManager.CreateEntity();
 	ent->AddComponent<comp::cMeshRenderer>()->meshName = "billboard.fbx";
 	ent->GetComponent<comp::cMeshRenderer>()->billboard = false;
 	ent->AddComponent<comp::cPosition>()->position = glm::vec3(1);
@@ -57,13 +57,13 @@ void cGame::Init(GLFWwindow* window)
 
 	ent->AddComponent(engine.physicsManager.MakeBody(desc));
 	
-	cEntity* box = engine.entityManager.CreateEntity();
+	box = engine.entityManager.CreateEntity();
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 
 	desc.halfExtents = glm::vec4(.3);
-	desc.mass = 0;
-	desc.position = glm::vec3(2, -2, -10);
-	desc.type = eBodyType::BOX;
+	desc.mass = 1;
+	desc.position = glm::vec3(2, 0, -10);
+	desc.type = eBodyType::SPHERE;
 	box->AddComponent(engine.physicsManager.MakeBody(desc));
 
 
@@ -94,7 +94,12 @@ void cGame::Update()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
-	//camera->GetComponent<comp::cCamera>() = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 0);
+	//engine.cameraManager.GetMainCamera()->Position = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 0);
+	//ent->GetComponent<comp::cPhysics>()->rb->setGravity(btVector3(0, 0, 0));
+	
+	btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
+	btKinematicCharacterController* c = dude->GetComponent<comp::cCharacterController>()->charCon;
+	
 
 	glfwGetWindowSize(window, &winX, &winY);
 

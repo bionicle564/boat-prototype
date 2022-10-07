@@ -8,6 +8,7 @@ private:
 	GLFWwindow* window;
 	cEntity* camera;
 
+
 	int winX, winY;
 
 	bool done;
@@ -20,6 +21,8 @@ private:
 public:
 
 	cEntity* dude;
+	cEntity* box;
+	cEntity* ent; //floor
 
 	cGameEngine engine;
 
