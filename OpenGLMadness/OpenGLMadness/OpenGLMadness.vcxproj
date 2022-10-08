@@ -195,6 +195,7 @@
     <ClInclude Include="cPhysics.h" />
     <ClInclude Include="cPhysicsManager.h" />
     <ClInclude Include="cPhysicsSystem.h" />
+    <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPosition.h" />
     <ClInclude Include="cRenderSystem.h" />
     <ClInclude Include="cRotation.h" />

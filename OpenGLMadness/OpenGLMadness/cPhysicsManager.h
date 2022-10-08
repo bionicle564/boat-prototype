@@ -23,6 +23,8 @@ struct sBodyDesc
 
 	float mass;
 	float friction;
+
+	bool kinematic = false;
 };
 
 

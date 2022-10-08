@@ -203,5 +203,8 @@
     <ClInclude Include="cCharacterController.h">
       <Filter>Engine\Components</Filter>
     </ClInclude>
+    <ClInclude Include="cPlayer.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
