@@ -101,6 +101,12 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 	btRigidBody* rigidBody = new btRigidBody(rigidBodyCI);
 	rigidBody->setActivationState(ACTIVE_TAG);
 
+	if (desc.kinematic)
+	{
+		rigidBody->setCollisionFlags(btCollisionObject::CF_KINEMATIC_OBJECT);
+		rigidBody->setActivationState(DISABLE_DEACTIVATION);
+	}
+
 	//rigidBody->setMassProps(desc.mass,inertia);
 	rigidBody->setFriction(desc.friction);
 

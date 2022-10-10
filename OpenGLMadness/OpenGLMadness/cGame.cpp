@@ -54,6 +54,7 @@ void cGame::Init(GLFWwindow* window)
 	desc.type = eBodyType::BOX;
 	desc.orientation = glm::quat(glm::vec3(0,0,0));
 	desc.friction = 1;
+	desc.kinematic = false;
 
 	ent->AddComponent(engine.physicsManager.MakeBody(desc));
 	
@@ -64,7 +65,8 @@ void cGame::Init(GLFWwindow* window)
 	desc.mass = 1;
 	desc.position = glm::vec3(2, 0, -10);
 	desc.type = eBodyType::BOX;
-	box->AddComponent(engine.physicsManager.MakeBody(desc));
+	desc.kinematic = false;
+	//box->AddComponent(engine.physicsManager.MakeBody(desc));
 
 
 	dude = engine.entityManager.CreateEntity();
@@ -79,13 +81,15 @@ void cGame::Init(GLFWwindow* window)
 	desc.halfExtents = glm::vec4(.75,2,0,0);
 	desc.mass = 1;
 	desc.position = glm::vec3(0, 3, -10);
-	//desc.type = eBodyType::CAPSULE;
+	desc.type = eBodyType::CAPSULE;
 	desc.orientation = glm::quat(glm::vec3(0));
-	desc.orientation = glm::quat(glm::vec3(glm::half_pi<float>(),0,0));
+	//desc.orientation = glm::quat(glm::vec3(glm::half_pi<float>(),0,0));
 	desc.friction = 1;
 
-	//dude->AddComponent(engine.physicsManager.MakeBody(desc));
-	dude->AddComponent(engine.physicsManager.MakeController(desc));
+	dude->AddComponent(engine.physicsManager.MakeBody(desc));
+	btRigidBody* rb = dude->GetComponent<comp::cPhysics>()->rb;
+	rb->setAngularFactor(btVector3(0, 0, 0));
+	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
 }
 
@@ -96,8 +100,26 @@ void cGame::Update()
 	lastFrame = currentFrame;
 
 	//engine.cameraManager.GetMainCamera()->Position = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 0);
-	//ent->GetComponent<comp::cPhysics>()->rb->setGravity(btVector3(0, 0, 0));
+	ent->GetComponent<comp::cPhysics>()->rb->setGravity(btVector3(0, 0, 0));
+
+
+	btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
+	//rb->setActivationState(ACTIVE_TAG);
+
+	btVector3 vel = rb->getLinearVelocity();
+	vel.setY(0);
+	vel.setX(1);
+	rb->setLinearVelocity(vel);
 	
+
+
+	rb->setAngularVelocity(btVector3(0, 0, 0));
+	rb->setLinearFactor(btVector3(1, 0, 1));
+	rb->setAngularFactor(btVector3(0, 0, 0));
+
+	rb->applyCentralForce(btVector3(10, 0, 0));
+
+	btVector3 force = rb->getTotalForce();
 
 
 
@@ -106,26 +128,10 @@ void cGame::Update()
 	Input(deltaTime);
 
 	engine.Update(deltaTime, winX, winY);
-	btKinematicCharacterController* c = dude->GetComponent<comp::cCharacterController>()->charCon;
+	//btKinematicCharacterController* c = dude->GetComponent<comp::cCharacterController>()->charCon;
 
-	btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
-	rb->setActivationState(ACTIVE_TAG);
-	
-	btVector3 vel = rb->getLinearVelocity();
-	vel.setY(0);
-	rb->setLinearVelocity(vel);
-	
-	
+	//btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
 
-	rb->setAngularVelocity(btVector3(0, 0, 0));
-	rb->setLinearFactor(btVector3(1, 0, 1));
-	rb->setAngularFactor(btVector3(0, 0, 0));
-
-	rb->applyCentralForce(btVector3(1, 0, 0));
-
-	btVector3 force = rb->getTotalForce();
-
-	std::cout << force.getY() << "\n";
 
 	engine.Render();
 
@@ -135,11 +141,14 @@ void cGame::Update()
 
 void cGame::Input(float dt)
 {
-	bool j = dude->GetComponent<comp::cCharacterController>()->charCon->onGround();
+	btRigidBody* rb = dude->GetComponent<comp::cPhysics>()->rb;
+
+	bool j = true;
+	//bool j = dude->GetComponent<comp::cCharacterController>()->charCon->onGround();
 	//std::cout << j << "\n";
 	btVector3 dir(0,0,0);
 
-	comp::cCharacterController* ph = dude->GetComponent<comp::cCharacterController>();
+	comp::cCharacterController* ph = NULL;// dude->GetComponent<comp::cCharacterController>();
 	if (engine.m_KeyDown[' '])
 	{
 		if (j)
@@ -153,7 +162,12 @@ void cGame::Input(float dt)
 	if (engine.m_KeyDown['L'])
 	{
 		//box->GetComponent<comp::cPhysics>()->rb->applyCentralForce(btVector3(-10, 0, 0));
-		dir.setX(3);
+		btVector3 speed = rb->getLinearVelocity();
+
+		speed.setX(speed.x() + 1);
+
+		rb->setLinearVelocity(speed);
+		//dir.setX(3);
 	}
 
 	//left
@@ -180,6 +194,6 @@ void cGame::Input(float dt)
 	}
 	else
 	{
-		ph->charCon->setWalkDirection(btVector3(0, 0, 0) );
+		//ph->charCon->setWalkDirection(btVector3(0, 0, 0) );
 	}
 }
