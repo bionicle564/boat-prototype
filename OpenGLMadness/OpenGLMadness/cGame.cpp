@@ -168,7 +168,7 @@ void cGame::Input(float dt)
 			ph->charCon->jump(btVector3(0, 4, 0));
 		}
 	}
-
+	btVector3 boatSpeed = ent->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
 	btVector3 speed = rb->getLinearVelocity();
 	//right
 	if (engine.m_KeyDown['L'])
@@ -198,11 +198,12 @@ void cGame::Input(float dt)
 	if (dir.length() > 1)
 	{
 		//rb->clearGravity();
-		rb->setLinearVelocity(dir);
+		rb->setLinearVelocity(dir + boatSpeed);
 		//rb->applyCentralForce(dir);
 	}
 	else
 	{
 		rb->setLinearVelocity(speed);
+		//rb->setLinearVelocity(boatSpeed);
 	}
 }
