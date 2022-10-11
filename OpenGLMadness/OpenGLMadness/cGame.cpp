@@ -54,9 +54,10 @@ void cGame::Init(GLFWwindow* window)
 	desc.type = eBodyType::BOX;
 	desc.orientation = glm::quat(glm::vec3(0,0,0));
 	desc.friction = 1;
-	desc.kinematic = false;
+	desc.kinematic = true;
 
 	ent->AddComponent(engine.physicsManager.MakeBody(desc));
+	
 	
 	box = engine.entityManager.CreateEntity();
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
@@ -65,8 +66,9 @@ void cGame::Init(GLFWwindow* window)
 	desc.mass = 1;
 	desc.position = glm::vec3(2, 0, -10);
 	desc.type = eBodyType::BOX;
+	desc.kinematic = true;
+	box->AddComponent(engine.physicsManager.MakeBody(desc));
 	desc.kinematic = false;
-	//box->AddComponent(engine.physicsManager.MakeBody(desc));
 
 
 	dude = engine.entityManager.CreateEntity();
@@ -104,12 +106,12 @@ void cGame::Update()
 
 
 	btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
-	//rb->setActivationState(ACTIVE_TAG);
+	rb->setActivationState(ACTIVE_TAG);
 
 	btVector3 vel = rb->getLinearVelocity();
 	vel.setY(0);
-	vel.setX(1);
-	rb->setLinearVelocity(vel);
+	vel.setX(10);
+	//rb->setLinearVelocity(vel);
 	
 
 
@@ -117,9 +119,16 @@ void cGame::Update()
 	rb->setLinearFactor(btVector3(1, 0, 1));
 	rb->setAngularFactor(btVector3(0, 0, 0));
 
-	rb->applyCentralForce(btVector3(10, 0, 0));
+	//rb->applyCentralForce(btVector3(10, 0, 0));
 
-	btVector3 force = rb->getTotalForce();
+	btTransform newTrans;
+	rb->getMotionState()->getWorldTransform(newTrans);
+	newTrans.getOrigin() += (btVector3(1, 0, 0) * deltaTime);
+	rb->getMotionState()->setWorldTransform(newTrans);
+
+
+
+	//btVector3 force = rb->getTotalForce();
 
 
 
@@ -129,6 +138,9 @@ void cGame::Update()
 
 	engine.Update(deltaTime, winX, winY);
 	//btKinematicCharacterController* c = dude->GetComponent<comp::cCharacterController>()->charCon;
+
+
+	newTrans = rb->getWorldTransform();
 
 	//btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
 
@@ -157,17 +169,12 @@ void cGame::Input(float dt)
 		}
 	}
 
-
+	btVector3 speed = rb->getLinearVelocity();
 	//right
 	if (engine.m_KeyDown['L'])
 	{
 		//box->GetComponent<comp::cPhysics>()->rb->applyCentralForce(btVector3(-10, 0, 0));
-		btVector3 speed = rb->getLinearVelocity();
-
-		speed.setX(speed.x() + 1);
-
-		rb->setLinearVelocity(speed);
-		//dir.setX(3);
+		dir.setX(3);
 	}
 
 	//left
@@ -190,10 +197,12 @@ void cGame::Input(float dt)
 
 	if (dir.length() > 1)
 	{
-		ph->charCon->setWalkDirection(dir * dt);
+		//rb->clearGravity();
+		rb->setLinearVelocity(dir);
+		//rb->applyCentralForce(dir);
 	}
 	else
 	{
-		//ph->charCon->setWalkDirection(btVector3(0, 0, 0) );
+		rb->setLinearVelocity(speed);
 	}
 }
