@@ -67,7 +67,7 @@ void cGame::Init(GLFWwindow* window)
 	desc.mass = 100;
 	desc.position = glm::vec3(2, 0, -10);
 	desc.type = eBodyType::BOX;
-	desc.kinematic = false;
+	desc.kinematic = true;
 	box->AddComponent(engine.physicsManager.MakeBody(desc));
 	desc.kinematic = false;
 
@@ -102,36 +102,20 @@ void cGame::Update()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
+	//update camera position based on player position
 	camera->GetComponent<comp::cCamera>()->position = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 1);
 	camera->GetComponent<comp::cCamera>()->lookAt = dude->GetComponent<comp::cPosition>()->position;
 
-	ent->GetComponent<comp::cPhysics>()->rb->setGravity(btVector3(0, 0, 0));
-
-
-	btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
-	rb->setActivationState(ACTIVE_TAG);
-
-	btVector3 vel = rb->getLinearVelocity();
-	vel.setY(0);
-	vel.setX(10);
-	//rb->setLinearVelocity(vel);
 	
 
 
-	rb->setAngularVelocity(btVector3(0, 0, 0));
-	rb->setLinearFactor(btVector3(1, 0, 1));
-	rb->setAngularFactor(btVector3(0, 0, 0));
-
-	//rb->applyCentralForce(btVector3(10, 0, 0));
-
+	btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
+	
+	//simple boat movment
 	btTransform newTrans;
 	rb->getMotionState()->getWorldTransform(newTrans);
 	newTrans.getOrigin() += (btVector3(.5f, 0, 0) * deltaTime);
 	rb->getMotionState()->setWorldTransform(newTrans);
-
-
-
-	//btVector3 force = rb->getTotalForce();
 
 
 
@@ -140,12 +124,6 @@ void cGame::Update()
 	Input(deltaTime);
 
 	engine.Update(deltaTime, winX, winY);
-	//btKinematicCharacterController* c = dude->GetComponent<comp::cCharacterController>()->charCon;
-
-
-	newTrans = rb->getWorldTransform();
-
-	//btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
 
 
 	engine.Render();
@@ -158,7 +136,7 @@ void cGame::Input(float dt)
 {
 	btRigidBody* rb = dude->GetComponent<comp::cPhysics>()->rb;
 
-	bool j = true;
+	bool j = false;
 	//bool j = dude->GetComponent<comp::cCharacterController>()->charCon->onGround();
 	//std::cout << j << "\n";
 	btVector3 dir(0,0,0);
@@ -178,7 +156,6 @@ void cGame::Input(float dt)
 	//right
 	if (engine.m_KeyDown['L'])
 	{
-		//box->GetComponent<comp::cPhysics>()->rb->applyCentralForce(btVector3(-10, 0, 0));
 		dir.setX(3);
 	}
 
