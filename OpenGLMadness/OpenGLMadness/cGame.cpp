@@ -63,10 +63,10 @@ void cGame::Init(GLFWwindow* window)
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 
 	desc.halfExtents = glm::vec4(.3);
-	desc.mass = 1;
+	desc.mass = 100;
 	desc.position = glm::vec3(2, 0, -10);
 	desc.type = eBodyType::BOX;
-	desc.kinematic = true;
+	desc.kinematic = false;
 	box->AddComponent(engine.physicsManager.MakeBody(desc));
 	desc.kinematic = false;
 
@@ -123,7 +123,7 @@ void cGame::Update()
 
 	btTransform newTrans;
 	rb->getMotionState()->getWorldTransform(newTrans);
-	newTrans.getOrigin() += (btVector3(1, 0, 0) * deltaTime);
+	newTrans.getOrigin() += (btVector3(.5f, 0, 0) * deltaTime);
 	rb->getMotionState()->setWorldTransform(newTrans);
 
 
@@ -169,7 +169,7 @@ void cGame::Input(float dt)
 		}
 	}
 
-	btVector3 speed = rb->getLinearVelocity();
+	btVector3 speed = ent->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
 	//right
 	if (engine.m_KeyDown['L'])
 	{
@@ -198,7 +198,7 @@ void cGame::Input(float dt)
 	if (dir.length() > 1)
 	{
 		//rb->clearGravity();
-		rb->setLinearVelocity(dir);
+		rb->setLinearVelocity(speed + dir);
 		//rb->applyCentralForce(dir);
 	}
 	else
