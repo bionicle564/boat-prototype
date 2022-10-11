@@ -30,7 +30,7 @@ void cCameraSystem::Process(const std::vector<cEntity*>& entities, float dt)
 			continue;
 		}
 
-		if (camera->cameraId == 0) //main camera, no other cameras implemented yet
+		if (camera->cameraId == 0 && camera->primaryCamera) //main camera, no other cameras implemented yet
 		{
 			cFlyCamera* main = this->engine->cameraManager.GetMainCamera();
 
@@ -57,6 +57,31 @@ void cCameraSystem::Process(const std::vector<cEntity*>& entities, float dt)
 			//this->engine->shaderManager.UseShader(name);
 
 			return; //only do the one camera for now
+		}
+		else if (camera->cameraId == 1 && camera->primaryCamera)
+		{
+			glm::vec3 absoluteUp(0, 1, 0);
+			
+			glm::vec3 front = glm::normalize(camera->lookAt - camera->position);
+
+			glm::vec3 right = glm::normalize(glm::cross(front, absoluteUp));
+
+			glm::vec3 camUp = glm::normalize(glm::cross(right, front));
+
+
+			cShader* shader = this->engine->shaderManager.GetCurrentShader();
+
+			shader->SetVec3("cameraRight", right);
+			shader->SetVec3("cameraUp", camUp);
+
+			glm::mat4 view;
+			view = glm::lookAt(camera->position, camera->position + front, camUp);
+
+			glBindBuffer(GL_UNIFORM_BUFFER, this->engine->shaderManager.uboMatId);
+			glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(view));
+			glBindBuffer(GL_UNIFORM_BUFFER, 0);
+
+			return;
 		}
 
 	}

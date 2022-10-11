@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cComponent.h"
+#include <glm/vec3.hpp>
 
 namespace comp
 {
@@ -9,5 +10,11 @@ namespace comp
 	{
 	public:
 		unsigned int cameraId; //set id to 0 for the main camera
+		
+		glm::vec3 position;
+		glm::vec3 lookAt;
+
+		bool primaryCamera;
+
 	};
 }

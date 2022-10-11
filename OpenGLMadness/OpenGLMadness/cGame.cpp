@@ -37,7 +37,8 @@ void cGame::Init(GLFWwindow* window)
 
 
 	camera = engine.entityManager.CreateEntity();
-	camera->AddComponent<comp::cCamera>()->cameraId = 0;
+	camera->AddComponent<comp::cCamera>()->cameraId = 1;
+	camera->GetComponent<comp::cCamera>()->primaryCamera = true;
 
 
 	ent = engine.entityManager.CreateEntity();
@@ -101,7 +102,9 @@ void cGame::Update()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
-	//engine.cameraManager.GetMainCamera()->Position = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 0);
+	camera->GetComponent<comp::cCamera>()->position = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 1);
+	camera->GetComponent<comp::cCamera>()->lookAt = dude->GetComponent<comp::cPosition>()->position;
+
 	ent->GetComponent<comp::cPhysics>()->rb->setGravity(btVector3(0, 0, 0));
 
 
