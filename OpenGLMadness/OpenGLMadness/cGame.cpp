@@ -49,7 +49,7 @@ void cGame::Init(GLFWwindow* window)
 	//ent->AddComponent<comp::cScale>()->scale = glm::vec3(1);
 
 	sBodyDesc desc;
-	desc.halfExtents = glm::vec4(10,1,10,0);
+	desc.halfExtents = glm::vec4(6,1,6,0);
 	desc.mass = 1;
 	desc.position = glm::vec3(0, -3, -10);
 	desc.type = eBodyType::BOX;
@@ -103,7 +103,7 @@ void cGame::Update()
 	lastFrame = currentFrame;
 
 	//update camera position based on player position
-	camera->GetComponent<comp::cCamera>()->position = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 1);
+	camera->GetComponent<comp::cCamera>()->position = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 3);
 	camera->GetComponent<comp::cCamera>()->lookAt = dude->GetComponent<comp::cPosition>()->position;
 
 	
