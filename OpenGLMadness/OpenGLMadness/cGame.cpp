@@ -157,9 +157,6 @@ void cGame::Input(float dt)
 
 	btVector3 boatSpeed = ent->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
 	btVector3 speed = rb->getLinearVelocity();
-	
-	speed.setX(boatSpeed.x());
-	speed.setZ(boatSpeed.z());
 
 	std::cout << speed.x() << ", " << boatSpeed.x() << "\n";
 
@@ -197,6 +194,9 @@ void cGame::Input(float dt)
 	}
 	else
 	{
+		speed.setX(boatSpeed.x());
+		speed.setZ(boatSpeed.z());
+
 		rb->setLinearVelocity(speed);
 		//rb->setLinearVelocity(boatSpeed);
 	}
