@@ -20,7 +20,7 @@ void cPlayer::SetUp(cGameEngine& engine)
 	sBodyDesc desc;
 	desc.halfExtents = glm::vec4(.75, 2, 0, 0);
 	desc.mass = 1;
-	desc.position = glm::vec3(0, 3, -10);
+	desc.position = glm::vec3(0, 3, 10);
 	desc.type = eBodyType::CAPSULE;
 	desc.orientation = glm::quat(glm::vec3(0));
 	//desc.orientation = glm::quat(glm::vec3(glm::half_pi<float>(),0,0));
@@ -51,3 +51,15 @@ void cPlayer::WalkLeft()
 void cPlayer::WalkRight()
 {
 }
+
+void cPlayer::SetSpeed(btVector3 vec)
+{
+	this->bodySelfRef->setLinearVelocity(vec);
+}
+
+void cPlayer::SetSpeed(glm::vec3 vec)
+{
+	this->bodySelfRef->setLinearVelocity(btVector3(vec.x, vec.y, vec.z));
+}
+
+

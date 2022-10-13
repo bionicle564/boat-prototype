@@ -8,9 +8,9 @@
 class cPlayer : cEntity
 {
 private:
-	
-	float walkSpeed;
+	float deltaTime;
 
+	float walkSpeed;
 	btRigidBody* bodySelfRef;
 
 public:
@@ -26,6 +26,7 @@ public:
 	void WalkLeft();
 	void WalkRight();
 
-
+	void SetSpeed(btVector3 vec);
+	void SetSpeed(glm::vec3 vec);
 
 };
