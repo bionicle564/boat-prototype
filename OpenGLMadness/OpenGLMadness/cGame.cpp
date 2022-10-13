@@ -8,6 +8,7 @@
 #include "cParticleGenerator.h"
 #include "cPhysicsManager.h"
 #include <iostream>
+#include "cPlayer.h"
 
 cGame::cGame()
 {
@@ -94,6 +95,10 @@ void cGame::Init(GLFWwindow* window)
 	rb->setAngularFactor(btVector3(0, 0, 0));
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
+	cPlayer* player = (cPlayer*)engine.entityManager.CreateEntity();
+	player->SetUp(engine);
+
+	int uasdf = 9;
 }
 
 void cGame::Update()

@@ -164,6 +164,7 @@
     <ClCompile Include="cParticleSystem.cpp" />
     <ClCompile Include="cPhysicsManager.cpp" />
     <ClCompile Include="cPhysicsSystem.cpp" />
+    <ClCompile Include="cPlayer.cpp" />
     <ClCompile Include="cRenderSystem.cpp" />
     <ClCompile Include="cShaderManager.cpp" />
     <ClCompile Include="cTextureManager.cpp" />

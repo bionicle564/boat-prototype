@@ -99,6 +99,9 @@
     <ClCompile Include="cBulletDebugRenderer.cpp">
       <Filter>Engine\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="cPlayer.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callBackFunctions.h">
