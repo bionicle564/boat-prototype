@@ -84,7 +84,7 @@ void cGame::Init(GLFWwindow* window)
 	
 	desc.halfExtents = glm::vec4(.75,2,0,0);
 	desc.mass = 1;
-	desc.position = glm::vec3(0, 3, -10);
+	desc.position = glm::vec3(0, 3, 10);
 	desc.type = eBodyType::CAPSULE;
 	desc.orientation = glm::quat(glm::vec3(0));
 	//desc.orientation = glm::quat(glm::vec3(glm::half_pi<float>(),0,0));
@@ -95,7 +95,7 @@ void cGame::Init(GLFWwindow* window)
 	rb->setAngularFactor(btVector3(0, 0, 0));
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
-	cPlayer* player = (cPlayer*)engine.entityManager.CreateEntity();
+	player = (cPlayer*)engine.entityManager.CreateEntity();
 	player->SetUp(engine);
 
 	int uasdf = 9;
@@ -108,9 +108,9 @@ void cGame::Update()
 	lastFrame = currentFrame;
 
 	//update camera position based on player position
-	camera->GetComponent<comp::cCamera>()->position = dude->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 3);
-	camera->GetComponent<comp::cCamera>()->lookAt = dude->GetComponent<comp::cPosition>()->position;
-
+	camera->GetComponent<comp::cCamera>()->position = player->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 3);
+	camera->GetComponent<comp::cCamera>()->lookAt = player->GetComponent<comp::cPosition>()->position;
+	
 	
 
 
@@ -139,7 +139,7 @@ void cGame::Update()
 
 void cGame::Input(float dt)
 {
-	btRigidBody* rb = dude->GetComponent<comp::cPhysics>()->rb;
+	btRigidBody* rb = player->bodySelfRef;
 
 	bool j = false;
 	//bool j = dude->GetComponent<comp::cCharacterController>()->charCon->onGround();
@@ -188,7 +188,7 @@ void cGame::Input(float dt)
 	{
 		//rb->clearGravity();
 
-		rb->setLinearVelocity(dir + boatSpeed);
+		player->SetSpeed(dir + boatSpeed);
 
 		//rb->applyCentralForce(dir);
 	}
@@ -197,7 +197,7 @@ void cGame::Input(float dt)
 		speed.setX(boatSpeed.x());
 		speed.setZ(boatSpeed.z());
 
-		rb->setLinearVelocity(speed);
+		player->SetSpeed(speed);
 		//rb->setLinearVelocity(boatSpeed);
 	}
 }

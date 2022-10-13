@@ -5,15 +5,18 @@
 #include "cGameEngine.h"
 
 
-class cPlayer : cEntity
+class cPlayer : public cEntity
 {
 private:
 	float deltaTime;
 
 	float walkSpeed;
-	btRigidBody* bodySelfRef;
 
 public:
+
+
+	btRigidBody* bodySelfRef;
+
 	cPlayer();
 	virtual ~cPlayer();
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "cGameEngine.h"
 #include "cEntity.h"
+#include "cPlayer.h"
 
 class cGame
 {
@@ -23,6 +24,8 @@ public:
 	cEntity* dude;
 	cEntity* box;
 	cEntity* ent; //floor
+
+	cPlayer* player;
 
 	cGameEngine engine;
 
