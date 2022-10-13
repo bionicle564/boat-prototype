@@ -21,7 +21,6 @@ private:
 
 public:
 
-	cEntity* dude;
 	cEntity* box;
 	cEntity* ent; //floor
 

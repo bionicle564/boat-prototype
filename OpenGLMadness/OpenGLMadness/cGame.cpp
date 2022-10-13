@@ -26,7 +26,8 @@ void cGame::Init(GLFWwindow* window)
 	engine.SetWindow(window);
 	engine.Initialize();
 
-	engine.meshManager.LoadMesh("cylinder.fbx");
+	engine.meshManager.LoadMesh("box.fbx");
+	engine.meshManager.LoadMesh("capsule.fbx");
 	engine.meshManager.LoadMesh("fixed_knight.fbx");
 	engine.meshManager.LoadMesh("center_knight.fbx");
 	engine.meshManager.LoadMesh("base_ui.fbx");
@@ -38,16 +39,16 @@ void cGame::Init(GLFWwindow* window)
 
 
 	camera = engine.entityManager.CreateEntity();
-	camera->AddComponent<comp::cCamera>()->cameraId = 1;
+	camera->AddComponent<comp::cCamera>()->cameraId = 0;
 	camera->GetComponent<comp::cCamera>()->primaryCamera = true;
 
 
 	ent = engine.entityManager.CreateEntity();
-	ent->AddComponent<comp::cMeshRenderer>()->meshName = "billboard.fbx";
+	ent->AddComponent<comp::cMeshRenderer>()->meshName = "box.fbx";
 	ent->GetComponent<comp::cMeshRenderer>()->billboard = false;
 	ent->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 	ent->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
-	//ent->AddComponent<comp::cScale>()->scale = glm::vec3(1);
+	ent->AddComponent<comp::cScale>()->scale = glm::vec3(11.5,1.9,11.5);
 
 	sBodyDesc desc;
 	desc.halfExtents = glm::vec4(6,1,6,0);
@@ -65,40 +66,21 @@ void cGame::Init(GLFWwindow* window)
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 
 	desc.halfExtents = glm::vec4(.3);
-	desc.mass = 100;
+	desc.mass = 0;
 	desc.position = glm::vec3(2, 0, -10);
 	desc.type = eBodyType::BOX;
-	desc.kinematic = true;
+	desc.kinematic = false;
+	desc.friction = 0;
 	box->AddComponent(engine.physicsManager.MakeBody(desc));
 	desc.kinematic = false;
 
 
-	dude = engine.entityManager.CreateEntity();
 
-	dude->AddComponent<comp::cMeshRenderer>()->meshName = "fixed_knight.fbx";
-	dude->GetComponent<comp::cMeshRenderer>()->border = false;
-	dude->AddComponent<comp::cScale>()->scale = glm::vec3(1);
-	dude->AddComponent<comp::cPosition>();
-	//dude->AddComponent<comp::cParticleGenerator>(); //something is scuffed here
-
-	
-	desc.halfExtents = glm::vec4(.75,2,0,0);
-	desc.mass = 1;
-	desc.position = glm::vec3(0, 3, 10);
-	desc.type = eBodyType::CAPSULE;
-	desc.orientation = glm::quat(glm::vec3(0));
-	//desc.orientation = glm::quat(glm::vec3(glm::half_pi<float>(),0,0));
-	desc.friction = 1;
-
-	dude->AddComponent(engine.physicsManager.MakeBody(desc));
-	btRigidBody* rb = dude->GetComponent<comp::cPhysics>()->rb;
-	rb->setAngularFactor(btVector3(0, 0, 0));
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
 	player = (cPlayer*)engine.entityManager.CreateEntity();
 	player->SetUp(engine);
 
-	int uasdf = 9;
 }
 
 void cGame::Update()
@@ -119,7 +101,7 @@ void cGame::Update()
 	//simple boat movment
 	btTransform newTrans;
 	rb->getMotionState()->getWorldTransform(newTrans);
-	newTrans.getOrigin() += (btVector3(.5f, 0, 0) * deltaTime);
+	//newTrans.getOrigin() += (btVector3(.5f, 0, 0) * deltaTime);
 	rb->getMotionState()->setWorldTransform(newTrans);
 
 

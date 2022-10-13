@@ -1,6 +1,7 @@
 #include "cPlayer.h"
 #include "cScale.h"
 #include "cPosition.h"
+#include "cRotation.h"
 
 cPlayer::cPlayer()
 {
@@ -12,10 +13,11 @@ cPlayer::~cPlayer()
 
 void cPlayer::SetUp(cGameEngine& engine)
 {
-	this->AddComponent<comp::cMeshRenderer>()->meshName = "fixed_knight.fbx";
-	this->AddComponent<comp::cScale>()->scale = glm::vec3(1);
+	this->AddComponent<comp::cMeshRenderer>()->meshName = "capsule.fbx";
+	this->AddComponent<comp::cScale>()->scale = glm::vec3(.65,.65,.80);
 	this->AddComponent<comp::cPosition>();
-
+	this->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(glm::half_pi<float>(), 0, 0));
+	
 
 	sBodyDesc desc;
 	desc.halfExtents = glm::vec4(.75, 2, 0, 0);
@@ -59,6 +61,7 @@ void cPlayer::SetSpeed(btVector3 vec)
 
 void cPlayer::SetSpeed(glm::vec3 vec)
 {
+	this->bodySelfRef->setActivationState(ACTIVE_TAG);
 	this->bodySelfRef->setLinearVelocity(btVector3(vec.x, vec.y, vec.z));
 }
 

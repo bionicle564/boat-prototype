@@ -109,6 +109,7 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 
 	//rigidBody->setMassProps(desc.mass,inertia);
 	rigidBody->setFriction(desc.friction);
+	rigidBody->setRestitution(0);
 
 	bodies.push_back(rigidBody);
 	dynamicWorld->addRigidBody(rigidBody);
