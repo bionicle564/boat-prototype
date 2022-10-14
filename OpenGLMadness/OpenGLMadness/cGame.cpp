@@ -138,7 +138,7 @@ void cGame::Input(float dt)
 		
 
 		btCollisionWorld::ClosestRayResultCallback closestResults(from, to);
-		closestResults.m_flags |= btTriangleRaycastCallback::kF_FilterBackfaces;
+		//closestResults.m_flags |= btTriangleRaycastCallback::kF_FilterBackfaces;
 
 		engine.physicsManager.dynamicWorld->rayTest(from, to, closestResults);
 
@@ -148,7 +148,7 @@ void cGame::Input(float dt)
 			//std::cout << "on ground\n";
 			btTransform trans = player->bodySelfRef->getWorldTransform();
 			btVector3 pos = trans.getOrigin();
-			pos.setY(p.y());
+			pos.setY(ent->GetComponent<comp::cPosition>()->position.y + 2.5);
 			trans.setOrigin(pos);
 			player->bodySelfRef->setWorldTransform(trans);
 			
