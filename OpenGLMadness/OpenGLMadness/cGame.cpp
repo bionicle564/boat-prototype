@@ -10,6 +10,9 @@
 #include <iostream>
 #include "cPlayer.h"
 
+#include <BulletCollision/CollisionShapes/btTriangleCallback.h>
+#include <BulletCollision/NarrowPhaseCollision/btRaycastCallback.h>
+
 cGame::cGame()
 {
 	done = false;
@@ -128,12 +131,34 @@ void cGame::Input(float dt)
 	//std::cout << j << "\n";
 	btVector3 dir(0,0,0);
 
-	comp::cCharacterController* ph = NULL;// dude->GetComponent<comp::cCharacterController>();
+	//raycast
+	{
+		btVector3 from = player->bodySelfRef->getWorldTransform().getOrigin();
+		btVector3 to = from + btVector3(0,-2,0);
+		
+
+		btCollisionWorld::ClosestRayResultCallback closestResults(from, to);
+		closestResults.m_flags |= btTriangleRaycastCallback::kF_FilterBackfaces;
+
+		engine.physicsManager.dynamicWorld->rayTest(from, to, closestResults);
+
+		if (closestResults.hasHit())
+		{
+			btVector3 p = from.lerp(to, closestResults.m_closestHitFraction);
+			//std::cout << "on ground\n";
+			btTransform trans = player->bodySelfRef->getWorldTransform();
+			btVector3 pos = trans.getOrigin();
+			pos.setY(p.y());
+			trans.setOrigin(pos);
+			player->bodySelfRef->setWorldTransform(trans);
+			
+		}
+	}
+
 	if (engine.m_KeyDown[' '])
 	{
 		if (j)
 		{
-			ph->charCon->jump(btVector3(0, 4, 0));
 		}
 	}
 
@@ -178,6 +203,7 @@ void cGame::Input(float dt)
 	{
 		speed.setX(boatSpeed.x());
 		speed.setZ(boatSpeed.z());
+		
 
 		player->SetSpeed(speed);
 		//rb->setLinearVelocity(boatSpeed);

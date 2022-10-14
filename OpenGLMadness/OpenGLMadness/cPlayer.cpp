@@ -15,6 +15,7 @@ void cPlayer::SetUp(cGameEngine& engine)
 {
 	this->AddComponent<comp::cMeshRenderer>()->meshName = "capsule.fbx";
 	this->AddComponent<comp::cScale>()->scale = glm::vec3(.65,.65,.80);
+	//this->AddComponent<comp::cScale>()->scale = glm::vec3(0);
 	this->AddComponent<comp::cPosition>();
 	this->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(glm::half_pi<float>(), 0, 0));
 	
@@ -56,6 +57,8 @@ void cPlayer::WalkRight()
 
 void cPlayer::SetSpeed(btVector3 vec)
 {
+
+	this->bodySelfRef->setActivationState(ACTIVE_TAG);
 	this->bodySelfRef->setLinearVelocity(vec);
 }
 

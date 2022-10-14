@@ -31,7 +31,6 @@ struct sBodyDesc
 class cPhysicsManager
 {
 private:
-	btDiscreteDynamicsWorld* dynamicWorld;
 
 	btBroadphaseInterface* broadphase;
 	btDefaultCollisionConfiguration* collisionConfiguration;
@@ -43,6 +42,9 @@ private:
 	std::vector<btCollisionShape*> shapes;
 
 public:
+
+	//TODO: put this back to private
+	btDiscreteDynamicsWorld* dynamicWorld; //temp placment
 
 	cBulletDebugRenderer debugDrawerer;
 
