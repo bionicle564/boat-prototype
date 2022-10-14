@@ -128,7 +128,7 @@ void cGame::Input(float dt)
 
 	bool j = false;
 	//bool j = dude->GetComponent<comp::cCharacterController>()->charCon->onGround();
-	//std::cout << j << "\n";
+	
 	btVector3 dir(0,0,0);
 
 	//raycast
@@ -144,6 +144,7 @@ void cGame::Input(float dt)
 
 		if (closestResults.hasHit())
 		{
+			j = true;
 			btVector3 p = from.lerp(to, closestResults.m_closestHitFraction);
 			//std::cout << "on ground\n";
 			btTransform trans = player->bodySelfRef->getWorldTransform();
@@ -155,17 +156,20 @@ void cGame::Input(float dt)
 		}
 	}
 
+	std::cout << j << "\n";
+
 	if (engine.m_KeyDown[' '])
 	{
 		if (j)
 		{
+			player->bodySelfRef->applyCentralImpulse(btVector3(0, 9, 0) * dt);
 		}
 	}
 
 	btVector3 boatSpeed = ent->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
 	btVector3 speed = rb->getLinearVelocity();
 
-	std::cout << speed.x() << ", " << boatSpeed.x() << "\n";
+	//std::cout << speed.x() << ", " << boatSpeed.x() << "\n";
 
 	//right
 	if (engine.m_KeyDown['L'])
