@@ -46,16 +46,16 @@ void cGame::Init(GLFWwindow* window)
 	camera->GetComponent<comp::cCamera>()->primaryCamera = true;
 
 
+	boat = new cRaft();
+
+	boat->ent = engine.entityManager.CreateEntity();
 
 
-	boat = (cRaft*)engine.entityManager.CreateEntity();
 
-
-
-	boat->AddComponent<comp::cMeshRenderer>()->meshName = "box.fbx";
-	boat->AddComponent<comp::cPosition>()->position = glm::vec3(1);
-	boat->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
-	boat->AddComponent<comp::cScale>()->scale = glm::vec3(11.5, 1.9, 11.5);
+	boat->ent->AddComponent<comp::cMeshRenderer>()->meshName = "box.fbx";
+	boat->ent->AddComponent<comp::cPosition>()->position = glm::vec3(1);
+	boat->ent->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
+	boat->ent->AddComponent<comp::cScale>()->scale = glm::vec3(11.5, 1.9, 11.5);
 
 	sBodyDesc desc;
 	desc.halfExtents = glm::vec4(6, 1, 6, 0);
@@ -66,7 +66,7 @@ void cGame::Init(GLFWwindow* window)
 	desc.friction = 1;
 	desc.kinematic = true;
 
-	boat->AddComponent(engine.physicsManager.MakeBody(desc));
+	boat->ent->AddComponent(engine.physicsManager.MakeBody(desc));
 
 	//box
 	box = engine.entityManager.CreateEntity();
@@ -103,7 +103,8 @@ void cGame::Update()
 	camera->GetComponent<comp::cCamera>()->lookAt = player->GetComponent<comp::cPosition>()->position;
 	
 	
-	
+	boat->GetBoatParts();
+
 	boat->Update(deltaTime);
 
 	//btRigidBody* rb = boat->GetComponent<comp::cPhysics>()->rb;
@@ -155,7 +156,7 @@ void cGame::Input(float dt)
 			//std::cout << "on ground\n";
 			btTransform trans = player->bodySelfRef->getWorldTransform();
 			btVector3 pos = trans.getOrigin();
-			pos.setY(boat->GetComponent<comp::cPosition>()->position.y + 2.5);
+			pos.setY(boat->ent->GetComponent<comp::cPosition>()->position.y + 2.5);
 			trans.setOrigin(pos);
 			player->bodySelfRef->setWorldTransform(trans);
 			
@@ -172,7 +173,7 @@ void cGame::Input(float dt)
 		}
 	}
 
-	btVector3 boatSpeed = boat->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
+	btVector3 boatSpeed = boat->ent->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
 	btVector3 speed = rb->getLinearVelocity();
 
 	//std::cout << speed.x() << ", " << boatSpeed.x() << "\n";
