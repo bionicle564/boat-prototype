@@ -46,12 +46,7 @@ void cGame::Init(GLFWwindow* window)
 	camera->GetComponent<comp::cCamera>()->primaryCamera = true;
 
 
-	ent = engine.entityManager.CreateEntity();
-	ent->AddComponent<comp::cMeshRenderer>()->meshName = "box.fbx";
-	ent->GetComponent<comp::cMeshRenderer>()->billboard = false;
-	ent->AddComponent<comp::cPosition>()->position = glm::vec3(1);
-	ent->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
-	ent->AddComponent<comp::cScale>()->scale = glm::vec3(11.5,1.9,11.5);
+
 
 	sBodyDesc desc;
 	desc.halfExtents = glm::vec4(6,1,6,0);
@@ -62,9 +57,20 @@ void cGame::Init(GLFWwindow* window)
 	desc.friction = 1;
 	desc.kinematic = true;
 
-	ent->AddComponent(engine.physicsManager.MakeBody(desc));
+	//ent->AddComponent(engine.physicsManager.MakeBody(desc));
+	//end of cEntity boat
 	
-	
+
+	boat = (cRaft*)engine.entityManager.CreateEntity();
+
+	boat->AddComponent<comp::cMeshRenderer>()->meshName = "box.fbx";
+	boat->AddComponent<comp::cPosition>()->position = glm::vec3(1);
+	boat->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
+	boat->AddComponent<comp::cScale>()->scale = glm::vec3(11.5, 1.9, 11.5);
+
+	boat->AddComponent(engine.physicsManager.MakeBody(desc));
+
+	//box
 	box = engine.entityManager.CreateEntity();
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 
@@ -77,7 +83,7 @@ void cGame::Init(GLFWwindow* window)
 	box->AddComponent(engine.physicsManager.MakeBody(desc));
 	desc.kinematic = false;
 
-	this->engine.physicsManager.LinkObjectsPositions(ent->GetComponent<comp::cPhysics>(), box->GetComponent <comp::cPhysics>());
+	this->engine.physicsManager.LinkObjectsPositions(boat->GetComponent<comp::cPhysics>(), box->GetComponent <comp::cPhysics>());
 
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
@@ -99,7 +105,7 @@ void cGame::Update()
 	
 
 
-	btRigidBody* rb = ent->GetComponent<comp::cPhysics>()->rb;
+	btRigidBody* rb = boat->GetComponent<comp::cPhysics>()->rb;
 	
 	//simple boat movment
 	btTransform newTrans;
@@ -148,7 +154,7 @@ void cGame::Input(float dt)
 			//std::cout << "on ground\n";
 			btTransform trans = player->bodySelfRef->getWorldTransform();
 			btVector3 pos = trans.getOrigin();
-			pos.setY(ent->GetComponent<comp::cPosition>()->position.y + 2.5);
+			pos.setY(boat->GetComponent<comp::cPosition>()->position.y + 2.5);
 			trans.setOrigin(pos);
 			player->bodySelfRef->setWorldTransform(trans);
 			
@@ -165,7 +171,7 @@ void cGame::Input(float dt)
 		}
 	}
 
-	btVector3 boatSpeed = ent->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
+	btVector3 boatSpeed = boat->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
 	btVector3 speed = rb->getLinearVelocity();
 
 	//std::cout << speed.x() << ", " << boatSpeed.x() << "\n";

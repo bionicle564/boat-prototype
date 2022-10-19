@@ -209,5 +209,14 @@
     <ClInclude Include="cPlayer.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="iBoat.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="cRaft.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="cPart.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

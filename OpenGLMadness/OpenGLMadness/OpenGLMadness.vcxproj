@@ -190,6 +190,7 @@
     <ClInclude Include="cGameEngine.h" />
     <ClInclude Include="cMeshManager.h" />
     <ClInclude Include="cMeshRenderer.h" />
+    <ClInclude Include="cPart.h" />
     <ClInclude Include="cParticleGenerator.h" />
     <ClInclude Include="cParticleGeneratorManager.h" />
     <ClInclude Include="cParticleSystem.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="cPhysicsSystem.h" />
     <ClInclude Include="cPlayer.h" />
     <ClInclude Include="cPosition.h" />
+    <ClInclude Include="cRaft.h" />
     <ClInclude Include="cRenderSystem.h" />
     <ClInclude Include="cRotation.h" />
     <ClInclude Include="cScale.h" />
@@ -207,6 +209,7 @@
     <ClInclude Include="cUIEntity.h" />
     <ClInclude Include="cUISystem.h" />
     <ClInclude Include="GLCommon.h" />
+    <ClInclude Include="iBoat.h" />
     <ClInclude Include="ShaderManager\cShader.h" />
     <ClInclude Include="sMeshData.h" />
     <ClInclude Include="stb_image.h" />

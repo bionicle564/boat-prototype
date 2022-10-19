@@ -5,7 +5,6 @@
 class iBoat : public cEntity
 {
 private:
-	std::vector<cPart*> parts;
 public:
 
 	iBoat() {}

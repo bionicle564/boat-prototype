@@ -2,6 +2,7 @@
 #include "cGameEngine.h"
 #include "cEntity.h"
 #include "cPlayer.h"
+#include "cRaft.h"
 
 class cGame
 {
@@ -22,9 +23,10 @@ private:
 public:
 
 	cEntity* box;
-	cEntity* ent; //floor
 
 	cPlayer* player;
+
+	iBoat* boat;
 
 	cGameEngine engine;
 
