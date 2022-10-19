@@ -69,15 +69,15 @@ void cGame::Init(GLFWwindow* window)
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 
 	desc.halfExtents = glm::vec4(.3);
-	desc.mass = 0;
+	desc.mass = 1;
 	desc.position = glm::vec3(2, 0, -10);
 	desc.type = eBodyType::BOX;
 	desc.kinematic = false;
-	desc.friction = 0;
+	desc.friction = 1;
 	box->AddComponent(engine.physicsManager.MakeBody(desc));
 	desc.kinematic = false;
 
-
+	this->engine.physicsManager.LinkObjectsPositions(ent->GetComponent<comp::cPhysics>(), box->GetComponent <comp::cPhysics>());
 
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
@@ -104,9 +104,8 @@ void cGame::Update()
 	//simple boat movment
 	btTransform newTrans;
 	rb->getMotionState()->getWorldTransform(newTrans);
-	//newTrans.getOrigin() += (btVector3(.5f, 0, 0) * deltaTime);
+	newTrans.getOrigin() += (btVector3(.3f, 0, 0) * deltaTime);
 	rb->getMotionState()->setWorldTransform(newTrans);
-
 
 
 	glfwGetWindowSize(window, &winX, &winY);

@@ -7,6 +7,7 @@
 #include "cPhysics.h"
 #include "cCharacterController.h"
 
+
 enum eBodyType
 {
 	BOX,
@@ -40,6 +41,7 @@ private:
 
 	std::vector<btRigidBody*> bodies;
 	std::vector<btCollisionShape*> shapes;
+	
 
 public:
 
@@ -61,6 +63,7 @@ public:
 
 	comp::cCharacterController* MakeController(sBodyDesc desc);
 	
+	void LinkObjectsPositions(comp::cPhysics* body1, comp::cPhysics* body2);
 
 	void DebugDraw();
 

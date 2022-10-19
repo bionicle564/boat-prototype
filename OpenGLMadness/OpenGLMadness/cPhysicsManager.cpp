@@ -14,6 +14,14 @@ cPhysicsManager::cPhysicsManager()
 
 cPhysicsManager::~cPhysicsManager()
 {
+	//removed/delete constraints
+	for (int i = dynamicWorld->getNumConstraints() - 1; i >= 0; i--)
+	{
+		btTypedConstraint* constraint = dynamicWorld->getConstraint(i);
+		dynamicWorld->removeConstraint(constraint);
+		delete constraint;
+	}
+
 	for (int i = 0; i < bodies.size(); i++)
 	{
 		dynamicWorld->removeRigidBody(bodies[i]);
@@ -153,6 +161,30 @@ comp::cCharacterController* cPhysicsManager::MakeController(sBodyDesc desc)
 	
 
 	return charCon;
+}
+
+void cPhysicsManager::LinkObjectsPositions(comp::cPhysics* body1, comp::cPhysics* body2)
+{
+	btRigidBody* rb1 = body1->rb;
+	btRigidBody* rb2 = body2->rb;
+
+	body2->rb->setAngularFactor(btVector3(0,0,0));
+	
+
+	body2->rb->setActivationState(DISABLE_DEACTIVATION);
+
+	btVector3 position1 = rb1->getWorldTransform().getOrigin();
+	btVector3 position2 = rb2->getWorldTransform().getOrigin();
+
+
+	btVector3 position = position2;//position1 - position2;
+	//position /= 2;
+
+	btTypedConstraint* p2p = new btPoint2PointConstraint(*rb1, *rb2, position1, position2);
+	//btTypedConstraint* p2p = new btPoint2PointConstraint(*rb1, *rb2, btVector3(0,0,0), rb1->getWorldTransform().getOrigin());
+	p2p->setBreakingImpulseThreshold(3);
+	dynamicWorld->addConstraint(p2p);
+	
 }
 
 void cPhysicsManager::DebugDraw()
