@@ -4,7 +4,6 @@
 
 class iBoat : public cEntity
 {
-private:
 public:
 
 	iBoat() {}

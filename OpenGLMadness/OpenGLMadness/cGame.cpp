@@ -48,25 +48,23 @@ void cGame::Init(GLFWwindow* window)
 
 
 
-	sBodyDesc desc;
-	desc.halfExtents = glm::vec4(6,1,6,0);
-	desc.mass = 1;
-	desc.position = glm::vec3(0, -3, -10);
-	desc.type = eBodyType::BOX;
-	desc.orientation = glm::quat(glm::vec3(0,0,0));
-	desc.friction = 1;
-	desc.kinematic = true;
-
-	//ent->AddComponent(engine.physicsManager.MakeBody(desc));
-	//end of cEntity boat
-	
-
 	boat = (cRaft*)engine.entityManager.CreateEntity();
+
+
 
 	boat->AddComponent<comp::cMeshRenderer>()->meshName = "box.fbx";
 	boat->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 	boat->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
 	boat->AddComponent<comp::cScale>()->scale = glm::vec3(11.5, 1.9, 11.5);
+
+	sBodyDesc desc;
+	desc.halfExtents = glm::vec4(6, 1, 6, 0);
+	desc.mass = 1;
+	desc.position = glm::vec3(0, -3, -10);
+	desc.type = eBodyType::BOX;
+	desc.orientation = glm::quat(glm::vec3(0, 0, 0));
+	desc.friction = 1;
+	desc.kinematic = true;
 
 	boat->AddComponent(engine.physicsManager.MakeBody(desc));
 
@@ -78,14 +76,16 @@ void cGame::Init(GLFWwindow* window)
 	desc.mass = 1;
 	desc.position = glm::vec3(2, 0, -10);
 	desc.type = eBodyType::BOX;
-	desc.kinematic = false;
+	desc.kinematic = true;
 	desc.friction = 1;
 	box->AddComponent(engine.physicsManager.MakeBody(desc));
 	desc.kinematic = false;
 
-	this->engine.physicsManager.LinkObjectsPositions(boat->GetComponent<comp::cPhysics>(), box->GetComponent <comp::cPhysics>());
+	//should need this here, boat class should handle that
+	//this->engine.physicsManager.LinkObjectsPositions(boat->GetComponent<comp::cPhysics>(), box->GetComponent <comp::cPhysics>());
 
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
+
 
 	player = (cPlayer*)engine.entityManager.CreateEntity();
 	player->SetUp(engine);
@@ -103,15 +103,16 @@ void cGame::Update()
 	camera->GetComponent<comp::cCamera>()->lookAt = player->GetComponent<comp::cPosition>()->position;
 	
 	
-
-
-	btRigidBody* rb = boat->GetComponent<comp::cPhysics>()->rb;
 	
-	//simple boat movment
-	btTransform newTrans;
-	rb->getMotionState()->getWorldTransform(newTrans);
-	newTrans.getOrigin() += (btVector3(.3f, 0, 0) * deltaTime);
-	rb->getMotionState()->setWorldTransform(newTrans);
+	boat->Update(deltaTime);
+
+	//btRigidBody* rb = boat->GetComponent<comp::cPhysics>()->rb;
+	//
+	////simple boat movment
+	//btTransform newTrans;
+	//rb->getMotionState()->getWorldTransform(newTrans);
+	//newTrans.getOrigin() += (btVector3(.3f, 0, 0) * deltaTime);
+	//rb->getMotionState()->setWorldTransform(newTrans);
 
 
 	glfwGetWindowSize(window, &winX, &winY);

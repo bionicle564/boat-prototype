@@ -3,6 +3,7 @@
 #include "cEntity.h"
 #include "cPlayer.h"
 #include "cRaft.h"
+#include "iBoat.h"
 
 class cGame
 {
