@@ -1,13 +1,17 @@
 #pragma once
-#include "cEntity.h"
+#include "cPart.h"
+#include <vector>
 
 class iBoat : public cEntity
 {
+private:
+	std::vector<cPart*> parts;
 public:
 
-	iBoat();
-	virtual ~iBoat();
+	iBoat() {}
+	virtual ~iBoat() {}
 
-	virtual void GetBoatParts() = 0;
+	virtual std::vector<cPart*>& GetBoatParts() = 0;
 
+	virtual void Update(float deltaTime) = 0;
 };
