@@ -5,7 +5,7 @@
 #include "cGameEngine.h"
 
 
-class cPlayer : public cEntity
+class cPlayer 
 {
 private:
 	float deltaTime;
@@ -14,6 +14,7 @@ private:
 
 public:
 
+	cEntity* ent;
 
 	btRigidBody* bodySelfRef;
 

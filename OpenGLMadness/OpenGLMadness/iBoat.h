@@ -7,7 +7,11 @@ class iBoat //: public cEntity
 public:
 	cEntity* ent;
 
-	iBoat() { }
+	iBoat() 
+	{ 
+		ent = NULL; 
+	}
+
 	virtual ~iBoat() {}
 
 	virtual std::vector<cPart*>& GetBoatParts() = 0;
