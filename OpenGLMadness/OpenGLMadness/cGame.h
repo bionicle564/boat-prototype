@@ -23,7 +23,7 @@ private:
 
 public:
 
-	cEntity* box;
+	cGameObject* box;
 
 	cPlayer* player;
 

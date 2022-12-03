@@ -1,15 +1,15 @@
 #pragma once
 #include "cPart.h"
 #include <vector>
+#include "cGameObject.h"
 
-class iBoat //: public cEntity
+class iBoat : public cGameObject
 {
 public:
-	cEntity* ent;
+	
 
 	iBoat() 
-	{ 
-		ent = NULL; 
+	{
 	}
 
 	virtual ~iBoat() {}

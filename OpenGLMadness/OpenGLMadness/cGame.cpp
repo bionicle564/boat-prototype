@@ -24,6 +24,7 @@ cGame::~cGame()
 {
 	delete boat;
 	delete player;
+	delete box;
 }
 
 void cGame::Init(GLFWwindow* window)
@@ -53,14 +54,13 @@ void cGame::Init(GLFWwindow* window)
 
 	boat = new cRaft();
 
-	boat->ent = engine.entityManager.CreateEntity();
 
 
 
-	boat->ent->AddComponent<comp::cMeshRenderer>()->meshName = "box.fbx";
-	boat->ent->AddComponent<comp::cPosition>()->position = glm::vec3(1);
-	boat->ent->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
-	boat->ent->AddComponent<comp::cScale>()->scale = glm::vec3(11.5, 1.9, 11.5);
+	boat->AddComponent<comp::cMeshRenderer>()->meshName = "box.fbx";
+	boat->AddComponent<comp::cPosition>()->position = glm::vec3(1);
+	boat->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
+	boat->AddComponent<comp::cScale>()->scale = glm::vec3(11.5, 1.9, 11.5);
 
 	sBodyDesc desc;
 	desc.halfExtents = glm::vec4(6, 1, 6, 0);
@@ -71,10 +71,10 @@ void cGame::Init(GLFWwindow* window)
 	desc.friction = 1;
 	desc.kinematic = true;
 
-	boat->ent->AddComponent(engine.physicsManager.MakeBody(desc));
+	boat->AddComponent(engine.physicsManager.MakeBody(desc));
 
 	//box
-	box = engine.entityManager.CreateEntity();
+	box = new cGameObject();
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 
 	desc.halfExtents = glm::vec4(.3);
@@ -150,7 +150,7 @@ void cGame::Input(float dt)
 			//std::cout << "on ground\n";
 			btTransform trans = player->bodySelfRef->getWorldTransform();
 			btVector3 pos = trans.getOrigin();
-			pos.setY(boat->ent->GetComponent<comp::cPosition>()->position.y + 2.5);
+			pos.setY(boat->GetComponent<comp::cPosition>()->position.y + 2.5);
 			trans.setOrigin(pos);
 			player->bodySelfRef->setWorldTransform(trans);
 			
@@ -167,7 +167,7 @@ void cGame::Input(float dt)
 		}
 	}
 
-	btVector3 boatSpeed = boat->ent->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
+	btVector3 boatSpeed = boat->GetComponent<comp::cPhysics>()->rb->getLinearVelocity();
 	btVector3 speed = rb->getLinearVelocity();
 
 	//std::cout << speed.x() << ", " << boatSpeed.x() << "\n";

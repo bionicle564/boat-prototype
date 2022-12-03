@@ -16,7 +16,7 @@ public:
 
 
 	cGameObject();
-	~cGameObject(){}
+	virtual ~cGameObject(){}
 
 
 	template<class T> T* AddComponent()

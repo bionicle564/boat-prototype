@@ -19,7 +19,7 @@ std::vector<cPart*>& cRaft::GetBoatParts()
 void cRaft::Update(float deltaTime)
 {
 
-	btRigidBody* rb = this->ent->GetComponent<comp::cPhysics>()->rb;
+	btRigidBody* rb = this->GetComponent<comp::cPhysics>()->rb;
 
 	//simple boat movment
 	btTransform newTrans;
