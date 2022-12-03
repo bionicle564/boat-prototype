@@ -14,7 +14,7 @@ private:
 
 public:
 
-	cEntity* ent;
+	//cEntity* ent;
 
 	btRigidBody* bodySelfRef;
 

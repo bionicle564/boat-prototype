@@ -19,14 +19,21 @@ public:
 	~cGameObject(){}
 
 
-
-
-	template<class T> T* AddComponent();
+	template<class T> T* AddComponent()
+	{
+		return this->ent->AddComponent<T>();
+	}
 
 	//if the component was made elsewhere, this takes ownership
-	template<class T> void AddComponent(T* component);
+	template<class T> void AddComponent(T* component) 
+	{
+		this->ent->AddComponent(component);
+	}
 
-	template<class T> T* GetComponent();
+	template<class T> T* GetComponent()
+	{
+		return this->ent->GetComponent<T>();
+	}
 	
 };
 

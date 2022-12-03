@@ -14,11 +14,11 @@ cPlayer::~cPlayer()
 
 void cPlayer::SetUp(cGameEngine& engine)
 {
-	this->ent->AddComponent<comp::cMeshRenderer>()->meshName = "capsule.fbx";
-	this->ent->AddComponent<comp::cScale>()->scale = glm::vec3(.65,.65,.80);
-	//this->AddComponent<comp::cScale>()->scale = glm::vec3(0);
-	this->ent->AddComponent<comp::cPosition>();
-	this->ent->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(glm::half_pi<float>(), 0, 0));
+	this->AddComponent<comp::cMeshRenderer>()->meshName = "capsule.fbx";
+	this->AddComponent<comp::cScale>()->scale = glm::vec3(.65,.65,.80);
+	//addComponent<comp::cScale>()->scale = glm::vec3(0);
+	this->AddComponent<comp::cPosition>();
+	this->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(glm::half_pi<float>(), 0, 0));
 	
 
 	sBodyDesc desc;
@@ -30,8 +30,8 @@ void cPlayer::SetUp(cGameEngine& engine)
 	//desc.orientation = glm::quat(glm::vec3(glm::half_pi<float>(),0,0));
 	desc.friction = 1;
 	
-	this->ent->AddComponent(engine.physicsManager.MakeBody(desc));
-	this->bodySelfRef = this->ent->GetComponent<comp::cPhysics>()->rb;
+	this->AddComponent(engine.physicsManager.MakeBody(desc));
+	this->bodySelfRef = this->GetComponent<comp::cPhysics>()->rb;
 	this->bodySelfRef->setAngularFactor(btVector3(0, 0, 0));
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 }

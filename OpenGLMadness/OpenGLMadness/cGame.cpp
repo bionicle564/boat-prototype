@@ -92,7 +92,7 @@ void cGame::Init(GLFWwindow* window)
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
 	player = new cPlayer();
-	player->ent = engine.entityManager.CreateEntity();
+	//player->ent = engine.entityManager.CreateEntity();
 	player->SetUp(engine);
 
 }
@@ -104,8 +104,8 @@ void cGame::Update()
 	lastFrame = currentFrame;
 
 	//update camera position based on player position
-	camera->GetComponent<comp::cCamera>()->position = player->ent->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 3);
-	camera->GetComponent<comp::cCamera>()->lookAt = player->ent->GetComponent<comp::cPosition>()->position;
+	camera->GetComponent<comp::cCamera>()->position = player->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 3);
+	camera->GetComponent<comp::cCamera>()->lookAt = player->GetComponent<comp::cPosition>()->position;
 	
 	boat->Update(deltaTime);
 
