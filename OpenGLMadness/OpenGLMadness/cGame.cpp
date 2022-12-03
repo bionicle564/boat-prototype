@@ -9,6 +9,7 @@
 #include "cPhysicsManager.h"
 #include <iostream>
 #include "cPlayer.h"
+#include "cGameObject.h"
 
 #include <BulletCollision/CollisionShapes/btTriangleCallback.h>
 #include <BulletCollision/NarrowPhaseCollision/btRaycastCallback.h>
@@ -30,6 +31,8 @@ void cGame::Init(GLFWwindow* window)
 	this->window = window;
 	engine.SetWindow(window);
 	engine.Initialize();
+
+	cGameObject::SetFactory(&engine.entityManager);
 
 	engine.meshManager.LoadMesh("box.fbx");
 	engine.meshManager.LoadMesh("capsule.fbx");
@@ -104,18 +107,7 @@ void cGame::Update()
 	camera->GetComponent<comp::cCamera>()->position = player->ent->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 3);
 	camera->GetComponent<comp::cCamera>()->lookAt = player->ent->GetComponent<comp::cPosition>()->position;
 	
-	
-	boat->GetBoatParts();
-
 	boat->Update(deltaTime);
-
-	//btRigidBody* rb = boat->GetComponent<comp::cPhysics>()->rb;
-	//
-	////simple boat movment
-	//btTransform newTrans;
-	//rb->getMotionState()->getWorldTransform(newTrans);
-	//newTrans.getOrigin() += (btVector3(.3f, 0, 0) * deltaTime);
-	//rb->getMotionState()->setWorldTransform(newTrans);
 
 
 	glfwGetWindowSize(window, &winX, &winY);

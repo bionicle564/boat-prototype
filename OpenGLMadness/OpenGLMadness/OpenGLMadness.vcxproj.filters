@@ -105,6 +105,9 @@
     <ClCompile Include="cRaft.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="cGameObject.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callBackFunctions.h">
@@ -219,6 +222,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="cPart.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="cGameObject.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

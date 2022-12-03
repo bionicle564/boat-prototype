@@ -3,9 +3,9 @@
 #include "cEntity.h"
 #include <glm/vec3.hpp>
 #include "cGameEngine.h"
+#include "cGameObject.h"
 
-
-class cPlayer 
+class cPlayer : public cGameObject
 {
 private:
 	float deltaTime;
