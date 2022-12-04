@@ -17,6 +17,7 @@ public:
 	GLuint ID;
 	
 	cShader(std::string vertexFile, std::string fragmentFile);
+	cShader(std::string vertexFile, std::string fragmentFile, std::string geomatryFile);
 
 	void Use();
 
