@@ -105,7 +105,7 @@ int main()
 
 	glfwGetWindowSize(window, &winX, &winY);
 	
-
+	std::cout << GL_MAX_GEOMETRY_OUTPUT_VERTICES << "\n";
 	
 
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

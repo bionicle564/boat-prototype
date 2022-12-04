@@ -39,7 +39,8 @@ void main()
 	}
 	vs_out.MVP = matrices.proj * matrices.viw * model;
    //gl_Position = projection * view * model * vec4(vPos, 1.0f);
-   gl_Position = matrices.proj * matrices.viw * model * vec4(vPos_world, 1.0f);
+   //gl_Position = matrices.proj * matrices.viw * model * vec4(vPos_world, 1.0f);
+   gl_Position = vec4(vPos_world, 1.0f);
 
    
    fUV = vUV;
