@@ -23,6 +23,8 @@ private:
 
 public:
 
+	float time = 0;
+
 	cGameObject* box;
 	
 	

@@ -103,7 +103,7 @@ void cGame::Init(GLFWwindow* window)
 
 	waterTile = new cGameObject();
 	waterTile->AddComponent<comp::cPosition>()->position = glm::vec3(-2,-5,-5);
-	waterTile->AddComponent<comp::cScale>()->scale= glm::vec3(3);
+	waterTile->AddComponent<comp::cScale>()->scale= glm::vec3(3,3,3);
 	waterTile->AddComponent<comp::cMeshRenderer>()->meshName = "tile.fbx";
 	waterTile->GetComponent<comp::cMeshRenderer>()->diffuseTexture = "toon_water";
 	waterTile->GetComponent<comp::cMeshRenderer>()->shader = "water";
@@ -116,6 +116,12 @@ void cGame::Update()
 	float currentFrame = (float)glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
+
+	time += deltaTime;
+
+	cShader* water = engine.shaderManager.GetShaderFromName("water");
+	water->Use();
+	water->SetFloat("time", time);
 
 	//update camera position based on player position
 	camera->GetComponent<comp::cCamera>()->position = player->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 3);
@@ -201,7 +207,7 @@ void cGame::Input(float dt)
 
 		cShader* water = engine.shaderManager.GetShaderFromName("water");
 		water->Use();
-		water->SetInt("sub_divisions", 10);
+		water->SetInt("sub_divisions", 8);
 	}
 
 	//right

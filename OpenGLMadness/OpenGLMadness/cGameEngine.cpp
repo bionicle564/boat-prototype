@@ -178,24 +178,24 @@ void cGameEngine::UpdateInput(float dt)
 {
 
 	cFlyCamera* mainCamera = this->cameraManager.GetMainCamera();
-
+	float speed = 100;
 	if (m_KeyDown['W'])
 	{
-		mainCamera->ProcessKeyboard(Camera_Movement::FORWARD, dt);
+		mainCamera->ProcessKeyboard(Camera_Movement::FORWARD, dt * speed);
 	}
 
 	if (m_KeyDown['A'])
 	{
-		mainCamera->ProcessKeyboard(Camera_Movement::LEFT, dt);
+		mainCamera->ProcessKeyboard(Camera_Movement::LEFT, dt* speed);
 	}
 
 	if (m_KeyDown['S'])
 	{
-		mainCamera->ProcessKeyboard(Camera_Movement::BACKWARD, dt);
+		mainCamera->ProcessKeyboard(Camera_Movement::BACKWARD, dt* speed);
 	}
 
 	if (m_KeyDown['D'])
 	{
-		mainCamera->ProcessKeyboard(Camera_Movement::RIGHT, dt);
+		mainCamera->ProcessKeyboard(Camera_Movement::RIGHT, dt* speed);
 	}
 }

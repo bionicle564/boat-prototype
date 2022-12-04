@@ -63,6 +63,40 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	game.engine.cameraManager.GetMainCamera()->ProcessMouseScroll(static_cast<float>(yoffset));
 }
 
+
+
+
+glm::vec4 Waves(glm::vec4 pointIn)
+{
+	glm::vec4 finalPoint;
+
+	int M = 1;
+	float deapthSolved = 1; //should use tanh
+	float g = 9.81;
+	float Kxm = .0001;
+	float Kzm = .0001;
+	float Am = 0.001;
+	float phase = 0;
+	float Km = sqrt((Kxm * Kxm) + (Kzm * Kzm));
+	float Wm2 = g * Km * deapthSolved;
+
+	float theata = (Kxm * pointIn.x) + (Kzm * pointIn.y) - (sqrt(Wm2) * 1) - phase;
+
+	for(int m = 1; m <= M;m++)
+	{
+		finalPoint.x = pointIn.x - ((Kxm / Km) * (Am / deapthSolved) * sin(theata));
+		finalPoint.y = pointIn.y - ((Kzm / Km) * (Am / deapthSolved) * sin(theata));
+		finalPoint.z = Am * cos(theata);
+
+	}
+
+
+	return finalPoint;
+}
+
+
+
+
 int main()
 {
 	glfwInit();
@@ -95,6 +129,14 @@ int main()
 
 	glfwSwapInterval(1);
 
+
+
+	//for(int i = 0)
+
+
+
+
+	//return;
 
 
 	game.Init(window);

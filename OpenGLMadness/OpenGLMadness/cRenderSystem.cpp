@@ -95,7 +95,7 @@ void cRenderSystem::Process(const std::vector<cEntity*>& entities, float dt)
 		GLuint diffuseTextureNumber = engine->textureManager.GetTexture(renderer->diffuseTexture);
 		glBindTexture(GL_TEXTURE_2D, diffuseTextureNumber);
 
-		if (renderer->billboard)
+ 		if (renderer->billboard)
 		{
 			shader->SetBool("bBillboard", renderer->billboard);
 
