@@ -1,12 +1,13 @@
 #version 430
 layout (triangles) in;
-layout (triangle_strip, max_vertices=256) out; 
+layout (triangle_strip, max_vertices=36320) out; 
 
-const int sub_divisions = 8;
-uniform mat4 MVP;
+uniform int sub_divisions;
+
 
 in VS_OUT {
     mat4 MVP;
+	vec2 gUV;
 } gs_in[]; 
 
 void main() {
@@ -17,6 +18,8 @@ void main() {
   float dy = abs(v0.y-v2.y)/sub_divisions;
   float x=v0.x;
   float y=v0.y;
+  
+  
   for(int j=0;j<sub_divisions*sub_divisions;j++) {
     gl_Position =  gs_in[0].MVP * vec4(x,y,0,1);
     EmitVertex();
@@ -25,7 +28,7 @@ void main() {
     gl_Position =  gs_in[0].MVP * vec4(x+dx,y,0,1);
     EmitVertex();
     gl_Position =  gs_in[0].MVP * vec4(x+dx,y+dy,0,1);
-    EmitVertex();
+	EmitVertex();
     EndPrimitive();
     x+=dx;
     if((j+1) %sub_divisions == 0) {

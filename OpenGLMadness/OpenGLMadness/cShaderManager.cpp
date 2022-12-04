@@ -116,6 +116,18 @@ cShader* cShaderManager::GetCurrentShader()
 	return currentShader;
 }
 
+cShader* cShaderManager::GetShaderFromName(std::string name)
+{
+	cShader* shader = NULL;
+
+	if (this->nameToShader.find(name) != this->nameToShader.end())
+	{
+		shader = nameToShader[name];
+	}
+
+	return shader;
+}
+
 std::string cShaderManager::GetCurrentShaderName()
 {
 	return nameOfCurrentShader;

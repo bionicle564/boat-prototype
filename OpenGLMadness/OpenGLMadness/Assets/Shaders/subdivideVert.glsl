@@ -5,10 +5,11 @@ layout (location = 1) in vec3 vNormal;
 layout (location = 2) in vec2 vUV;
 
 out vec4 colour;
-out vec2 fUV;
+
 
 out VS_OUT {
     mat4 MVP;
+	vec2 gUV;
 } vs_out;
 
 uniform mat4 model;
@@ -41,7 +42,7 @@ void main()
    //gl_Position = projection * view * model * vec4(vPos, 1.0f);
    //gl_Position = matrices.proj * matrices.viw * model * vec4(vPos_world, 1.0f);
    gl_Position = vec4(vPos_world, 1.0f);
-
+	
    
-   fUV = vUV;
+   vs_out.gUV = vUV;
 };

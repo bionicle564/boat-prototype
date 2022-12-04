@@ -93,6 +93,10 @@ void cGame::Init(GLFWwindow* window)
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
 	engine.shaderManager.MakeShader("subdivideVert.glsl", "subdivideFrag.glsl", "subdivideGeo.glsl", "water");
+	
+	cShader* water = engine.shaderManager.GetShaderFromName("water");
+	water->Use();
+	water->SetInt("sub_divisions", 1);
 
 	player = new cPlayer();
 	player->SetUp(engine);
@@ -181,6 +185,24 @@ void cGame::Input(float dt)
 	btVector3 speed = rb->getLinearVelocity();
 
 	//std::cout << speed.x() << ", " << boatSpeed.x() << "\n";
+
+	if (engine.m_KeyDown['9'])
+	{
+		engine.m_KeyDown['9'] = false;
+
+		cShader* water = engine.shaderManager.GetShaderFromName("water");
+		water->Use();
+		water->SetInt("sub_divisions", 1);
+	}
+
+	if (engine.m_KeyDown['0'])
+	{
+		engine.m_KeyDown['0'] = false;
+
+		cShader* water = engine.shaderManager.GetShaderFromName("water");
+		water->Use();
+		water->SetInt("sub_divisions", 10);
+	}
 
 	//right
 	if (engine.m_KeyDown['L'])

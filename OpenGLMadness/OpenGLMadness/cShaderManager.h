@@ -31,6 +31,7 @@ public:
 	bool MakeShader(std::string vertexPath, std::string fragmentPath, std::string geoPath, std::string shaderName);
 
 	cShader* GetCurrentShader();
+	cShader* GetShaderFromName(std::string name);
 	std::string GetCurrentShaderName();
 	GLint GetIDFromName(std::string name);
 
