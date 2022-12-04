@@ -15,6 +15,7 @@ void cTextureManager::StartUp()
 {
 	folderPath = "Assets\\Textures\\";
 	LoadTexture2D("default.png");
+	LoadTexture2D("toon_water.png");
 }
 
 void cTextureManager::ShutDown()

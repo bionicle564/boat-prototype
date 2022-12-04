@@ -24,6 +24,10 @@ private:
 public:
 
 	cGameObject* box;
+	
+	
+	cGameObject* waterTile;
+
 
 	cPlayer* player;
 

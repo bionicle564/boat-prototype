@@ -71,10 +71,15 @@ void cPhysicsSystem::Process(const std::vector<cEntity*>& entities, float dt)
 		btTransform rbPos;
 		btVector3 po = body->getWorldTransform().getOrigin();
 		body->getMotionState()->getWorldTransform(rbPos);
-		
+
 		pos->position.x = po.x();
 		pos->position.y = po.y();
 		pos->position.z = po.z();
+
+		if (phys->ghost != NULL)
+		{
+			phys->ghost->setWorldTransform(rbPos);
+		}
 
 	}
 }

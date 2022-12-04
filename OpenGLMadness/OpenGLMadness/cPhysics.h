@@ -2,6 +2,7 @@
 
 #include "cComponent.h"
 #include <btBulletCollisionCommon.h>
+#include <BulletCollision/CollisionDispatch/btGhostObject.h>
 
 namespace comp
 {
@@ -9,5 +10,6 @@ namespace comp
 	{
 	public:
 		btRigidBody* rb;
+		btGhostObject* ghost;
 	};
 }

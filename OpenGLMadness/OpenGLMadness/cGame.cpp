@@ -25,6 +25,7 @@ cGame::~cGame()
 	delete boat;
 	delete player;
 	delete box;
+	delete waterTile;
 }
 
 void cGame::Init(GLFWwindow* window)
@@ -41,6 +42,7 @@ void cGame::Init(GLFWwindow* window)
 	engine.meshManager.LoadMesh("center_knight.fbx");
 	engine.meshManager.LoadMesh("base_ui.fbx");
 	engine.meshManager.LoadMesh("billboard.fbx");
+	engine.meshManager.LoadMesh("tile.fbx");
 
 	//set the samplers in the default shader
 	engine.shaderManager.GetCurrentShader()->SetInt("texture_00", 0);
@@ -48,14 +50,11 @@ void cGame::Init(GLFWwindow* window)
 
 
 	camera = engine.entityManager.CreateEntity();
-	camera->AddComponent<comp::cCamera>()->cameraId = 1;
+	camera->AddComponent<comp::cCamera>()->cameraId = 0;
 	camera->GetComponent<comp::cCamera>()->primaryCamera = true;
 
 
 	boat = new cRaft();
-
-
-
 
 	boat->AddComponent<comp::cMeshRenderer>()->meshName = "box.fbx";
 	boat->AddComponent<comp::cPosition>()->position = glm::vec3(1);
@@ -96,6 +95,12 @@ void cGame::Init(GLFWwindow* window)
 	player = new cPlayer();
 	player->SetUp(engine);
 
+	waterTile = new cGameObject();
+	waterTile->AddComponent<comp::cPosition>()->position = glm::vec3(0,-5,0);
+	waterTile->AddComponent<comp::cScale>()->scale= glm::vec3(3);
+	waterTile->AddComponent<comp::cMeshRenderer>()->meshName = "tile.fbx";
+	waterTile->GetComponent<comp::cMeshRenderer>()->diffuseTexture = "toon_water";
+	waterTile->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(glm::half_pi<float>(), 0, 0));
 }
 
 void cGame::Update()

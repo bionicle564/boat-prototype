@@ -68,6 +68,8 @@ void cPhysicsManager::StartUp()
 
 	dynamicWorld->setDebugDrawer(&this->debugDrawerer);
 	dynamicWorld->setGravity(btVector3(0, -9.8f, 0));
+
+	dynamicWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
 }
 
 void cPhysicsManager::ShutDown()
@@ -115,10 +117,29 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 	btRigidBody* rigidBody = new btRigidBody(rigidBodyCI);
 	rigidBody->setActivationState(ACTIVE_TAG);
 
+	comp::cPhysics* component = new comp::cPhysics();
+
 	if (desc.kinematic)
 	{
+		//TODO: fix this, used to not have such squishy collision
+		
+		//btGhostObject* ghost = new btGhostObject();
+		//ghost->setCollisionShape(shape);
+
+		//ghost->setWorldTransform(rigidBody->getWorldTransform());
+
+		//zones.push_back(ghost);
+		////component->ghost = ghost;
+
+		//dynamicWorld->addCollisionObject(ghost);
+		component->ghost = NULL;
+
 		rigidBody->setCollisionFlags(btCollisionObject::CF_KINEMATIC_OBJECT);
 		rigidBody->setActivationState(DISABLE_DEACTIVATION);
+	}
+	else
+	{
+		component->ghost = NULL;
 	}
 
 	//rigidBody->setMassProps(desc.mass,inertia);
@@ -128,8 +149,9 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 	bodies.push_back(rigidBody);
 	dynamicWorld->addRigidBody(rigidBody);
 
-	comp::cPhysics* component = new comp::cPhysics();
+	
 
+	
 	component->rb = rigidBody;
 	return component;
 }
@@ -145,7 +167,7 @@ comp::cActionArea* cPhysicsManager::MakeActionArea(sBodyDesc desc)
 	ghostObject->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 5, 0)));
 	this->dynamicWorld->addCollisionObject(ghostObject);
 
-	this->dynamicWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
+	
 	
 	zones.push_back(ghostObject);
 

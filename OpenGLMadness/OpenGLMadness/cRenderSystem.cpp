@@ -39,6 +39,8 @@ void cRenderSystem::Process(const std::vector<cEntity*>& entities, float dt)
 	//glStencilMask(0xff);
 	//draw normally
 
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 	for (std::vector<cEntity*>::const_iterator it = entities.begin(); it != entities.end(); it++)
 	{
 		glStencilMask(0x00);
@@ -90,7 +92,7 @@ void cRenderSystem::Process(const std::vector<cEntity*>& entities, float dt)
 
 		glActiveTexture(GL_TEXTURE0);
 		GLuint diffuseTextureNumber = engine->textureManager.GetTexture(renderer->diffuseTexture);
-
+		glBindTexture(GL_TEXTURE_2D, diffuseTextureNumber);
 
 		if (renderer->billboard)
 		{
@@ -114,6 +116,7 @@ void cRenderSystem::Process(const std::vector<cEntity*>& entities, float dt)
 			
 			for (unsigned int i = 0; i < meshes.size(); i++)
 			{
+				
 				glBindVertexArray(meshes[i].VAO_ID);
 				glDrawElements(GL_TRIANGLES, meshes[i].numberOfIndices, GL_UNSIGNED_INT, 0);
 				
