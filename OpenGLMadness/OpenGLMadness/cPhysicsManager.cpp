@@ -1,5 +1,5 @@
 #include "cPhysicsManager.h"
-
+#include <BulletCollision/CollisionShapes/btCollisionShape.h>
 
 
 cPhysicsManager::cPhysicsManager()
@@ -139,10 +139,14 @@ comp::cActionArea* cPhysicsManager::MakeActionArea(sBodyDesc desc)
 	comp::cActionArea* area = new comp::cActionArea();
 
 	btGhostObject* ghostObject = new btGhostObject();
+	ghostObject->setCollisionFlags(4);
+
 	ghostObject->setCollisionShape(new btSphereShape(5));
 	ghostObject->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 5, 0)));
 	this->dynamicWorld->addCollisionObject(ghostObject);
 
+	this->dynamicWorld->getBroadphase()->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
+	
 	zones.push_back(ghostObject);
 
 	area->area = ghostObject;

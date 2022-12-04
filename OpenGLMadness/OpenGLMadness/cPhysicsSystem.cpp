@@ -5,6 +5,7 @@
 #include "cActionArea.h"
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
+#include <iostream>
 
 cPhysicsSystem::cPhysicsSystem()
 {
@@ -59,6 +60,8 @@ void cPhysicsSystem::Process(const std::vector<cEntity*>& entities, float dt)
 		comp::cActionArea* area = entity->GetComponent<comp::cActionArea>();
 		if (area != 0)
 		{
+			int amount = area->area->getNumOverlappingObjects();
+			std::cout << amount << "\n";
 			area->area->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(pos->position.x, pos->position.y, pos->position.z)));
 		}
 
