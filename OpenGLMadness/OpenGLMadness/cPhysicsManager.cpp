@@ -141,7 +141,7 @@ comp::cActionArea* cPhysicsManager::MakeActionArea(sBodyDesc desc)
 	btGhostObject* ghostObject = new btGhostObject();
 	ghostObject->setCollisionFlags(4);
 
-	ghostObject->setCollisionShape(new btSphereShape(5));
+	ghostObject->setCollisionShape(new btBoxShape(btVector3(desc.halfExtents.x, desc.halfExtents.y, desc.halfExtents.z)));
 	ghostObject->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 5, 0)));
 	this->dynamicWorld->addCollisionObject(ghostObject);
 

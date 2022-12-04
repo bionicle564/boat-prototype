@@ -73,6 +73,7 @@ void cGame::Init(GLFWwindow* window)
 
 	boat->AddComponent(engine.physicsManager.MakeBody(desc));
 
+	desc.halfExtents = glm::vec4(1);
 	//box
 	box = new cGameObject();
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
