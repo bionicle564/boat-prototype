@@ -92,6 +92,8 @@ void cGame::Init(GLFWwindow* window)
 
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
+	engine.shaderManager.MakeShader("subdivideVert.glsl", "subdivideFrag.glsl", "subdivideGeo.glsl", "water");
+
 	player = new cPlayer();
 	player->SetUp(engine);
 
@@ -100,6 +102,7 @@ void cGame::Init(GLFWwindow* window)
 	waterTile->AddComponent<comp::cScale>()->scale= glm::vec3(3);
 	waterTile->AddComponent<comp::cMeshRenderer>()->meshName = "tile.fbx";
 	waterTile->GetComponent<comp::cMeshRenderer>()->diffuseTexture = "toon_water";
+	waterTile->GetComponent<comp::cMeshRenderer>()->shader = "water";
 	waterTile->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(glm::half_pi<float>(), 0, 0));
 }
 

@@ -28,6 +28,7 @@ public:
 	void SetShaderPath(std::string folderPath);
 
 	bool MakeShader(std::string vertexPath, std::string fragmentPath, std::string shaderName);
+	bool MakeShader(std::string vertexPath, std::string fragmentPath, std::string geoPath, std::string shaderName);
 
 	cShader* GetCurrentShader();
 	std::string GetCurrentShaderName();

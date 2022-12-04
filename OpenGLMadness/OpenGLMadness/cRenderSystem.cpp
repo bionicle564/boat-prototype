@@ -83,7 +83,8 @@ void cRenderSystem::Process(const std::vector<cEntity*>& entities, float dt)
 		model *= glm::toMat4(orientation);
 		model = glm::scale(model, size);
 
-		this->engine->shaderManager.UseShader("default");
+		//this->engine->shaderManager.UseShader("default");
+		this->engine->shaderManager.UseShader(renderer->shader);
 		cShader* shader = this->engine->shaderManager.GetCurrentShader();
 
 		shader->SetMat4("model", model); 

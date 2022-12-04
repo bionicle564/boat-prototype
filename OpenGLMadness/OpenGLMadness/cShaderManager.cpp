@@ -78,6 +78,39 @@ bool cShaderManager::MakeShader(std::string vertexPath, std::string fragmentPath
 	return true;
 }
 
+bool cShaderManager::MakeShader(std::string vertexPath, std::string fragmentPath, std::string geoPath, std::string shaderName)
+{
+	std::stringstream vertex;
+	vertex << this->folderPath << vertexPath;
+
+	std::stringstream fragment;
+	fragment << this->folderPath << fragmentPath;
+
+	std::stringstream geo;
+	geo << this->folderPath << geoPath;
+
+	cShader* newShader = new cShader(vertex.str(), fragment.str(), geo.str());
+
+	GLuint matsLoc = glGetUniformBlockIndex(newShader->ID, "MatrixBlock");
+	if (matsLoc != GL_INVALID_INDEX)
+	{
+		glUniformBlockBinding(newShader->ID, matsLoc, 0);
+	}
+
+	//set this in the renderer at run time
+	//GLuint offsLoc = glGetUniformBlockIndex(newShader->ID, "OffsetsBlock");
+	//if (offsLoc != GL_INVALID_INDEX)
+	//{
+	//	glShaderStorageBlockBinding(newShader->ID, offsLoc, 0);
+	//}
+
+
+	nameToShader[shaderName] = newShader;
+
+
+	return true;
+}
+
 cShader* cShaderManager::GetCurrentShader()
 {
 	return currentShader;
