@@ -42,6 +42,7 @@ private:
 
 	std::vector<btRigidBody*> bodies;
 	std::vector<btCollisionShape*> shapes;
+	std::vector<btGhostObject*> zones;
 	
 
 public:

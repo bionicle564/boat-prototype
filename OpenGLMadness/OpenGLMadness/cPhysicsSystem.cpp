@@ -2,6 +2,7 @@
 #include "cPosition.h"
 #include "cPhysics.h"
 #include "cCharacterController.h"
+#include "cActionArea.h"
 #include <btBulletCollisionCommon.h>
 #include <btBulletDynamicsCommon.h>
 
@@ -54,6 +55,13 @@ void cPhysicsSystem::Process(const std::vector<cEntity*>& entities, float dt)
 			continue;
 			//this is bad
 		}
+
+		comp::cActionArea* area = entity->GetComponent<comp::cActionArea>();
+		if (area != 0)
+		{
+			area->area->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(pos->position.x, pos->position.y, pos->position.z)));
+		}
+
 
 		btRigidBody* body = phys->rb;
 		

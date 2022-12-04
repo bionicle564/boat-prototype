@@ -34,6 +34,12 @@ cPhysicsManager::~cPhysicsManager()
 		delete shapes[i];
 	}
 
+	for (int i = 0; i < zones.size(); i++)
+	{
+		dynamicWorld->removeCollisionObject(zones[i]);
+		delete zones[i];
+	}
+
 
 	delete dynamicWorld;
 
@@ -136,6 +142,10 @@ comp::cActionArea* cPhysicsManager::MakeActionArea(sBodyDesc desc)
 	ghostObject->setCollisionShape(new btSphereShape(5));
 	ghostObject->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 5, 0)));
 	this->dynamicWorld->addCollisionObject(ghostObject);
+
+	zones.push_back(ghostObject);
+
+	area->area = ghostObject;
 
 	return area;
 }
