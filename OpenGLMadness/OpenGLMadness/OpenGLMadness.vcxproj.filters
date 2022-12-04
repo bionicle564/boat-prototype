@@ -227,5 +227,8 @@
     <ClInclude Include="cGameObject.h">
       <Filter>Game</Filter>
     </ClInclude>
+    <ClInclude Include="cActionArea.h">
+      <Filter>Engine\Components</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

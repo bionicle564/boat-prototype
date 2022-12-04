@@ -48,7 +48,7 @@ void cGame::Init(GLFWwindow* window)
 
 
 	camera = engine.entityManager.CreateEntity();
-	camera->AddComponent<comp::cCamera>()->cameraId = 0;
+	camera->AddComponent<comp::cCamera>()->cameraId = 1;
 	camera->GetComponent<comp::cCamera>()->primaryCamera = true;
 
 
@@ -76,6 +76,7 @@ void cGame::Init(GLFWwindow* window)
 	//box
 	box = new cGameObject();
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
+	box->AddComponent<comp::cActionArea>(engine.physicsManager.MakeActionArea(desc));
 
 	desc.halfExtents = glm::vec4(.3);
 	desc.mass = 1;
@@ -92,7 +93,6 @@ void cGame::Init(GLFWwindow* window)
 	//dude->AddComponent(engine.physicsManager.MakeController(desc));
 
 	player = new cPlayer();
-	//player->ent = engine.entityManager.CreateEntity();
 	player->SetUp(engine);
 
 }
@@ -157,7 +157,7 @@ void cGame::Input(float dt)
 		}
 	}
 
-	std::cout << j << "\n";
+	//std::cout << j << "\n";
 
 	if (engine.m_KeyDown[' '])
 	{

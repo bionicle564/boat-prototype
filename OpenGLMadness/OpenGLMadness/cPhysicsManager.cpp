@@ -128,6 +128,18 @@ comp::cPhysics* cPhysicsManager::MakeBody(sBodyDesc desc)
 	return component;
 }
 
+comp::cActionArea* cPhysicsManager::MakeActionArea(sBodyDesc desc)
+{
+	comp::cActionArea* area = new comp::cActionArea();
+
+	btGhostObject* ghostObject = new btGhostObject();
+	ghostObject->setCollisionShape(new btSphereShape(5));
+	ghostObject->setWorldTransform(btTransform(btQuaternion(0, 0, 0, 1), btVector3(0, 5, 0)));
+	this->dynamicWorld->addCollisionObject(ghostObject);
+
+	return area;
+}
+
 comp::cCharacterController* cPhysicsManager::MakeController(sBodyDesc desc)
 {
 	comp::cCharacterController* charCon = new comp::cCharacterController();

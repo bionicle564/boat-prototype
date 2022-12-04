@@ -1,7 +1,7 @@
 #pragma once
-#include "cEntity.h"
+#include "cGameObject.h"
 
-class cPart : public cEntity
+class cPart : public cGameObject
 {
 
 public:

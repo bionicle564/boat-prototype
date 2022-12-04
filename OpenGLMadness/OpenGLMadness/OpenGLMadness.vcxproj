@@ -178,6 +178,7 @@
     <ClCompile Include="ShaderManager\cShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="cActionArea.h" />
     <ClInclude Include="callBackFunctions.h" />
     <ClInclude Include="cBulletDebugRenderer.h" />
     <ClInclude Include="cCamera.h" />
