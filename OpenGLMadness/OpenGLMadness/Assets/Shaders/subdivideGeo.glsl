@@ -103,10 +103,10 @@ vec4 Waves(vec4 pointIn)
 	float theatam = (Kxm * pointIn.x) + (Kzm * pointIn.y) - (sqrt(Wm2) * (time * .5)) - phasem;
 	
 	int N = 2;
-	float Kxn = 0;
-	float Kzn = 0;
+	float Kxn = 8;
+	float Kzn = 8;
 	float An = 0.04;
-	float phasen = 0;
+	float phasen = snoise(pointIn.xy + time * .5)*.5+.5;;
 	float Kn = sqrt((Kxn * Kxn) + (Kzn * Kzn));
 	float Wn2 = g * Kn * deapthSolved;
 	
