@@ -102,7 +102,7 @@ void cGame::Init(GLFWwindow* window)
 	player->SetUp(engine);
 
 	waterTile = new cGameObject();
-	waterTile->AddComponent<comp::cPosition>()->position = glm::vec3(-2,-5,-5);
+	waterTile->AddComponent<comp::cPosition>()->position = glm::vec3(-2,-5,0);
 	waterTile->AddComponent<comp::cScale>()->scale= glm::vec3(3,3,3);
 	waterTile->AddComponent<comp::cMeshRenderer>()->meshName = "tile.fbx";
 	waterTile->GetComponent<comp::cMeshRenderer>()->diffuseTexture = "toon_water";
