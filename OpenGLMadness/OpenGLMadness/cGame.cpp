@@ -107,7 +107,7 @@ void cGame::Init(GLFWwindow* window)
 	waterTile->AddComponent<comp::cMeshRenderer>()->meshName = "tile.fbx";
 	waterTile->GetComponent<comp::cMeshRenderer>()->diffuseTexture = "toon_water";
 	waterTile->GetComponent<comp::cMeshRenderer>()->shader = "water";
-	waterTile->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(glm::half_pi<float>(), 0, 0));
+	waterTile->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(-glm::half_pi<float>(), 0, 0));
 	//waterTile->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
 }
 
@@ -207,7 +207,7 @@ void cGame::Input(float dt)
 
 		cShader* water = engine.shaderManager.GetShaderFromName("water");
 		water->Use();
-		water->SetInt("sub_divisions", 8);
+		water->SetInt("sub_divisions", 6);
 	}
 
 	//right
