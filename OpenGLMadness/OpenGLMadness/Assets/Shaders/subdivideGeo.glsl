@@ -7,6 +7,7 @@ uniform float time;
 
 in VS_OUT {
     mat4 MVP;
+	mat4 model;
 	vec2 gUV;
 } gs_in[]; 
 
@@ -77,9 +78,8 @@ void main() {
 	pos3 /= dy;
 	
 	fNormal = cross(pos2.xyz, pos3.xyz);
-	//fNormal.z = abs(fNormal.z);
 	
-	fNormal = fNormal * gs_in[0].MVP;
+	fNormal =  (gs_in[0].model * vec4(fNormal, 1)).xyz;
 	
     gl_Position =  gs_in[0].MVP * pos;
     EmitVertex();
@@ -97,6 +97,7 @@ void main() {
 	
 	fNormal = cross(pos2.xyz, pos3.xyz);
 	
+	fNormal =  (gs_in[0].model * vec4(fNormal, 1)).xyz;
     gl_Position =  gs_in[0].MVP * pos;
     EmitVertex();
 	
@@ -113,6 +114,7 @@ void main() {
 	
 	fNormal = cross(pos2.xyz, pos3.xyz);
 	
+	fNormal =  (gs_in[0].model * vec4(fNormal, 1)).xyz;
     gl_Position =  gs_in[0].MVP * pos;
     EmitVertex();
 	
@@ -129,6 +131,7 @@ void main() {
 	
 	fNormal = cross(pos2.xyz, pos3.xyz);
 	
+	fNormal =  (gs_in[0].model * vec4(fNormal, 1)).xyz;
     gl_Position =  gs_in[0].MVP * pos;
 	EmitVertex();
     EndPrimitive();

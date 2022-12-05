@@ -39,7 +39,7 @@ void cRenderSystem::Process(const std::vector<cEntity*>& entities, float dt)
 	//glStencilMask(0xff);
 	//draw normally
 
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	for (std::vector<cEntity*>::const_iterator it = entities.begin(); it != entities.end(); it++)
 	{
