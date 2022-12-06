@@ -119,7 +119,7 @@ vec4 Waves(vec4 pointIn)
 	{
 		finalPoint.x = pointIn.x - ((Kxm / Km) * (Am / deapthSolved) * sin(theatam)) - ((Kxn / Kn) * (An / deapthSolved) * sin(theatan));
 		finalPoint.y = pointIn.y - ((Kzm / Km) * (Am / deapthSolved) * sin(theatam))- ((Kzn / Kn) * (An / deapthSolved) * sin(theatan));
-		finalPoint.z = (Am * cos(theatam) + An * cos(theatan)) * .2;
+		finalPoint.z = (Am * cos(theatam) + An * cos(theatan)) * 1;
 		
 	}
 	
@@ -214,7 +214,7 @@ void main() {
 	EmitVertex();
     EndPrimitive();
     x+=dx;
-    if((j+1) %sub_divisions == 0) {
+    if((j+1) %gs_in[0].subdivide == 0) {
       x=v0.x;
      y+=dy;
     }

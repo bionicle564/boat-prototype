@@ -47,8 +47,9 @@ void main()
 	vs_out.MVP = matrices.proj * matrices.viw * model;
    //gl_Position = projection * view * model * vec4(vPos, 1.0f);
    //gl_Position = matrices.proj * matrices.viw * model * vec4(vPos_world, 1.0f);
-   gl_Position = vec4(vPos_world, 1.0f) + ((vec4(2,0,0,0) * (gl_InstanceID % sideLength))) + (vec4(0,2,0,0) * int(gl_InstanceID / sideLength));
-	float dist = distance(gl_Position,cameraPos) ;
+   
+   gl_Position = vec4(vPos_world, 1.0f) + ((vec4(1,0,0,0) * (gl_InstanceID % sideLength))) + (vec4(0,1,0,0) * int(gl_InstanceID / sideLength));
+   
    vs_out.subdivide = 1;
    vs_out.gUV = vUV;
 };
