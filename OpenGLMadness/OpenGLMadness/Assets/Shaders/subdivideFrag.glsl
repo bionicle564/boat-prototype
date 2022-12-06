@@ -16,5 +16,6 @@ uniform sampler2D texture_01;
 
 void main()
 {
-	FragColor = vec4(1 - fNormal.g*2, 1 - fNormal.g,.8,1);
+	float c = ((-tanh((fNormal.g - .2) * 10) + 1)) * .5;
+	FragColor = vec4(c,c,.8,1);
 };

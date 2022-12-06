@@ -90,6 +90,8 @@ vec4 Waves(vec4 pointIn)
 {
 	vec4 finalPoint;
 	
+	vec4 pointIn2 = pointIn*gs_in[0].model;
+	
 	int M = 1;
 	float deapthSolved = 1; //should use tanh
 	float g = 1.81;
@@ -116,7 +118,7 @@ vec4 Waves(vec4 pointIn)
 	{
 		finalPoint.x = pointIn.x - ((Kxm / Km) * (Am / deapthSolved) * sin(theatam)) - ((Kxn / Kn) * (An / deapthSolved) * sin(theatan));
 		finalPoint.y = pointIn.y - ((Kzm / Km) * (Am / deapthSolved) * sin(theatam))- ((Kzn / Kn) * (An / deapthSolved) * sin(theatan));
-		finalPoint.z = Am * cos(theatam) + An * cos(theatan);
+		finalPoint.z = (Am * cos(theatam) + An * cos(theatan)) * 1;
 		
 	}
 	
@@ -135,6 +137,8 @@ void main() {
   float y=v0.y;
   fNormal = vec3(0,0,1);
   
+  mat4 rotation = inverse(transpose(gs_in[0].model));
+  
   for(int j=0;j<sub_divisions*sub_divisions;j++)  {
   
 	
@@ -152,7 +156,7 @@ void main() {
 	
 	fNormal = cross(pos2.xyz, pos3.xyz);
 	
-	fNormal =  (gs_in[0].model * vec4(fNormal, 1)).xyz;
+	fNormal =  (rotation * vec4(fNormal, 1)).xyz;
 	
     gl_Position =  gs_in[0].MVP * pos;
     EmitVertex();
@@ -170,7 +174,7 @@ void main() {
 	
 	fNormal = cross(pos2.xyz, pos3.xyz);
 	
-	fNormal =  (gs_in[0].model * vec4(fNormal, 1)).xyz;
+	fNormal =  (rotation * vec4(fNormal, 1)).xyz;
     gl_Position =  gs_in[0].MVP * pos;
     EmitVertex();
 	
@@ -187,7 +191,7 @@ void main() {
 	
 	fNormal = cross(pos2.xyz, pos3.xyz);
 	
-	fNormal =  (gs_in[0].model * vec4(fNormal, 1)).xyz;
+	fNormal =  (rotation * vec4(fNormal, 1)).xyz;
     gl_Position =  gs_in[0].MVP * pos;
     EmitVertex();
 	
@@ -204,7 +208,7 @@ void main() {
 	
 	fNormal = cross(pos2.xyz, pos3.xyz);
 	
-	fNormal =  (gs_in[0].model * vec4(fNormal, 1)).xyz;
+	fNormal =  (rotation * vec4(fNormal, 1)).xyz;
     gl_Position =  gs_in[0].MVP * pos;
 	EmitVertex();
     EndPrimitive();
