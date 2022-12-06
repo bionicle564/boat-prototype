@@ -114,13 +114,24 @@ void cRenderSystem::Process(const std::vector<cEntity*>& entities, float dt)
 
 		if (!renderer->border)
 		{
-			
-			for (unsigned int i = 0; i < meshes.size(); i++)
+			if (!renderer->instanced)
 			{
-				
-				glBindVertexArray(meshes[i].VAO_ID);
-				glDrawElements(GL_TRIANGLES, meshes[i].numberOfIndices, GL_UNSIGNED_INT, 0);
-				
+				for (unsigned int i = 0; i < meshes.size(); i++)
+				{
+
+					glBindVertexArray(meshes[i].VAO_ID);
+					glDrawElements(GL_TRIANGLES, meshes[i].numberOfIndices, GL_UNSIGNED_INT, 0);
+
+				}
+			}
+			else
+			{
+				for (unsigned int i = 0; i < meshes.size(); i++)
+				{
+					glBindVertexArray(meshes[i].VAO_ID);
+					glDrawElementsInstanced(GL_TRIANGLES, meshes[i].numberOfIndices, GL_UNSIGNED_INT, 0, renderer->amount);
+
+				}
 			}
 		}
 		else //TODO: this needs to be fixed with the help of a fresh pair of eyes

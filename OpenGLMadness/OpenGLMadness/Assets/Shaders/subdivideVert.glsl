@@ -11,6 +11,7 @@ out VS_OUT {
     mat4 MVP;
 	mat4 model;
 	vec2 gUV;
+	int subdivide;
 } vs_out;
 
 uniform mat4 model;
@@ -22,7 +23,9 @@ uniform vec3 cameraRight;
 uniform vec3 cameraUp;
 uniform vec3 centerPos;
 
+uniform vec3 cameraPos;
 
+const int sideLength = 10;
 
 layout (std140) uniform MatrixBlock
 {
@@ -39,12 +42,13 @@ void main()
 					+ cameraUp * vPos.y;
 		
 	}
+	
 	vs_out.model = model;
 	vs_out.MVP = matrices.proj * matrices.viw * model;
    //gl_Position = projection * view * model * vec4(vPos, 1.0f);
    //gl_Position = matrices.proj * matrices.viw * model * vec4(vPos_world, 1.0f);
-   gl_Position = vec4(vPos_world, 1.0f);
-	
-   
+   gl_Position = vec4(vPos_world, 1.0f) + ((vec4(2,0,0,0) * (gl_InstanceID % sideLength))) + (vec4(0,2,0,0) * int(gl_InstanceID / sideLength));
+	float dist = distance(gl_Position,cameraPos) ;
+   vs_out.subdivide = 1;
    vs_out.gUV = vUV;
 };

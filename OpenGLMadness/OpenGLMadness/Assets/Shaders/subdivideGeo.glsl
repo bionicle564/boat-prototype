@@ -9,6 +9,7 @@ in VS_OUT {
     mat4 MVP;
 	mat4 model;
 	vec2 gUV;
+	int subdivide;
 } gs_in[]; 
 
 out vec3 fNormal;
@@ -118,7 +119,7 @@ vec4 Waves(vec4 pointIn)
 	{
 		finalPoint.x = pointIn.x - ((Kxm / Km) * (Am / deapthSolved) * sin(theatam)) - ((Kxn / Kn) * (An / deapthSolved) * sin(theatan));
 		finalPoint.y = pointIn.y - ((Kzm / Km) * (Am / deapthSolved) * sin(theatam))- ((Kzn / Kn) * (An / deapthSolved) * sin(theatan));
-		finalPoint.z = (Am * cos(theatam) + An * cos(theatan)) * 1;
+		finalPoint.z = (Am * cos(theatam) + An * cos(theatan)) * .2;
 		
 	}
 	
@@ -131,15 +132,15 @@ void main() {
   vec4 v0 = gl_in[0].gl_Position;
   vec4 v1 = gl_in[1].gl_Position;
   vec4 v2 = gl_in[2].gl_Position;
-  float dx = abs(v0.x-v1.x)/sub_divisions;
-  float dy = abs(v0.y-v2.y)/sub_divisions;
+  float dx = abs(v0.x-v1.x)/gs_in[0].subdivide;
+  float dy = abs(v0.y-v2.y)/gs_in[0].subdivide;
   float x=v0.x;
   float y=v0.y;
   fNormal = vec3(0,0,1);
   
   mat4 rotation = inverse(transpose(gs_in[0].model));
   
-  for(int j=0;j<sub_divisions*sub_divisions;j++)  {
+  for(int j=0;j<gs_in[0].subdivide*gs_in[0].subdivide;j++)  {
   
 	
     //gl_Position =  gs_in[0].MVP * vec4(x,y,0,1);

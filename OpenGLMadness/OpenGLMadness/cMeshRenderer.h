@@ -21,5 +21,9 @@ namespace comp
 
 		bool border = false;
 		bool billboard = false;
+
+		bool instanced = false;
+
+		int amount = 1;
 	};
 }
