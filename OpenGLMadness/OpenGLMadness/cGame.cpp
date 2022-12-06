@@ -129,7 +129,9 @@ void cGame::Update()
 	camera->GetComponent<comp::cCamera>()->position = player->GetComponent<comp::cPosition>()->position + glm::vec3(0, 18, 3);
 	camera->GetComponent<comp::cCamera>()->lookAt = player->GetComponent<comp::cPosition>()->position;
 	
-	boat->Update(deltaTime);
+	water->SetVec3("cameraPos", camera->GetComponent<comp::cCamera>()->position);
+
+	//boat->Update(deltaTime);
 
 
 	glfwGetWindowSize(window, &winX, &winY);
