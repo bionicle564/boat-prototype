@@ -25,7 +25,7 @@ uniform vec3 centerPos;
 
 uniform vec3 cameraPos;
 
-const int sideLength = 10;
+const int sideLength = 15;
 
 layout (std140) uniform MatrixBlock
 {
@@ -50,15 +50,15 @@ void main()
 	vec4 addition = ((vec4(1,0,0,0) * (gl_InstanceID % sideLength))) + (vec4(0,1,0,0) * int(gl_InstanceID / sideLength));
 	gl_Position = vec4(vPos_world, 1.0f) + addition;
    
-	float dist = length(cameraPos - gl_Position.xyz);
+	float dist = distance(cameraPos, (model * gl_Position).xyz);
 	
-	if(dist > 18)
+	if(dist > 30)
 	{
 		vs_out.subdivide = 1;
 	}
 	else
 	{
-		vs_out.subdivide = 6;
+		vs_out.subdivide = 2;
 	}
 	
 	vs_out.gUV = vUV;
