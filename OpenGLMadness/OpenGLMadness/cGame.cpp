@@ -50,7 +50,7 @@ void cGame::Init(GLFWwindow* window)
 
 
 	camera = engine.entityManager.CreateEntity();
-	camera->AddComponent<comp::cCamera>()->cameraId = 0;
+	camera->AddComponent<comp::cCamera>()->cameraId = 1;
 	camera->GetComponent<comp::cCamera>()->primaryCamera = true;
 
 
