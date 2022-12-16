@@ -76,12 +76,12 @@ int main(void)
 
 	Buffer outgoing(BUFLEN);
 
-	while (clientId == 0)
+	//while (clientId == 0)
 	{
 		outgoing = ProtocolMethods::MakeProtocol(TRY_JOIN, message);
 		char* payload = outgoing.PayloadToString();
-
-		if (sendto(s, payload, outgoing.GetBufferSize(), 0, (struct sockaddr*)&si_other, slen) == SOCKET_ERROR)
+		int amountSent = sendto(s, payload, outgoing.GetBufferSize(), 0, (struct sockaddr*)&si_other, slen);
+		if (amountSent == SOCKET_ERROR)
 		{
 			printf("sendto() failed with error code : %d", WSAGetLastError());
 			exit(EXIT_FAILURE);

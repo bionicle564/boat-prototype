@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "../UDPLibrary/Buffer.h"
+#include "../UDPLibrary/ProtocolHelper.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -115,7 +116,7 @@ int main()
 			{
 				continue;
 			}
-
+			int error = WSAGetLastError();
 			// For a TCP connection you would close this socket, and remove it from 
 			// your list of connections. For UDP we will clear our buffer, and just
 			// ignore this.
@@ -127,8 +128,8 @@ int main()
 		{
 			Buffer incoming(BUFLEN);
 			incoming.LoadBuffer(buf, BUFLEN);
-
-			std::string line = incoming.PayloadToString();
+			sProtocolData data = ProtocolMethods::ParseBuffer(incoming);
+			std::string line = data.message;
 			int stop = 0;
 
 		}
