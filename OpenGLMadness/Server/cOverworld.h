@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 
+
 enum TYPE
 {
 	NORMAL,
@@ -9,8 +10,8 @@ enum TYPE
 
 struct sPoint
 {
-	short x;
-	short y;
+	int x;
+	int y;
 	TYPE type;
 };
 

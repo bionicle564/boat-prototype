@@ -12,6 +12,10 @@ void cOverworld::GenerateIslands(int amount)
 {
 	for (int i = 0; i < amount; i++)
 	{
-		//make random numbers here
+		sPoint newPoint;
+		newPoint.x = rand() % 10;
+		newPoint.y = rand() % 10;
+
+		newPoint.type = TYPE::NORMAL;
 	}
 }
