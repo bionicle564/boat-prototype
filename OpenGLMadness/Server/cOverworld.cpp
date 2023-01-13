@@ -17,5 +17,6 @@ void cOverworld::GenerateIslands(int amount)
 		newPoint.y = rand() % 10;
 
 		newPoint.type = TYPE::NORMAL;
+		points.push_back(newPoint);
 	}
 }

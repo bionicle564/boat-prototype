@@ -10,16 +10,20 @@
 
 #include <vector>
 
+#include "cOverworld.h"
+#include "world.pb.h"
+
 #include "../UDPLibrary/Buffer.h"
 #include "../UDPLibrary/ProtocolHelper.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
-#define DEFAULT_PORT "27015"
-
+#define DEFAULT_PORT "33600"
+#define TCP_PORT "33605"
 
 #define BUFLEN 512	//Max length of buffer
 #define PORT 8888	//The port on which to listen for incoming data
+#define TCP_PORT 33605
 
 char buf[BUFLEN];
 int slen, recv_len;
@@ -61,7 +65,7 @@ int main()
 	}
 
 	SOCKET ListenSocket = INVALID_SOCKET;
-
+	SOCKET DataSocket = INVALID_SOCKET;
 
 	//Create a socket
 	if ((ListenSocket = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
@@ -70,7 +74,16 @@ int main()
 		freeaddrinfo(result);
 		WSACleanup();
 	}
-	printf("Socket created.\n");
+	printf("Listen socket created.\n");
+
+	//tcp socket
+	if ((DataSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == INVALID_SOCKET)
+	{
+		printf("Could not create socket : %d", WSAGetLastError());
+		freeaddrinfo(result);
+		WSACleanup();
+	}
+	printf("Data socket created.\n");
 
 	sockaddr_in server;
 
@@ -101,7 +114,53 @@ int main()
 		return 1;
 	}
 
+	
+	//tcp socket setup
+	sockaddr_in dataServer;
+
+	//Prepare the sockaddr_in structure
+	dataServer.sin_family = AF_INET;
+	dataServer.sin_addr.s_addr = INADDR_ANY;
+	dataServer.sin_port = htons(TCP_PORT);
+
+	//Bind
+	if (bind(DataSocket, (struct sockaddr*)&dataServer, sizeof(dataServer)) == SOCKET_ERROR)
+	{
+		printf("Bind failed with error code : %d", WSAGetLastError());
+		freeaddrinfo(result);
+		WSACleanup();
+		return 1;
+	}
+	puts("Bind done");
+
+
+	// Set our socket to be nonblocking
+	NonBlock = 1;
+	r = ioctlsocket(DataSocket, FIONBIO, &NonBlock);
+	if (r == SOCKET_ERROR)
+	{
+		printf("Non-blocking failed with error code : %d", WSAGetLastError());
+		freeaddrinfo(result);
+		WSACleanup();
+		return 1;
+	}
+
 	//everything should be set up now
+
+
+	cOverworld world;
+	world.GenerateIslands(10);
+
+	overworld::World buffWorld;
+
+	for (int i = 0; i < 10; i++)
+	{
+		overworld::Island* isl = buffWorld.add_islands();
+		isl->set_x(world.points[i].x);
+		isl->set_y(world.points[i].y);
+		isl->set_type(world.points[i].type);
+	}
+	std::string help = buffWorld.SerializeAsString();
 
 	while(1)
 	{
@@ -129,8 +188,36 @@ int main()
 			Buffer incoming(BUFLEN);
 			incoming.LoadBuffer(buf, BUFLEN);
 			sProtocolData data = ProtocolMethods::ParseBuffer(incoming);
-			std::string line = data.message;
-			int stop = 0;
+			
+			if (data.type == ProtocolType::TRY_JOIN) // A client is trying to join
+			{
+				clients.push_back(client);
+
+				Buffer outgoing(BUFLEN);
+				outgoing = ProtocolMethods::MakeProtocol(ProtocolType::JOIN_SUCCESSFULY, "hi :)");
+
+				char* payload = outgoing.PayloadToString();
+
+				if (sendto(ListenSocket, payload, outgoing.GetBufferSize(), 0, (struct sockaddr*)&client, slen) == SOCKET_ERROR)
+				{
+					printf("sendto() failed with error code : %d", WSAGetLastError());
+					exit(EXIT_FAILURE);
+				}
+
+
+				outgoing = ProtocolMethods::MakeProtocol(ProtocolType::HIT_BALL, help);
+				
+				payload = outgoing.PayloadToString();
+
+				if (sendto(DataSocket, payload, outgoing.GetBufferSize(), 0, (struct sockaddr*)&client, slen) == SOCKET_ERROR)
+				{
+					printf("sendto() failed with error code : %d", WSAGetLastError());
+					exit(EXIT_FAILURE);
+				}
+
+				delete[] payload;
+
+			}
 
 		}
 	}

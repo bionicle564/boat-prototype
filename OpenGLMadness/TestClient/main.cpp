@@ -21,6 +21,7 @@
 #define SERVER "127.0.0.1"	//ip address of udp server
 #define BUFLEN 512	//Max length of buffer
 #define PORT 8888	//The port on which to listen for incoming data
+#define TCP_PORT 33605
 
 int main(void)
 {
@@ -28,6 +29,7 @@ int main(void)
 	struct addrinfo* ptr = NULL;
 
 	struct sockaddr_in si_other;
+	struct sockaddr_in si_tcp;
 	int s, slen = sizeof(si_other);
 	char buf[BUFLEN];
 	char message[BUFLEN];
@@ -53,9 +55,19 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
+	//Make second socket
+	SOCKET tcpSock;
+	if ((tcpSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == SOCKET_ERROR)
+	{
+		printf("socket() failed with error code : %d", WSAGetLastError());
+		exit(EXIT_FAILURE);
+	}
+
+
 	// Set our socket to be nonblocking
 	ULONG NonBlock = 1;
 	int result = ioctlsocket(s, FIONBIO, &NonBlock);
+	 result = ioctlsocket(tcpSock, FIONBIO, &NonBlock);
 	if (result == SOCKET_ERROR)
 	{
 		printf("Non-blocking failed with error code : %d", WSAGetLastError());
@@ -70,6 +82,16 @@ int main(void)
 	IN_ADDR* binAddr = new IN_ADDR();
 	inet_pton(2, SERVER, binAddr);
 	si_other.sin_addr = *binAddr;
+
+	//setup address structure for tcp
+	memset((char*)&si_tcp, 0, sizeof(si_tcp));
+	si_tcp.sin_family = AF_INET;
+	si_tcp.sin_port = htons(TCP_PORT);
+	//si_other.sin_addr.S_un.S_addr = inet_pton(2, SERVER, si_other.sin_addr);
+	IN_ADDR* binAddr2 = new IN_ADDR();
+	inet_pton(2, SERVER, binAddr2);
+	si_tcp.sin_addr = *binAddr2;
+
 
 	std::string msg = "";
 	std::cin >> message;
@@ -90,4 +112,40 @@ int main(void)
 		delete[] payload;
 		outgoing.ClearBuffer();
 	}
+
+	while (clientId == 0)
+	{
+		if (recvfrom(s, buf, BUFLEN, 0, (struct sockaddr*)&si_other, &slen) == SOCKET_ERROR)
+		{
+			if (WSAGetLastError() == WSAEWOULDBLOCK)
+			{
+				continue;
+			}
+		}
+		else
+		{
+			Buffer incoming(BUFLEN);
+			incoming.LoadBuffer(buf, BUFLEN);
+			sProtocolData data = ProtocolMethods::ParseBuffer(incoming);
+			int asdf = 9;
+		}
+
+		int tLen = sizeof(si_tcp);
+		if (recvfrom(tcpSock, buf, BUFLEN, 0, (struct sockaddr*)&si_tcp, &tLen) == SOCKET_ERROR)
+		{
+			if (WSAGetLastError() == WSAEWOULDBLOCK)
+			{
+				continue;
+			}
+		}
+		else
+		{
+			Buffer incoming(BUFLEN);
+			incoming.LoadBuffer(buf, BUFLEN);
+			sProtocolData data = ProtocolMethods::ParseBuffer(incoming);
+			int asdf = 9;
+		}
+
+	}
+
 }
