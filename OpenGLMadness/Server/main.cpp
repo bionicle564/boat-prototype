@@ -21,7 +21,7 @@
 #pragma comment(lib, "Ws2_32.lib")
 
 #define DEFAULT_PORT "33600"
-#define TCP_PORT "33605"
+#define TCP_PORT_S "33605"
 
 #define BUFLEN 512	//Max length of buffer
 #define PORT 8888	//The port on which to listen for incoming data
@@ -56,107 +56,73 @@ int main()
 		return 1;
 	}
 
-	//set up socket
-	struct addrinfo* result = NULL, * ptr = NULL, hints;
+	struct addrinfo* result = NULL;
+	struct addrinfo hints;
 
 	ZeroMemory(&hints, sizeof(hints));
 	hints.ai_family = AF_INET;
-	hints.ai_socktype = SOCK_DGRAM;
-	hints.ai_protocol = IPPROTO_UDP;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_protocol = IPPROTO_TCP;
 	hints.ai_flags = AI_PASSIVE;
 
-	// Resolve the local address and port to be used by the server
-	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo(NULL, TCP_PORT_S, &hints, &result);
 	if (iResult != 0)
 	{
-		printf("getaddrinfo failed: %d\n", iResult);
+		printf("getaddrinfo failed with error: %d\n", iResult);
 		WSACleanup();
 		return 1;
 	}
 
 
-	//Create a socket
-	if ((ListenSocket = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
+	// Create a SOCKET for the server to listen for client connections.
+	ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+	if (ListenSocket == INVALID_SOCKET)
 	{
-		printf("Could not create socket : %d", WSAGetLastError());
-		freeaddrinfo(result);
-		WSACleanup();
-	}
-	printf("Listen socket created.\n");
-
-	//tcp socket
-	if ((DataSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == INVALID_SOCKET)
-	{
-		printf("Could not create socket : %d", WSAGetLastError());
-		freeaddrinfo(result);
-		WSACleanup();
-	}
-	printf("Data socket created.\n");
-
-	sockaddr_in server;
-
-	//Prepare the sockaddr_in structure
-	server.sin_family = AF_INET;
-	server.sin_addr.s_addr = INADDR_ANY;
-	server.sin_port = htons(PORT);
-
-	//Bind
-	if (bind(ListenSocket, (struct sockaddr*)&server, sizeof(server)) == SOCKET_ERROR)
-	{
-		printf("Bind failed with error code : %d", WSAGetLastError());
-		freeaddrinfo(result);
-		WSACleanup();
-		return 1;
-	}
-	puts("Bind done");
-
-
-	// Set our socket to be nonblocking
-	ULONG NonBlock = 1;
-	int r = ioctlsocket(ListenSocket, FIONBIO, &NonBlock);
-	if (r == SOCKET_ERROR)
-	{
-		printf("Non-blocking failed with error code : %d", WSAGetLastError());
+		printf("socket failed with error: %ld\n", WSAGetLastError());
 		freeaddrinfo(result);
 		WSACleanup();
 		return 1;
 	}
 
-	
-	//tcp socket setup
-	sockaddr_in dataServer;
-
-	//Prepare the sockaddr_in structure
-	dataServer.sin_family = AF_INET;
-	dataServer.sin_addr.s_addr = INADDR_ANY;
-	dataServer.sin_port = htons(TCP_PORT);
-
-	//Bind
-	if (bind(DataSocket, (struct sockaddr*)&dataServer, sizeof(dataServer)) == SOCKET_ERROR)
+	// Setup the TCP listening socket
+	iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
+	if (iResult == SOCKET_ERROR)
 	{
-		printf("Bind failed with error code : %d", WSAGetLastError());
+		printf("bind failed with error: %d\n", WSAGetLastError());
 		freeaddrinfo(result);
-		WSACleanup();
-		return 1;
-	}
-	puts("Bind done");
-
-
-	// Set our socket to be nonblocking
-	NonBlock = 0;
-	r = ioctlsocket(DataSocket, FIONBIO, &NonBlock);
-	if (r == SOCKET_ERROR)
-	{
-		printf("Non-blocking failed with error code : %d", WSAGetLastError());
-		freeaddrinfo(result);
+		closesocket(ListenSocket);
 		WSACleanup();
 		return 1;
 	}
 
-	//LaunchSearch();
-	Search();
-	//everything should be set up now
+	freeaddrinfo(result);
 
+	iResult = listen(ListenSocket, SOMAXCONN);
+	if (iResult == SOCKET_ERROR)
+	{
+		printf("listen failed with error: %d\n", WSAGetLastError());
+		closesocket(ListenSocket);
+		WSACleanup();
+		return 1;
+	}
+
+	std::cout << "found somthing\n";
+
+	// Accept a client socket
+	ClientSocket = accept(ListenSocket, NULL, NULL);
+	if (ClientSocket == INVALID_SOCKET)
+	{
+		printf("accept failed with error: %d\n", WSAGetLastError());
+		closesocket(ListenSocket);
+		WSACleanup();
+		return 1;
+	}
+
+
+
+	std::cout << "connected\n";
+	//says I wouldn't need this anymore
+	//closesocket(ListenSocket);
 
 	cOverworld world;
 	world.GenerateIslands(10);
@@ -174,52 +140,13 @@ int main()
 
 	while(1)
 	{
-		memset(buf, '\0', BUFLEN);
 
-		sockaddr_in client;
-
-		int result = recv_len = recvfrom(ListenSocket, buf, BUFLEN, 0, (struct sockaddr*)&client, &slen);
-		if (result == SOCKET_ERROR)
+		iResult = recv(ClientSocket, buf, BUFLEN, 0);
+		if (iResult > 0)
 		{
-			if (WSAGetLastError() == WSAEWOULDBLOCK)
-			{
-				continue;
-			}
-			int error = WSAGetLastError();
-			// For a TCP connection you would close this socket, and remove it from 
-			// your list of connections. For UDP we will clear our buffer, and just
-			// ignore this.
-			memset(buf, '\0', 512);
-			//exit(EXIT_FAILURE);
-			return 1;
+			printf("Bytes received: %d\n", iResult);
 		}
-		else
-		{
-			Buffer incoming(BUFLEN);
-			incoming.LoadBuffer(buf, BUFLEN);
-			sProtocolData data = ProtocolMethods::ParseBuffer(incoming);
-			
-			if (data.type == ProtocolType::TRY_JOIN) // A client is trying to join
-			{
-				clients.push_back(client);
-
-				Buffer outgoing(BUFLEN);
-				outgoing = ProtocolMethods::MakeProtocol(ProtocolType::JOIN_SUCCESSFULY, "hi :)");
-
-				char* payload = outgoing.PayloadToString();
-
-				if (sendto(ListenSocket, payload, outgoing.GetBufferSize(), 0, (struct sockaddr*)&client, slen) == SOCKET_ERROR)
-				{
-					printf("sendto() failed with error code : %d", WSAGetLastError());
-					exit(EXIT_FAILURE);
-				}
-
-
-				delete[] payload;
-
-			}
-
-		}
+		
 	}
 	delete thread;
 	return 0;

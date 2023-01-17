@@ -167,38 +167,44 @@ int main(void)
 		outgoing.ClearBuffer();
 	}
 
+	iResult = send(tcpSock, message, (int)strlen(message), 0);
+
 	while (clientId == 0)
 	{
-		if (recvfrom(s, buf, BUFLEN, 0, (struct sockaddr*)&si_other, &slen) == SOCKET_ERROR)
-		{
-			if (WSAGetLastError() == WSAEWOULDBLOCK)
-			{
-				continue;
-			}
-		}
-		else
-		{
-			Buffer incoming(BUFLEN);
-			incoming.LoadBuffer(buf, BUFLEN);
-			sProtocolData data = ProtocolMethods::ParseBuffer(incoming);
-			int asdf = 9;
-		}
 
-		int tLen = sizeof(si_tcp);
-		if (recvfrom(tcpSock, buf, BUFLEN, 0, (struct sockaddr*)&si_tcp, &tLen) == SOCKET_ERROR)
-		{
-			if (WSAGetLastError() == WSAEWOULDBLOCK)
-			{
-				continue;
-			}
-		}
-		else
-		{
-			Buffer incoming(BUFLEN);
-			incoming.LoadBuffer(buf, BUFLEN);
-			sProtocolData data = ProtocolMethods::ParseBuffer(incoming);
-			int asdf = 9;
-		}
+
+		
+
+		//if (recvfrom(s, buf, BUFLEN, 0, (struct sockaddr*)&si_other, &slen) == SOCKET_ERROR)
+		//{
+		//	if (WSAGetLastError() == WSAEWOULDBLOCK)
+		//	{
+		//		continue;
+		//	}
+		//}
+		//else
+		//{
+		//	Buffer incoming(BUFLEN);
+		//	incoming.LoadBuffer(buf, BUFLEN);
+		//	sProtocolData data = ProtocolMethods::ParseBuffer(incoming);
+		//	int asdf = 9;
+		//}
+
+		//int tLen = sizeof(si_tcp);
+		//if (recvfrom(tcpSock, buf, BUFLEN, 0, (struct sockaddr*)&si_tcp, &tLen) == SOCKET_ERROR)
+		//{
+		//	if (WSAGetLastError() == WSAEWOULDBLOCK)
+		//	{
+		//		continue;
+		//	}
+		//}
+		//else
+		//{
+		//	Buffer incoming(BUFLEN);
+		//	incoming.LoadBuffer(buf, BUFLEN);
+		//	sProtocolData data = ProtocolMethods::ParseBuffer(incoming);
+		//	int asdf = 9;
+		//}
 
 	}
 
