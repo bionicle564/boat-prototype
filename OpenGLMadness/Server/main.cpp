@@ -8,6 +8,8 @@
 #include <iphlpapi.h>
 #include <stdio.h>
 
+#include <thread>
+
 #include <vector>
 
 #include "cOverworld.h"
@@ -27,6 +29,14 @@
 
 char buf[BUFLEN];
 int slen, recv_len;
+
+void LaunchSearch();
+void Search();
+
+SOCKET ListenSocket = INVALID_SOCKET;
+SOCKET DataSocket = INVALID_SOCKET;
+SOCKET ClientSocket = INVALID_SOCKET;
+std::thread* thread = NULL;
 
 int main()
 {
@@ -64,8 +74,6 @@ int main()
 		return 1;
 	}
 
-	SOCKET ListenSocket = INVALID_SOCKET;
-	SOCKET DataSocket = INVALID_SOCKET;
 
 	//Create a socket
 	if ((ListenSocket = socket(AF_INET, SOCK_DGRAM, 0)) == INVALID_SOCKET)
@@ -135,7 +143,7 @@ int main()
 
 
 	// Set our socket to be nonblocking
-	NonBlock = 1;
+	NonBlock = 0;
 	r = ioctlsocket(DataSocket, FIONBIO, &NonBlock);
 	if (r == SOCKET_ERROR)
 	{
@@ -145,6 +153,8 @@ int main()
 		return 1;
 	}
 
+	//LaunchSearch();
+	Search();
 	//everything should be set up now
 
 
@@ -205,22 +215,44 @@ int main()
 				}
 
 
-				outgoing = ProtocolMethods::MakeProtocol(ProtocolType::HIT_BALL, help);
-				
-				payload = outgoing.PayloadToString();
-
-				if (sendto(DataSocket, payload, outgoing.GetBufferSize(), 0, (struct sockaddr*)&client, slen) == SOCKET_ERROR)
-				{
-					printf("sendto() failed with error code : %d", WSAGetLastError());
-					exit(EXIT_FAILURE);
-				}
-
 				delete[] payload;
 
 			}
 
 		}
 	}
-
+	delete thread;
 	return 0;
+}
+
+void LaunchSearch()
+{
+	thread = new std::thread(Search);
+
+}
+
+void Search()
+{
+	int error;
+
+	//this needs to be on another thread
+	error = listen(DataSocket, SOMAXCONN);
+	if (error == SOCKET_ERROR)
+	{
+		printf("Listen failed with error: %ld\n", WSAGetLastError());
+	}
+
+	
+	ClientSocket = accept(DataSocket, NULL, NULL);
+	if (ClientSocket == INVALID_SOCKET)
+	{
+			
+		printf("accept failed: %d\n", WSAGetLastError());
+		closesocket(ListenSocket);
+		WSACleanup();
+	}
+		
+
+	
+	return;
 }
