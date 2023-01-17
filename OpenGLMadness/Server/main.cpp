@@ -138,6 +138,9 @@ int main()
 	}
 	std::string help = buffWorld.SerializeAsString();
 
+	iResult = send(ClientSocket, help.c_str(), help.length(), 0);
+	
+
 	while(1)
 	{
 

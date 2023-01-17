@@ -167,12 +167,19 @@ int main(void)
 		outgoing.ClearBuffer();
 	}
 
-	iResult = send(tcpSock, message, (int)strlen(message), 0);
+	outgoing = ProtocolMethods::MakeProtocol(TRY_JOIN, message);
+	char* payload = outgoing.PayloadToString();
+	iResult = send(tcpSock, payload, outgoing.GetBufferSize(), 0);
+	delete[] payload;
 
 	while (clientId == 0)
 	{
 
-
+		iResult = recv(tcpSock, buf, BUFLEN, 0);
+		if (iResult > 0)
+		{
+			printf("Bytes received: %d\n", iResult);
+		}
 		
 
 		//if (recvfrom(s, buf, BUFLEN, 0, (struct sockaddr*)&si_other, &slen) == SOCKET_ERROR)
