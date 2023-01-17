@@ -137,8 +137,8 @@ int main()
 		isl->set_type(world.points[i].type);
 	}
 	std::string help = buffWorld.SerializeAsString();
-
-	iResult = send(ClientSocket, help.c_str(), help.length(), 0);
+	Buffer buffer = ProtocolMethods::MakeProtocol(ProtocolType::JOIN_SUCCESSFULY, help);
+	iResult = send(ClientSocket, buffer.PayloadToString(), buffer.GetBufferSize(), 0);
 	
 
 	while(1)

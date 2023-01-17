@@ -178,7 +178,11 @@ int main(void)
 		iResult = recv(tcpSock, buf, BUFLEN, 0);
 		if (iResult > 0)
 		{
-			printf("Bytes received: %d\n", iResult);
+			outgoing.LoadBuffer(buf, BUFLEN);
+			sProtocolData data = ProtocolMethods::ParseBuffer(outgoing);
+			
+			int d = 9;
+			
 		}
 		
 
