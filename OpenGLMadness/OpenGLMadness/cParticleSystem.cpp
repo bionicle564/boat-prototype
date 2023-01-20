@@ -61,14 +61,14 @@ void cParticleSystem::Process(const std::vector<cEntity*>& entities, float dt)
 		}
 
 		glm::vec3 location(0);
-		comp::cPosition* pos = entity->GetComponent<comp::cPosition>();
+		comp::cPosition* pos = 0;// entity->GetComponent<comp::cPosition>();
 		if (pos != 0)
 		{
 			location = pos->position;
 		}
 
 		glm::quat orientation(1, 0, 0, 0);
-		glm::vec3 size(.3f);
+		glm::vec3 size(1);
 
 
 

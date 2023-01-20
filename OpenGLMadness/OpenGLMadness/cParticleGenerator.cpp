@@ -48,10 +48,13 @@ void comp::cParticleGenerator::Update(float dt, glm::vec4 cameraPos, glm::vec4 o
 	for (int i = 0; i < newParticles; i++)
 	{
 		int particleIndex = FindUnusedParticle();
-		particlesContainer[particleIndex].life = .5;
-		particlesContainer[particleIndex].position = offset + glm::vec4((rand() % 10) / 10.f, (rand() % 10) / 10.f, (rand() % 10) / 10.f, 0);
+		//if (particleIndex != -1)
+		{
+			particlesContainer[particleIndex].life = .5;
+			particlesContainer[particleIndex].position = offset;// +glm::vec4((rand() % 10) / 10.f, (rand() % 10) / 10.f, (rand() % 10) / 10.f, 0);
 
-		particlesContainer[particleIndex].velocity = glm::vec4((rand()%10)/10.f - .5, (rand() % 10) / 10.f -.5, (rand() % 10) / 10.f - .5, 0); //just something for now
+			particlesContainer[particleIndex].velocity = glm::vec4((rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, 0); //just something for now
+		}
 	}
 	
 
@@ -113,7 +116,7 @@ int comp::cParticleGenerator::FindUnusedParticle()
 		}
 	}
 
-	return 0;
+	return -1;
 }
 
 void comp::cParticleGenerator::SortParticles()

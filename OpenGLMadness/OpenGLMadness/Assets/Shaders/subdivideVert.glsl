@@ -58,7 +58,7 @@ void main()
 	}
 	else
 	{
-		vs_out.subdivide = 2;
+		vs_out.subdivide = 8;
 	}
 	
 	vs_out.gUV = vUV;

@@ -43,6 +43,7 @@ void cGame::Init(GLFWwindow* window)
 	engine.meshManager.LoadMesh("base_ui.fbx");
 	engine.meshManager.LoadMesh("billboard.fbx");
 	engine.meshManager.LoadMesh("tile.fbx");
+	engine.meshManager.LoadMesh("simple_tile.fbx");
 
 	//set the samplers in the default shader
 	engine.shaderManager.GetCurrentShader()->SetInt("texture_00", 0);
@@ -50,7 +51,7 @@ void cGame::Init(GLFWwindow* window)
 
 
 	camera = engine.entityManager.CreateEntity();
-	camera->AddComponent<comp::cCamera>()->cameraId = 1;
+	camera->AddComponent<comp::cCamera>()->cameraId = 0;
 	camera->GetComponent<comp::cCamera>()->primaryCamera = true;
 
 
@@ -78,6 +79,7 @@ void cGame::Init(GLFWwindow* window)
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 	box->AddComponent<comp::cActionArea>(engine.physicsManager.MakeActionArea(desc));
 
+
 	desc.halfExtents = glm::vec4(.3);
 	desc.mass = 1;
 	desc.position = glm::vec3(2, 0, -10);
@@ -100,11 +102,12 @@ void cGame::Init(GLFWwindow* window)
 
 	player = new cPlayer();
 	player->SetUp(engine);
+	player->AddComponent<comp::cParticleGenerator>();
 
 	waterTile = new cGameObject();
 	waterTile->AddComponent<comp::cPosition>()->position = glm::vec3(-2,-3,0);
 	waterTile->AddComponent<comp::cScale>()->scale= glm::vec3(3);
-	waterTile->AddComponent<comp::cMeshRenderer>()->meshName = "tile.fbx";
+	waterTile->AddComponent<comp::cMeshRenderer>()->meshName = "simple_tile.fbx";
 	waterTile->GetComponent<comp::cMeshRenderer>()->diffuseTexture = "toon_water";
 	waterTile->GetComponent<comp::cMeshRenderer>()->shader = "water";
 	waterTile->GetComponent<comp::cMeshRenderer>()->instanced = true;
@@ -132,7 +135,6 @@ void cGame::Update()
 	water->SetVec3("cameraPos", camera->GetComponent<comp::cCamera>()->position);
 
 	//boat->Update(deltaTime);
-
 
 	glfwGetWindowSize(window, &winX, &winY);
 
