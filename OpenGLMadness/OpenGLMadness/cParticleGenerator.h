@@ -32,7 +32,7 @@ namespace comp
 
 		unsigned int lastUsedParticle = 0;
 
-		const unsigned int maxParticles = 200;
+		const unsigned int maxParticles = 50;
 		sParticle* particlesContainer;
 		glm::vec4* positions;
 

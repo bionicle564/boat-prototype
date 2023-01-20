@@ -78,7 +78,7 @@ void cGame::Init(GLFWwindow* window)
 	box = new cGameObject();
 	box->AddComponent<comp::cPosition>()->position = glm::vec3(1);
 	box->AddComponent<comp::cActionArea>(engine.physicsManager.MakeActionArea(desc));
-
+	
 
 	desc.halfExtents = glm::vec4(.3);
 	desc.mass = 1;
