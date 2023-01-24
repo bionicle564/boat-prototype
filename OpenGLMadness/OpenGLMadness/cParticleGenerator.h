@@ -12,7 +12,7 @@ namespace comp
 	{
 		glm::vec4 position;
 		glm::vec4 velocity;
-		glm::vec4 colour;
+		//glm::vec4 colour;
 		float life;
 
 		float cameraDistance;
@@ -32,7 +32,7 @@ namespace comp
 
 		unsigned int lastUsedParticle = 0;
 
-		const unsigned int maxParticles = 50;
+		const unsigned int maxParticles = 100000;
 		sParticle* particlesContainer;
 		glm::vec4* positions;
 
@@ -51,6 +51,13 @@ namespace comp
 
 		comp::cMeshRenderer* particleMesh;
 
+		//extra force, like gravity or wind
+		glm::vec3 force;
+
+		//will spawn particles randomly in a box of the given half dimmensions
+		glm::vec3 halfExtents;
+
+
 		cParticleGenerator();
 		~cParticleGenerator();
 
@@ -58,5 +65,9 @@ namespace comp
 
 		int FindUnusedParticle();
 		void SortParticles();
+
+		//TODO: implement this; fixing the things that are public
+		//void SetParticleTexture(std::string textureName);
+
 	};
 }

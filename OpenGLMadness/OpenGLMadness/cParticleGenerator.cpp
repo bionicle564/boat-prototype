@@ -9,10 +9,10 @@ GLuint comp::cParticleGenerator::nextBindPoint = 0;
 comp::cParticleGenerator::cParticleGenerator()
 {
 	particleMesh = new comp::cMeshRenderer();
-	particleMesh->billboard = true;
+	particleMesh->billboard = false;
 	particleMesh->meshName = "billboard.fbx";
 
-	this->shader = "defaultParticle";
+	this->shader = "defaultParticle"; //TODO: make new shader for discard
 
 	glGenBuffers(1, &this->positionsBuffer);
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, this->positionsBuffer);
@@ -39,7 +39,7 @@ comp::cParticleGenerator::~cParticleGenerator()
 void comp::cParticleGenerator::Update(float dt, glm::vec4 cameraPos, glm::vec4 offset)
 {
 
-	int newParticles = (int)std::ceilf(dt * 10);
+	int newParticles = (int)std::ceilf(dt * .1); //how many per frame to try and spawn
 	//if (newParticles > (int)(0.016f * 10))
 	//{
 	//	newParticles = (int)(0.016f * 10);
@@ -50,13 +50,14 @@ void comp::cParticleGenerator::Update(float dt, glm::vec4 cameraPos, glm::vec4 o
 		int particleIndex = FindUnusedParticle();
 		if (particleIndex != -1)
 		{
-			particlesContainer[particleIndex].life = .5;
-			particlesContainer[particleIndex].position = offset +glm::vec4((rand() % 10) / 10.f, 0, (rand() % 10) / 10.f, 0);
+			particlesContainer[particleIndex].life = 10; //how long it lives
+			particlesContainer[particleIndex].position = offset +glm::vec4((rand() % 100) - 50.f, 50, (rand() % 100) - 50.f, 0); //starting position
 
-			particlesContainer[particleIndex].velocity = glm::vec4((rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, 0); //just something for now
-			//particlesContainer[particleIndex].velocity = glm::vec4(0, 1, 0, 0); //just something for now
+			//starting speed
+			//particlesContainer[particleIndex].velocity = glm::vec4((rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, 0); //just something for now
+			particlesContainer[particleIndex].velocity = glm::vec4(0, -1, 0, 0); //just something for now
 
-			particlesContainer[particleIndex].velocity *= 2;
+			particlesContainer[particleIndex].velocity *= 15;
 		}
 	}
 	

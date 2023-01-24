@@ -178,7 +178,7 @@ void cGameEngine::UpdateInput(float dt)
 {
 
 	cFlyCamera* mainCamera = this->cameraManager.GetMainCamera();
-	float speed = 1;
+	float speed = 10;
 	if (m_KeyDown['W'])
 	{
 		mainCamera->ProcessKeyboard(Camera_Movement::FORWARD, dt * speed);
