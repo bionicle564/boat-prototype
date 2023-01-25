@@ -10,8 +10,8 @@ namespace comp
 {
 	struct sParticle
 	{
-		glm::vec4 position;
-		glm::vec4 velocity;
+		glm::vec3 position;
+		glm::vec3 velocity;
 		//glm::vec4 colour;
 		float life;
 
@@ -32,12 +32,14 @@ namespace comp
 
 		unsigned int lastUsedParticle = 0;
 
-		const unsigned int maxParticles = 100000;
+		const unsigned int maxParticles = 1000;
 		sParticle* particlesContainer;
 		glm::vec4* positions;
 
-		//texture
-
+		float timeLimit;
+		
+		//how many seconds between spawning, 0 by default
+		float timer;
 
 	public:
 		static GLuint nextBindPoint;
@@ -57,6 +59,7 @@ namespace comp
 		//will spawn particles randomly in a box of the given half dimmensions
 		glm::vec3 halfExtents;
 
+		
 
 		cParticleGenerator();
 		~cParticleGenerator();
@@ -65,6 +68,8 @@ namespace comp
 
 		int FindUnusedParticle();
 		void SortParticles();
+
+		void SetTimer(float time);
 
 		//TODO: implement this; fixing the things that are public
 		//void SetParticleTexture(std::string textureName);

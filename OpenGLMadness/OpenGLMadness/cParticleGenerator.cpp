@@ -9,7 +9,7 @@ GLuint comp::cParticleGenerator::nextBindPoint = 0;
 comp::cParticleGenerator::cParticleGenerator()
 {
 	particleMesh = new comp::cMeshRenderer();
-	particleMesh->billboard = false;
+	particleMesh->billboard = true;
 	particleMesh->meshName = "billboard.fbx";
 
 	this->shader = "defaultParticle"; //TODO: make new shader for discard
@@ -27,6 +27,8 @@ comp::cParticleGenerator::cParticleGenerator()
 	particlesContainer = new sParticle[maxParticles];
 	positions = new glm::vec4[maxParticles];
 	
+	timer = 0;
+
 }
 
 comp::cParticleGenerator::~cParticleGenerator()
@@ -38,8 +40,14 @@ comp::cParticleGenerator::~cParticleGenerator()
 
 void comp::cParticleGenerator::Update(float dt, glm::vec4 cameraPos, glm::vec4 offset)
 {
-
-	int newParticles = (int)std::ceilf(dt * .1); //how many per frame to try and spawn
+	int newParticles = 0;
+	timer -= dt;
+	if (timer <= 0)
+	{
+		newParticles = 15;
+		timer = timeLimit;
+	}
+	// = (int)std::ceilf(dt * 1); //how many per frame to try and spawn
 	//if (newParticles > (int)(0.016f * 10))
 	//{
 	//	newParticles = (int)(0.016f * 10);
@@ -50,14 +58,14 @@ void comp::cParticleGenerator::Update(float dt, glm::vec4 cameraPos, glm::vec4 o
 		int particleIndex = FindUnusedParticle();
 		if (particleIndex != -1)
 		{
-			particlesContainer[particleIndex].life = 10; //how long it lives
-			particlesContainer[particleIndex].position = offset +glm::vec4((rand() % 100) - 50.f, 50, (rand() % 100) - 50.f, 0); //starting position
+			particlesContainer[particleIndex].life = 4; //how long it lives
+			particlesContainer[particleIndex].position = offset;// +glm::vec4((rand() % (int)halfExtents.x * 2) - (int)halfExtents.x, (rand() % (int)halfExtents.y * 2) - (int)halfExtents.y, (rand() % (int)halfExtents.z * 2) - (int)halfExtents.z, 0); //starting position
 
 			//starting speed
-			//particlesContainer[particleIndex].velocity = glm::vec4((rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, 0); //just something for now
-			particlesContainer[particleIndex].velocity = glm::vec4(0, -1, 0, 0); //just something for now
+			particlesContainer[particleIndex].velocity = glm::vec4((rand() % 10) / 10.f - .5, 1, (rand() % 10) / 10.f - .5, 0); //just something for now
+			//particlesContainer[particleIndex].velocity = glm::vec4(0, 1, 0, 0); //just something for now
 
-			particlesContainer[particleIndex].velocity *= 15;
+			particlesContainer[particleIndex].velocity *= 10;
 		}
 	}
 	
@@ -74,10 +82,13 @@ void comp::cParticleGenerator::Update(float dt, glm::vec4 cameraPos, glm::vec4 o
 			p.life -= dt;
 			if (p.life > 0.0f)
 			{
-				p.position += p.velocity *dt;
-				p.cameraDistance = glm::length2(p.position - cameraPos);
+				p.velocity += force * dt;
+				p.position += p.velocity * dt;
+				p.cameraDistance = glm::length2(p.position - (glm::vec3)cameraPos);
 
-				positions[particlesCount] = p.position;
+				positions[particlesCount].x = p.position.x;
+				positions[particlesCount].y = p.position.y;
+				positions[particlesCount].z = p.position.z;
 				positions[particlesCount].w = 1;
 			}
 			else
@@ -126,4 +137,10 @@ int comp::cParticleGenerator::FindUnusedParticle()
 void comp::cParticleGenerator::SortParticles()
 {
 	std::sort(&particlesContainer[0], &particlesContainer[maxParticles]);
+}
+
+void comp::cParticleGenerator::SetTimer(float time)
+{
+	timeLimit = time;
+	this->timer = timeLimit;
 }

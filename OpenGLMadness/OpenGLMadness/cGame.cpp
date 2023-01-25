@@ -103,6 +103,9 @@ void cGame::Init(GLFWwindow* window)
 	player = new cPlayer();
 	player->SetUp(engine);
 	player->AddComponent<comp::cParticleGenerator>();
+	player->GetComponent<comp::cParticleGenerator>()->force = glm::vec3(0,-9.8,0);
+	player->GetComponent<comp::cParticleGenerator>()->halfExtents= glm::vec3(1);
+	player->GetComponent<comp::cParticleGenerator>()->SetTimer(.5f);
 
 	waterTile = new cGameObject();
 	waterTile->AddComponent<comp::cPosition>()->position = glm::vec3(-2,-3,0);
