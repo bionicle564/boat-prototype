@@ -82,6 +82,9 @@ void cParticleSystem::Process(const std::vector<cEntity*>& entities, float dt)
 
 		//this->engine->shaderManager.UseShader("name from the component");
 		
+		glActiveTexture(GL_TEXTURE0);
+		GLuint diffuseTextureNumber = engine->textureManager.GetTexture(generator->textureName);
+		glBindTexture(GL_TEXTURE_2D, diffuseTextureNumber);
 
 		shader->SetMat4("model", model);
 

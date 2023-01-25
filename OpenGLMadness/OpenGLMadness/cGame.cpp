@@ -49,6 +49,7 @@ void cGame::Init(GLFWwindow* window)
 	engine.shaderManager.GetCurrentShader()->SetInt("texture_00", 0);
 	engine.shaderManager.GetCurrentShader()->SetInt("texture_01", 1);
 
+	engine.textureManager.LoadTexture2D("smoke.png", "smoke");
 
 	camera = engine.entityManager.CreateEntity();
 	camera->AddComponent<comp::cCamera>()->cameraId = 0;
@@ -104,8 +105,9 @@ void cGame::Init(GLFWwindow* window)
 	player->SetUp(engine);
 	player->AddComponent<comp::cParticleGenerator>();
 	player->GetComponent<comp::cParticleGenerator>()->force = glm::vec3(0,-9.8,0);
-	player->GetComponent<comp::cParticleGenerator>()->halfExtents= glm::vec3(1);
-	player->GetComponent<comp::cParticleGenerator>()->SetTimer(.5f);
+	player->GetComponent<comp::cParticleGenerator>()->halfExtents = glm::vec3(1);
+	player->GetComponent<comp::cParticleGenerator>()->SetTimer(1.5f);
+	player->GetComponent<comp::cParticleGenerator>()->textureName = "smoke";
 
 	waterTile = new cGameObject();
 	waterTile->AddComponent<comp::cPosition>()->position = glm::vec3(-2,-3,0);

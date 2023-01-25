@@ -88,5 +88,5 @@ public:
 
 	bool m_KeyDown[256];
 
-	
+	bool debugRender;
 };

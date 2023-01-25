@@ -45,6 +45,8 @@ bool cGameEngine::Initialize()
 	this->particleSystem.Initialize(this);
 	this->physicsSystem.Initialize();
 
+	this->debugRender = false;
+
 	return true;
 }
 
@@ -81,11 +83,12 @@ void cGameEngine::Render()
 	glBindBuffer(GL_UNIFORM_BUFFER, 0);
 	
 
-	//this->physicsManager.debugDrawerer.SetMatrices();
-
 	this->renderer.Process(this->entityManager.GetEntities(), 0);
 
- 	this->physicsManager.DebugDraw();
+	if (debugRender)
+	{
+		this->physicsManager.DebugDraw();
+	}
 
 	this->particleSystem.Process(this->entityManager.GetEntities(), 0);
 

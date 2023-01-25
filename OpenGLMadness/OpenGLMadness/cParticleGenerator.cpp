@@ -44,7 +44,7 @@ void comp::cParticleGenerator::Update(float dt, glm::vec4 cameraPos, glm::vec4 o
 	timer -= dt;
 	if (timer <= 0)
 	{
-		newParticles = 15;
+		newParticles = 150;
 		timer = timeLimit;
 	}
 	// = (int)std::ceilf(dt * 1); //how many per frame to try and spawn
@@ -62,7 +62,7 @@ void comp::cParticleGenerator::Update(float dt, glm::vec4 cameraPos, glm::vec4 o
 			particlesContainer[particleIndex].position = offset;// +glm::vec4((rand() % (int)halfExtents.x * 2) - (int)halfExtents.x, (rand() % (int)halfExtents.y * 2) - (int)halfExtents.y, (rand() % (int)halfExtents.z * 2) - (int)halfExtents.z, 0); //starting position
 
 			//starting speed
-			particlesContainer[particleIndex].velocity = glm::vec4((rand() % 10) / 10.f - .5, 1, (rand() % 10) / 10.f - .5, 0); //just something for now
+			particlesContainer[particleIndex].velocity = glm::vec4((rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, (rand() % 10) / 10.f - .5, 0); //just something for now
 			//particlesContainer[particleIndex].velocity = glm::vec4(0, 1, 0, 0); //just something for now
 
 			particlesContainer[particleIndex].velocity *= 10;

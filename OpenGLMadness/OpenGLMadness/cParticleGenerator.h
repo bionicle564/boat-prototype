@@ -59,7 +59,7 @@ namespace comp
 		//will spawn particles randomly in a box of the given half dimmensions
 		glm::vec3 halfExtents;
 
-		
+		std::string textureName;
 
 		cParticleGenerator();
 		~cParticleGenerator();

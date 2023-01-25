@@ -16,7 +16,7 @@ void cShaderManager::StartUp()
 	MakeShader("vert.glsl", "frag.glsl", "default");
 	MakeShader("vert.glsl", "borderColour.glsl", "singleColour");
 	MakeShader("uiVert.glsl", "borderColour.glsl", "simpleUI");
-	MakeShader("partVert.glsl", "borderColour.glsl", "defaultParticle");
+	MakeShader("partVert.glsl", "smokeFrag.glsl", "defaultParticle");
 	MakeShader("simpleVert.glsl", "simpleFrag.glsl", "debugPhysics");
 
 	UseShader("default");
