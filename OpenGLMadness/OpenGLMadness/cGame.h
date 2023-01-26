@@ -37,6 +37,9 @@ public:
 
 	cGameEngine engine;
 
+	float angle;
+	glm::vec3 wind;
+
 	cGame();
 	~cGame();
 

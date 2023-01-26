@@ -104,9 +104,9 @@ void cGame::Init(GLFWwindow* window)
 	player = new cPlayer();
 	player->SetUp(engine);
 	player->AddComponent<comp::cParticleGenerator>();
-	player->GetComponent<comp::cParticleGenerator>()->force = glm::vec3(0,-9.8,0);
+	player->GetComponent<comp::cParticleGenerator>()->force = glm::vec3(1,0,1);
 	player->GetComponent<comp::cParticleGenerator>()->halfExtents = glm::vec3(1);
-	player->GetComponent<comp::cParticleGenerator>()->SetTimer(1.5f);
+	player->GetComponent<comp::cParticleGenerator>()->SetTimer(.2f);
 	player->GetComponent<comp::cParticleGenerator>()->textureName = "smoke";
 
 	waterTile = new cGameObject();
@@ -119,6 +119,9 @@ void cGame::Init(GLFWwindow* window)
 	waterTile->GetComponent<comp::cMeshRenderer>()->amount = 225;
 	waterTile->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(-glm::half_pi<float>(), 0, 0));
 	//waterTile->AddComponent<comp::cRotation>()->rotation = glm::quat(glm::vec3(0, 0, 0));
+
+	wind = glm::vec3(1, 0, 0);
+
 }
 
 void cGame::Update()
@@ -140,6 +143,13 @@ void cGame::Update()
 	water->SetVec3("cameraPos", camera->GetComponent<comp::cCamera>()->position);
 
 	//boat->Update(deltaTime);
+
+
+	wind.x = cos(angle);
+	wind.z = sin(angle);
+
+	player->GetComponent<comp::cParticleGenerator>()->force = wind;
+
 
 	glfwGetWindowSize(window, &winX, &winY);
 
@@ -186,6 +196,17 @@ void cGame::Input(float dt)
 			player->bodySelfRef->setWorldTransform(trans);
 			
 		}
+	}
+
+	//right arrow key
+	if (engine.m_KeyDown[6])
+	{
+		angle += dt;
+	}
+
+	if (engine.m_KeyDown[7])
+	{
+		angle -= dt;
 	}
 
 	//std::cout << j << "\n";
